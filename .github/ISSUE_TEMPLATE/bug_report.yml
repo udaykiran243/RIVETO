@@ -38,7 +38,7 @@ body:
       required: true
 
   - type: textarea
-    id: expected
+    id: current
     attributes:
       label: Current Behavior
       description: What is current behavior

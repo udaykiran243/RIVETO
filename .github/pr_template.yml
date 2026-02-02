@@ -1,78 +1,50 @@
-name: Build and Deploy
+# Pull Request Title
+<!-- Use a clear and concise title that summarizes the change -->
 
-on:
-  push:
-    branches:
-      - master
-      - deploy-actions
-  workflow_dispatch:
+---
 
-jobs:
-  build_android:
-    name: Build Android APK
-    runs-on: ubuntu-latest
-    env:
-      JAVA_VERSION: 21.0.6
-      FLUTTER_VERSION: 3.38.9
-      APK_PATH: build/app/outputs/flutter-apk/app-release.apk
-      FIREBASE_OPTIONS_PATH: lib/firebase_options.dart
-      GOOGLE_SERVICES_ANDROID_PATH: android/app/google-services.json
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: zulu
-          java-version: ${{ env.JAVA_VERSION }}
+## 📌 Description
+<!-- Briefly describe what this PR does and why it is needed -->
+- What problem does it solve?
+- What changes were made?
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+---
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
+## 🔗 Related Issue
+<!-- Link the issue this PR addresses -->
+Closes #ISSUE_NUMBER
 
-      - name: Decode Android Google Services JSON
-        run: echo "${{ secrets.GOOGLE_SERVICES_ANDROID }}" | base64 --decode > ${{ env.GOOGLE_SERVICES_ANDROID_PATH }}
+---
 
-      - name: Decode Firebase Options
-        run: echo "${{ secrets.FIREBASE_OPTIONS }}" | base64 --decode > ${{ env.FIREBASE_OPTIONS_PATH }}
+## 🛠 Type of Change
+<!-- Check the relevant option -->
+- [ ] 🐛 Bug fix (non-breaking change fixing an issue)
+- [ ] ✨ Enhancement (improves existing functionality)
+- [ ] 🚀 New feature (adds new functionality)
+- [ ] 📝 Documentation update
 
-      - name: Install Flutter dependencies
-        run: flutter pub get
+---
 
-      - name: Build Android APK
-        run: |
-          flutter build apk --release
+## ✅ Checklist
+<!-- Ensure all items are completed before requesting review -->
+- [ ] Code follows project coding standards
+- [ ] Self-review completed
+- [ ] Tests added or updated (if applicable)
+- [ ] All tests passed locally
+- [ ] Documentation updated (if required)
+- [ ] No new warnings or errors introduced
 
-      - name: Verify APK file existence
-        run: ls -lh ${{ env.APK_PATH }}
+---
 
-      - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: apk-release
-          path: ${{ env.APK_PATH }}
+## 🧪 Testing Done
+<!-- Describe tests performed or attach screenshots/videos if applicable -->
+- Test cases executed:
+- Screenshots (if UI-related):
+- Commands used:
 
-  deploy_github_release:
-    name: Deploy to GitHub Release
-    runs-on: ubuntu-latest
-    needs: build_android
-    permissions:
-      contents: write
-    steps:
-      - name: Download APK artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: apk-release
+---
 
-      - name: Deploy to GitHub Release
-        uses: ncipollo/release-action@v1.14.0
-        with:
-          allowUpdates: true
-          artifacts: ${{ env.APK_PATH }}
-          artifactContentType: apk
-          generateReleaseNotes: true
-          tag: latest_build
+## 🗒 Additional Notes
+<!-- Optional: Any extra context, design decisions, or future work -->
+- Known limitations:
+- Follow-up tasks:

@@ -17,7 +17,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import NotFound from './pages/NotFound';
 import Ai from './components/Ai';
-import FaqPage from './pages/faqPage';
+import FaqPage from './pages/FaqPage';
 
 import PrivicyPolicy from './pages/PrivicyPolicy';
 
@@ -137,16 +137,17 @@ function App() {
             )
           }
         />
-        <Route
-          path="/faqPage"
-          element={
-            userData ? (
-              <FaqPage />
-            ) : (
-              <Navigate to="/login" state={{ from: location.pathname }} />
-            )
-          }
-        />
+       <Route
+  path="/faq"
+  element={
+    userData ? (
+      <FaqPage />
+    ) : (
+      <Navigate to="/login" state={{ from: location.pathname }} />
+    )
+  }
+/>
+
         <Route
           path="/order"
           element={

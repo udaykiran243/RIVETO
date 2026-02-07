@@ -21,6 +21,7 @@ import FaqPage from './pages/FaqPage';
 
 import PrivicyPolicy from './pages/PrivicyPolicy';
 import TermsAndServices from './pages/TermsAndServices';
+import SizeGuide from './pages/SizeGuide';
 
 function App() {
   const { userData } = useContext(userDataContext);
@@ -175,6 +176,12 @@ function App() {
           path="/termsandservices"
           element={
               <TermsAndServices />
+          }
+        />
+        <Route
+          path="/size-guide"
+          element={
+              <SizeGuide />
           }
         />
         

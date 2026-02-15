@@ -52,6 +52,20 @@ function RelatedProduct({ category, subCategory, currentProductId, tags = [], pr
 
           return { ...item, score };
         })
+        // Filter: Only include products with meaningful similarity
+        // Minimum score of 20 ensures at least category match OR strong tag/price similarity
+        // This prevents unrelated products from appearing
+        .filter((item) => {
+          // Require minimum score of 20 (ensures genuine similarity)
+          if (item.score < 20) return false;
+          
+          // Additional check: Must have at least category match OR tag overlap
+          const hasTagOverlap = tags && tags.length > 0 && item.tags && item.tags.length > 0 &&
+            item.tags.some(tag => tags.some(t => t?.toLowerCase() === tag?.toLowerCase()));
+          const hasCategoryMatch = item.category?.toLowerCase().trim() === category?.toLowerCase().trim();
+          
+          return hasCategoryMatch || hasTagOverlap;
+        })
         // Sort by score (highest first) and take top 4
         .sort((a, b) => b.score - a.score)
         .slice(0, 4);

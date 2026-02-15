@@ -1,16 +1,19 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaPhone, FaEnvelope, FaMapMarkerAlt, FaHeart } from 'react-icons/fa';
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaPhone, FaEnvelope, FaMapMarkerAlt, FaHeart, FaCheckCircle, FaTimes } from 'react-icons/fa';
 import { RiCustomerService2Fill } from "react-icons/ri";
 import { BiSupport } from "react-icons/bi";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { toast } from 'react-toastify';
 
 gsap.registerPlugin(ScrollTrigger);
 
 function Footer() {
   const footerRef = useRef(null);
   const currentYear = new Date().getFullYear();
+  const [email, setEmail] = useState('');
+  const [isSubscribed, setIsSubscribed] = useState(false);
 
   useEffect(() => {
     // Animate footer elements on scroll
@@ -30,6 +33,26 @@ function Footer() {
       }
     );
   }, []);
+
+  // Handle subscribe button click
+  const handleSubscribe = () => {
+    if (!email) {
+      toast.error('Please enter your email address');
+      return;
+    }
+
+    // Simulate API call
+    setTimeout(() => {
+      setIsSubscribed(true);
+      toast.success('🎁 You’ve successfully subscribed to Riveto! Enjoy exclusive offers.');
+      
+      // Reset after 5 seconds
+      setTimeout(() => {
+        setIsSubscribed(false);
+        setEmail('');
+      }, 5000);
+    }, 1000);
+  };
 
   return (
     <footer ref={footerRef} className="w-full bg-gradient-to-b from-gray-900 to-gray-950 text-gray-300 border-t border-gray-800 relative overflow-hidden">
@@ -167,16 +190,22 @@ function Footer() {
               <h4 className="text-white font-semibold mb-2">Stay Updated</h4>
               <p className="text-sm text-gray-400">Subscribe to our newsletter for exclusive offers and updates</p>
             </div>
-            <div className="flex gap-3">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent w-64"
-              />
-              <button className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:shadow-lg transition-all duration-300">
-                Subscribe
-              </button>
-            </div>
+            <div className="flex gap-3 relative z-10">
+  <input
+    type="email"
+    placeholder="Enter your email"
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+    className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent w-64"
+  />
+  <button 
+    onClick={handleSubscribe}
+    className="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:shadow-lg transition-all duration-300"
+  >
+    Subscribe
+  </button>
+</div>
+
           </div>
         </div>
       </div>

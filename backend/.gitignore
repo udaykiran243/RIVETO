@@ -3,13 +3,8 @@
 .env.local
 .env.*.local
 
-<<<<<<< HEAD
-
-node_modules/
-=======
 # Dependencies
 node_modules/
-package-lock.json
 
 # Logs
 *.log
@@ -30,4 +25,3 @@ Thumbs.db
 # Build outputs
 dist/
 build/
->>>>>>> 91275c933a784f5ba9513d4897af0b764efd9956

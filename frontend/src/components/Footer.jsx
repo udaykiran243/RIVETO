@@ -218,9 +218,9 @@ function Footer() {
           </p>
           
           <div className="flex items-center gap-6 text-xs text-gray-500">
-            <span>Terms of Service</span>
-            <span>Privacy Policy</span>
-            <span>Cookie Policy</span>
+            <Link to="/termsandservices" className="hover:text-cyan-400 transition-colors">Terms of Service</Link>
+            <Link to="/privicypolicy" className="hover:text-cyan-400 transition-colors">Privacy Policy</Link>
+            <Link to="/cookie-policy" className="hover:text-cyan-400 transition-colors">Cookie Policy</Link>
           </div>
           
           <div className="flex items-center gap-2 text-xs text-gray-500">

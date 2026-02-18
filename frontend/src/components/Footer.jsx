@@ -90,6 +90,7 @@ function Footer() {
             ].map((social, index) => (
               <button
                 key={index}
+                type="button"
                 onClick={() => toast.info(`Follow us on ${social.name} - Coming soon!`)}
                 className={`w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 ${social.color} cursor-pointer`}
                 aria-label={`Follow us on ${social.name}`}

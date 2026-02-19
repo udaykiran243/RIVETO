@@ -114,7 +114,7 @@ function Footer() {
               { name: 'Products', to: '/product' },
               { name: 'Collections', to: '/collection' },
               { name: 'New Arrivals', to: '/new-arrivals' },
-              { name: 'Best Sellers', to: '/product' }
+              { name: 'Best Sellers', to: '/best-sellers' }
             ].map((item, index) => (
               <li key={index}>
                 <Link to={item.to} className="text-sm text-gray-400 hover:text-cyan-400 transition-colors duration-300 flex items-center gap-2 group">

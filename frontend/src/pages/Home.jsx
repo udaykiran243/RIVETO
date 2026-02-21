@@ -5,7 +5,6 @@ import Product from './Product';
 import OurPolicy from '../components/OurPolicy';
 import NewLetterBox from '../components/NewLetterBox';
 import Footer from '../components/Footer';
-import CustomCursor from '../components/CustomCursor';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -217,9 +216,6 @@ function Home() {
       <div ref={footerRef} className="relative z-10">
         <Footer />
       </div>
-
-      {/* Custom Cursor */}
-      <CustomCursor />
     </div>
   );
 }

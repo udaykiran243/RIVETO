@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { FaCircle, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { BsHandbag } from 'react-icons/bs';
 import gsap from 'gsap';
 
 function Hero({ heroData, heroCount, setHeroCount }) {
@@ -126,42 +127,63 @@ function Hero({ heroData, heroCount, setHeroCount }) {
       {/* Layer 2: Overlay Gradient */}
       <div className="absolute inset-0 z-10 bg-gradient-to-b from-[#0B0F1A]/60 via-[#0B0F1A]/80 to-[#0B0F1A]/95" />
 
-      {/* Layer 3: Content Card */}
+      {/* Layer 2.5: Edge Vignette for Contrast Control */}
+      <div className="absolute inset-0 z-10" style={{
+        background: 'radial-gradient(ellipse at center, rgba(11,15,26,0) 40%, rgba(11,15,26,0.8) 100%)'
+      }} />
+
+      {/* Layer 3: Content Container */}
       <div 
         ref={containerRef} 
-        className="relative z-20 w-full"
+        className="relative z-20 w-full max-w-4xl mx-auto px-6 md:px-10"
       >
-        {/* Full-width semi-transparent white background rectangle */}
-        <div className="bg-white/30 backdrop-blur-sm w-full px-8 py-10 md:px-12 md:py-16 shadow-2xl">
-          {/* Hero Text */}
-          <div className="space-y-5 md:space-y-7 text-center relative z-10 max-w-4xl mx-auto">
+        {/* Hero Text with Localized Backdrop Blur */}
+        <div className="space-y-5 md:space-y-7 text-center relative">
+          {/* Title with localized backdrop */}
+          <div className="relative inline-block">
+            <div className="absolute inset-0 bg-[#0B0F1A]/45 backdrop-blur-[12px] rounded-[14px] -m-4 md:-m-6 z-0" />
             <p 
               ref={text1Ref} 
-              className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-900"
+              className="relative z-10 text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white px-4 py-2"
               style={{ fontFamily: 'Poppins, sans-serif' }}
             >
               {heroData.text1}
             </p>
+          </div>
+
+          {/* Subtitle with localized backdrop */}
+          <div className="relative inline-block">
+            <div className="absolute inset-0 bg-[#0B0F1A]/40 backdrop-blur-[10px] rounded-[12px] -m-3 md:-m-4 z-0" />
             <p 
               ref={text2Ref} 
-              className="text-lg md:text-xl lg:text-2xl font-medium text-gray-800 tracking-wide"
+              className="relative z-10 text-lg md:text-xl lg:text-2xl font-medium text-gray-100 tracking-wide px-3 py-1.5"
               style={{ fontFamily: 'Inter, sans-serif' }}
             >
               {heroData.text2}
             </p>
           </div>
-        </div>
-        
-        {/* CTA Button - Outside the white background */}
-        <div className="text-center">
-          <div ref={ctaRef} className="pt-8 inline-block">
-            <button className="bg-[#2563EB] hover:bg-[#1d4ed8] px-10 py-4 text-white font-bold rounded-full shadow-lg transition-all duration-300 group" style={{ fontFamily: 'Inter, sans-serif' }}>
-              <span className="flex items-center gap-2">
+          
+          {/* CTA Button with Intent-Driven Micro Interaction */}
+          <div ref={ctaRef} className="pt-8">
+            <button 
+              className="relative bg-[#2563EB] hover:bg-[#1d4ed8] px-10 py-4 text-white font-bold rounded-full transition-all duration-300 group overflow-hidden"
+              style={{ 
+                fontFamily: 'Inter, sans-serif',
+                boxShadow: '0 0 0px rgba(79,140,255,0.4)'
+              }}
+            >
+              <span className="flex items-center gap-2 relative z-10">
+                {/* Shopping bag icon - slides in on hover */}
+                <BsHandbag className="w-5 h-5 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
                 Shop Now
                 <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </span>
+              {/* Light bloom effect on hover */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{
+                boxShadow: '0 0 24px rgba(79,140,255,0.25)'
+              }} />
             </button>
           </div>
         </div>

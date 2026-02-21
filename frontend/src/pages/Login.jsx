@@ -1,6 +1,6 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { IoEyeOutline, IoEye, IoMail, IoLockClosed, IoLogoGoogle, IoCheckmarkCircle, IoCart, IoHeart, IoTrendingUp } from "react-icons/io5";
+import { IoEyeOutline, IoEye, IoMail, IoLockClosed } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 import { signInWithPopup } from "firebase/auth";
@@ -24,15 +24,47 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [preload, setPreload] = useState(true);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const { serverUrl } = useContext(authDataContext);
   const { getCurrentUser } = useContext(userDataContext);
-  const { product, cartCount } = useContext(shopDataContext);
+  const { product } = useContext(shopDataContext);
   const navigate = useNavigate();
   const [showEmailForm, setShowEmailForm] = useState(false);
+  
+  const leftPanelRef = useRef(null);
+  const googleBtnRef = useRef(null);
+  const emailOptRef = useRef(null);
 
   // Get featured product for background
   const featuredProduct = product && product.length > 0 ? product[0] : null;
+
+  // Mouse parallax effect for left panel
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      const { clientX, clientY } = e;
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      setMousePosition({
+        x: (clientX - centerX) / centerX,
+        y: (clientY - centerY) / centerY,
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  // Apply parallax drift to left panel background
+  useEffect(() => {
+    if (leftPanelRef.current) {
+      gsap.to(leftPanelRef.current.querySelector('.parallax-image'), {
+        y: mousePosition.y * 6,
+        duration: 0.5,
+        ease: 'power2.out'
+      });
+    }
+  }, [mousePosition]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -42,6 +74,21 @@ function Login() {
         { opacity: 0, y: 30 },
         { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
       );
+
+      // Staged CTA entry animations
+      if (googleBtnRef.current) {
+        gsap.fromTo(googleBtnRef.current,
+          { opacity: 0, y: 12 },
+          { opacity: 1, y: 0, duration: 0.8, delay: 0.2, ease: "back.out(1.2)" }
+        );
+      }
+
+      if (emailOptRef.current) {
+        gsap.fromTo(emailOptRef.current,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.6, delay: 0.4, ease: "power2.out" }
+        );
+      }
 
       gsap.fromTo(".form-element",
         { opacity: 0, y: 20 },
@@ -153,19 +200,20 @@ function Login() {
 
   return (
     <div className="min-h-screen flex bg-white dark:bg-[#0B0F1A] transition-colors duration-300">
-      {/* LEFT PANEL - Journey Reinforcement */}
-     <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-        {/* Product Background Image */}
+      {/* LEFT PANEL - Atmospheric Identity Panel */}
+     <div ref={leftPanelRef} className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
+        {/* Atmospheric Product Silhouette */}
         {featuredProduct && (
           <div className="absolute inset-0">
             <img 
               src={featuredProduct.image1} 
-              alt="Featured product"
-              className="w-full h-full object-cover"
-              style={{ filter: 'brightness(0.4) blur(2px)' }}
+              alt="Fashion atmosphere"
+              className="parallax-image w-full h-full object-cover transition-transform duration-500 ease-out"
+              style={{ 
+                filter: 'grayscale(70%) blur(12px)',
+                opacity: 0.3
+              }}
             />
-            {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[#0B0F1A]/80 via-[#0B0F1A]/70 to-[#2563EB]/50" />
           </div>
         )}
         
@@ -174,12 +222,24 @@ function Login() {
           <div className="absolute inset-0 bg-gradient-to-br from-[#0B0F1A] via-[#1e293b] to-[#2563EB]" />
         )}
 
+        {/* Dark base layer */}
+        <div className="absolute inset-0 bg-[#0B0F1A]/85" />
+
+        {/* Brand Light Aura - Lit from within */}
+        <div 
+          className="absolute w-[420px] h-[420px] top-[20%] left-[10%] pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle, rgba(79,140,255,0.45), transparent 70%)',
+            filter: 'blur(120px)'
+          }}
+        />
+
         {/* Content */}
         <div className="relative z-10 flex flex-col justify-center px-12 xl:px-20 text-white">
           {/* Logo */}
           <div 
             onClick={() => navigate("/")}
-            className="cursor-pointer mb-12"
+            className="cursor-pointer mb-16"
             aria-label="Navigate Home"
           >
             <h1 className="text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
@@ -187,55 +247,17 @@ function Login() {
             </h1>
           </div>
 
-          {/* Journey Reinforcement */}
-          <div className="space-y-8">
+          {/* Identity Ambience - Typographic Anchor */}
+          <div className="space-y-6">
             <div>
-              <h2 className="text-4xl xl:text-5xl font-bold mb-4 leading-tight">
-                Welcome back 👋
+              <h2 className="text-5xl xl:text-6xl font-bold mb-6 leading-[1.1]">
+                Your Style<br />
+                Is Waiting.
               </h2>
-              <p className="text-xl text-gray-300 leading-relaxed">
-                Your saved picks are still in stock.<br />
-                <span className="text-cyan-400 font-semibold">Checkout in under 30 seconds.</span>
+              <p className="text-lg xl:text-xl text-gray-300 leading-relaxed max-w-md">
+                Your favourites and saved picks are still in stock.<br />
+                <span className="text-white/90 font-medium">Pick up where you left off.</span>
               </p>
-            </div>
-
-            {/* Stat Cards */}
-            <div className="grid grid-cols-2 gap-4 mt-8">
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 bg-cyan-500/20 rounded-full flex items-center justify-center">
-                    <IoCart className="text-cyan-400 text-xl" />
-                  </div>
-                  <p className="text-2xl font-bold">{cartCount || 0}</p>
-                </div>
-                <p className="text-sm text-gray-300">Items in cart</p>
-              </div>
-              
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 bg-rose-500/20 rounded-full flex items-center justify-center">
-                    <IoHeart className="text-rose-400 text-xl" />
-                  </div>
-                  <p className="text-2xl font-bold">0</p>
-                </div>
-                <p className="text-sm text-gray-300">Saved items</p>
-              </div>
-            </div>
-
-            {/* Retail Benefits */}
-            <div className="space-y-3 mt-8 pt-8 border-t border-white/10">
-              <div className="flex items-center gap-3">
-                <IoCheckmarkCircle className="text-cyan-400 text-xl flex-shrink-0" />
-                <p className="text-gray-300">Checkout faster with saved addresses</p>
-              </div>
-              <div className="flex items-center gap-3">
-                <IoCheckmarkCircle className="text-cyan-400 text-xl flex-shrink-0" />
-                <p className="text-gray-300">Save your favourites for later</p>
-              </div>
-              <div className="flex items-center gap-3">
-                <IoCheckmarkCircle className="text-cyan-400 text-xl flex-shrink-0" />
-                <p className="text-gray-300">Track your orders in real-time</p>
-              </div>
             </div>
           </div>
         </div>
@@ -265,11 +287,12 @@ function Login() {
 
         {/* Card Container */}
         <div className="space-y-6">
-          {/* LAYER 1: Google Login - Primary CTA */}
+          {/* LAYER 1: Google Login - Primary CTA with Staged Entry */}
           <button
+            ref={googleBtnRef}
             onClick={googleLogin}
             disabled={googleLoading}
-            className="form-element w-full flex items-center justify-center gap-3 bg-[#2563EB] hover:bg-[#1d4ed8] text-white rounded-xl py-4 px-6 font-semibold transition-all duration-300 hover:shadow-lg transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-3 bg-[#2563EB] hover:bg-[#1d4ed8] text-white rounded-xl py-4 px-6 font-semibold transition-all duration-300 hover:shadow-lg transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed opacity-0"
           >
             {googleLoading ? (
               <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -279,8 +302,8 @@ function Login() {
             Continue with Google
           </button>
 
-          {/* Collapsible Email Form */}
-          <div>
+          {/* Collapsible Email Form with Staged Entry */}
+          <div ref={emailOptRef} className="opacity-0">
             <button
               onClick={() => setShowEmailForm(!showEmailForm)}
               className="w-full text-sm text-gray-600 dark:text-gray-400 hover:text-[#2563EB] dark:hover:text-cyan-400 transition-colors font-medium"

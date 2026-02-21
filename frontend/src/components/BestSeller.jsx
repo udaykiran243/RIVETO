@@ -14,11 +14,63 @@ function BestSeller() {
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const cardsRef = useRef([]);
+  const scrollContainerRef = useRef(null);
+  const autoScrollRef = useRef(null);
 
   useEffect(() => {
     const filterProduct = product.filter(item => item.bestseller);
     setBestseller(filterProduct.slice(0, 8)); // Show top 8 bestsellers
   }, [product]);
+
+  // Auto-scroll functionality
+  const handleCardHover = (index) => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const card = cardsRef.current[index];
+    if (!card) return;
+
+    const containerRect = container.getBoundingClientRect();
+    const cardRect = card.getBoundingClientRect();
+    const cardRightEdge = cardRect.right;
+    const containerRightEdge = containerRect.right;
+
+    // Check if card is near the right edge (within 300px)
+    const distanceFromRight = containerRightEdge - cardRightEdge;
+    
+    if (distanceFromRight < 300 && distanceFromRight > -100) {
+      startAutoScroll();
+    }
+  };
+
+  const startAutoScroll = () => {
+    stopAutoScroll(); // Clear any existing scroll
+
+    const scroll = () => {
+      const container = scrollContainerRef.current;
+      if (!container) return;
+
+      const maxScroll = container.scrollWidth - container.clientWidth;
+      if (container.scrollLeft < maxScroll) {
+        container.scrollLeft += 2; // Scroll speed: 2px per frame
+        autoScrollRef.current = requestAnimationFrame(scroll);
+      }
+    };
+
+    autoScrollRef.current = requestAnimationFrame(scroll);
+  };
+
+  const stopAutoScroll = () => {
+    if (autoScrollRef.current) {
+      cancelAnimationFrame(autoScrollRef.current);
+      autoScrollRef.current = null;
+    }
+  };
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => stopAutoScroll();
+  }, []);
 
   useEffect(() => {
     // Animation for the section
@@ -92,13 +144,17 @@ function BestSeller() {
         {/* Horizontal Scrollable Carousel */}
         {bestseller.length > 0 ? (
           <div className="relative">
-            <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 scrollbar-hide"
-                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            <div 
+              ref={scrollContainerRef}
+              className="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 scrollbar-hide"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
               {bestseller.map((item, index) => (
                 <div
                   key={item._id}
                   ref={el => cardsRef.current[index] = el}
                   className="flex-shrink-0 w-64 sm:w-72 snap-start"
+                  onMouseEnter={() => handleCardHover(index)}
+                  onMouseLeave={stopAutoScroll}
                 >
                   <Card
                     name={item.name}

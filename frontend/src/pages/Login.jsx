@@ -75,19 +75,26 @@ function Login() {
         { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
       );
 
-      // Staged CTA entry animations
+      // Staged CTA entry animations - with fallback visibility
       if (googleBtnRef.current) {
-        gsap.fromTo(googleBtnRef.current,
-          { opacity: 0, y: 12 },
-          { opacity: 1, y: 0, duration: 0.8, delay: 0.2, ease: "back.out(1.2)" }
-        );
+        gsap.set(googleBtnRef.current, { opacity: 0, y: 12 });
+        gsap.to(googleBtnRef.current, {
+          opacity: 1, 
+          y: 0, 
+          duration: 0.8, 
+          delay: 0.2, 
+          ease: "back.out(1.2)"
+        });
       }
 
       if (emailOptRef.current) {
-        gsap.fromTo(emailOptRef.current,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.6, delay: 0.4, ease: "power2.out" }
-        );
+        gsap.set(emailOptRef.current, { opacity: 0 });
+        gsap.to(emailOptRef.current, {
+          opacity: 1, 
+          duration: 0.6, 
+          delay: 0.4, 
+          ease: "power2.out"
+        });
       }
 
       gsap.fromTo(".form-element",
@@ -96,7 +103,20 @@ function Login() {
       );
     }, 1000);
 
-    return () => clearTimeout(timer);
+    // Safety fallback: ensure elements are visible after 3 seconds
+    const safetyTimer = setTimeout(() => {
+      if (googleBtnRef.current) {
+        googleBtnRef.current.style.opacity = '1';
+      }
+      if (emailOptRef.current) {
+        emailOptRef.current.style.opacity = '1';
+      }
+    }, 3000);
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(safetyTimer);
+    };
   }, []);
 
   const validateForm = () => {
@@ -292,7 +312,7 @@ function Login() {
             ref={googleBtnRef}
             onClick={googleLogin}
             disabled={googleLoading}
-            className="w-full flex items-center justify-center gap-3 bg-[#2563EB] hover:bg-[#1d4ed8] text-white rounded-xl py-4 px-6 font-semibold transition-all duration-300 hover:shadow-lg transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed opacity-0"
+            className="w-full flex items-center justify-center gap-3 bg-[#2563EB] hover:bg-[#1d4ed8] text-white rounded-xl py-4 px-6 font-semibold transition-all duration-300 hover:shadow-lg transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {googleLoading ? (
               <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -303,7 +323,7 @@ function Login() {
           </button>
 
           {/* Collapsible Email Form with Staged Entry */}
-          <div ref={emailOptRef} className="opacity-0">
+          <div ref={emailOptRef}>
             <button
               onClick={() => setShowEmailForm(!showEmailForm)}
               className="w-full text-sm text-gray-600 dark:text-gray-400 hover:text-[#2563EB] dark:hover:text-cyan-400 transition-colors font-medium"

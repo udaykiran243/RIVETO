@@ -161,7 +161,7 @@ function Contact() {
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        placeholder="Your full name"
+                        placeholder="Your Full Name"
                         className="w-full px-4 py-3 bg-[#0f172a] border border-[#1f2a44] rounded-lg text-white placeholder-gray-500
                           focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500
                           transition-all duration-200"

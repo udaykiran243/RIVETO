@@ -127,9 +127,24 @@ function Hero({ heroData, heroCount, setHeroCount }) {
       {/* Layer 2: Overlay Gradient */}
       <div className="absolute inset-0 z-10 bg-gradient-to-b from-[#0B0F1A]/60 via-[#0B0F1A]/80 to-[#0B0F1A]/95" />
 
-      {/* Layer 2.5: Edge Vignette for Contrast Control */}
-      <div className="absolute inset-0 z-10" style={{
-        background: 'radial-gradient(ellipse at center, rgba(11,15,26,0) 40%, rgba(11,15,26,0.8) 100%)'
+      {/* Layer 2.5: Directional Edge Vignette - Guides Focus from Edges */}
+      <div className="absolute inset-0 z-10 pointer-events-none" style={{
+        background: `
+          linear-gradient(to right,
+            rgba(11,15,26,0.75) 0%,
+            rgba(11,15,26,0.35) 12%,
+            rgba(11,15,26,0) 30%,
+            rgba(11,15,26,0) 70%,
+            rgba(11,15,26,0.35) 88%,
+            rgba(11,15,26,0.75) 100%
+          ),
+          linear-gradient(to bottom,
+            rgba(11,15,26,0.65) 0%,
+            rgba(11,15,26,0) 40%,
+            rgba(11,15,26,0) 60%,
+            rgba(11,15,26,0.85) 100%
+          )
+        `
       }} />
 
       {/* Layer 3: Content Container */}
@@ -141,7 +156,7 @@ function Hero({ heroData, heroCount, setHeroCount }) {
         <div className="space-y-5 md:space-y-7 text-center relative">
           {/* Title with localized backdrop */}
           <div className="relative inline-block">
-            <div className="absolute inset-0 bg-[#0B0F1A]/45 backdrop-blur-[12px] rounded-[14px] -m-4 md:-m-6 z-0" />
+            <div className="absolute inset-0 bg-[#0B0F1A]/28 backdrop-blur-[10px] rounded-[14px] -m-3 md:-m-5 z-0" />
             <p 
               ref={text1Ref} 
               className="relative z-10 text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white px-4 py-2"
@@ -153,7 +168,7 @@ function Hero({ heroData, heroCount, setHeroCount }) {
 
           {/* Subtitle with localized backdrop */}
           <div className="relative inline-block">
-            <div className="absolute inset-0 bg-[#0B0F1A]/40 backdrop-blur-[10px] rounded-[12px] -m-3 md:-m-4 z-0" />
+            <div className="absolute inset-0 bg-[#0B0F1A]/25 backdrop-blur-[8px] rounded-[12px] -m-3 md:-m-4 z-0" />
             <p 
               ref={text2Ref} 
               className="relative z-10 text-lg md:text-xl lg:text-2xl font-medium text-gray-100 tracking-wide px-3 py-1.5"

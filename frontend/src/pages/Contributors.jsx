@@ -8,17 +8,17 @@ import { BsSearch, BsArrowUpRight, BsGithub, BsStar, BsGit } from 'react-icons/b
 import { HiOutlineUserGroup } from 'react-icons/hi';
 import { FaTrophy, FaMedal, FaAward, FaCrown, FaPalette, FaLightbulb, FaRocket } from 'react-icons/fa';
 
+// Special mentions (hardcoded specific contributors)
+const specialMentions = {
+    firstContributor: 'madhav2348',
+    innovator: 'asadanwarr0',
+    uiDesigner: 'vedantbudhaware'
+};
+
 const Contributors = () => {
     const { contributors, stats, loading, error } = useGitHubContributors();
     const [searchTerm, setSearchTerm] = useState('');
     const [sortBy, setSortBy] = useState('contributions'); // 'contributions' or 'name'
-
-    // Special mentions (hardcoded specific contributors)
-    const specialMentions = {
-        firstContributor: 'madhav2348',
-        innovator: 'asadanwarr0',
-        uiDesigner: 'vedantbudhaware'
-    };
 
     // Separate top 3 by contributions and special mentions
     const { topThree, specialContributors, regularContributors } = useMemo(() => {

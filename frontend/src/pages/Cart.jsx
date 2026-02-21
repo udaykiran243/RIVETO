@@ -55,7 +55,7 @@ function Cart() {
     return (
       <div className="min-h-screen bg-[#0b1220] flex items-center justify-center pt-20">
         <div className="text-center">
-          <div className="w-12 h-12 border-3 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-400">Loading your cart...</p>
         </div>
       </div>
@@ -171,7 +171,6 @@ function Cart() {
                               className="w-8 h-8 flex items-center justify-center hover:bg-[#1a2332] rounded transition-colors"
                               aria-label="Decrease quantity"
                             >
-                              <RiSubtractLine className="w-4 h-4 text-gray-400" />
                               <RiSubtractLine className="w-4 h-4 text-gray-400" />
                             </button>
 

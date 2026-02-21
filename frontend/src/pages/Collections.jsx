@@ -33,16 +33,6 @@ const slideAnimationStyle = `
   }
 `;
 
-// Inject style
-if (typeof document !== 'undefined') {
-  const styleEl = document.createElement('style');
-  styleEl.textContent = slideAnimationStyle;
-  if (!document.head.querySelector('[data-collections-style]')) {
-    styleEl.setAttribute('data-collections-style', 'true');
-    document.head.appendChild(styleEl);
-  }
-}
-
 // Loader Component
 const Loader = () => {
   return (
@@ -325,6 +315,16 @@ function Collections() {
       setIsFiltering(false);
     }, 500);
   };
+
+  // Inject style element on mount
+  useEffect(() => {
+    if (typeof document !== 'undefined' && !document.head.querySelector('[data-collections-style]')) {
+      const styleEl = document.createElement('style');
+      styleEl.setAttribute('data-collections-style', 'true');
+      styleEl.textContent = slideAnimationStyle;
+      document.head.appendChild(styleEl);
+    }
+  }, []);
 
   useEffect(() => {
     // Initial loading simulation

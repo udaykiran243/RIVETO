@@ -106,7 +106,7 @@ function LatestCollection() {
             </p>
           </div>
           <button 
-            onClick={() => navigate('/collections')}
+            onClick={() => navigate('/collection')}
             className="hidden md:flex items-center gap-2 text-[#2563EB] hover:text-[#1d4ed8] font-semibold transition-colors duration-300 group"
           >
             <span>Explore</span>

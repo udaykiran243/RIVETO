@@ -1,21 +1,18 @@
-import React, { useContext, useState, useRef, useEffect, useMemo } from 'react';
+import React, { useContext, useState, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { shopDataContext } from '../context/ShopContext';
-import { FaEye, FaHeart, FaShoppingCart, FaStar, FaCheck } from 'react-icons/fa';
-import { RiPriceTag3Line } from "react-icons/ri";
+import { FaHeart, FaShoppingCart, FaStar, FaCheck } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import gsap from 'gsap';
 
 function Card({ name, image, id, price, showQuickActions = true, badge, badgeColor = "from-blue-500 to-cyan-500", onCompare, isCompared, isFeatured = false }) {
-  const { currency, addtoCart, addToWishlist } = useContext(shopDataContext);
+  const { currency, addToWishlist } = useContext(shopDataContext);
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const cardRef = useRef(null);
-  const glowRef = useRef(null);
 
   // Removed 3D tilt effect for corporate stability
   const handleMouseMove = (e) => {

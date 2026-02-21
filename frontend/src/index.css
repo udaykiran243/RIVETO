@@ -75,4 +75,13 @@ body {
   animation: float 2s ease-in-out infinite;
 }
 
+/* Retail product card interactions */
+.group-hover\:scale-104 {
+  transform: scale(1);
+}
+
+.group:hover .group-hover\:scale-104 {
+  transform: scale(1.04);
+}
+
 /* In your index.css or Tailwind config */

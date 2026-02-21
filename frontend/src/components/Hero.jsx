@@ -149,13 +149,13 @@ function Hero({ heroData, heroCount, setHeroCount }) {
         `
       }} />
 
-      {/* Layer 3: Content Container - Animated Text Only */}
-      <div 
-        ref={containerRef} 
-        className="relative z-20 w-full max-w-4xl mx-auto px-6 md:px-10"
-      >
-        {/* Hero Text with Localized Backdrop Blur */}
-        <div className="space-y-5 md:space-y-7 text-center relative">
+      {/* Layer 3: Content Container */}
+      <div className="relative z-20 w-full max-w-4xl mx-auto px-6 md:px-10">
+        {/* Animated Text Container */}
+        <div 
+          ref={containerRef} 
+          className="space-y-5 md:space-y-7 text-center relative"
+        >
           {/* Title with localized backdrop */}
           <div className="relative inline-block">
             <div className="absolute inset-0 bg-[#0B0F1A]/28 backdrop-blur-[10px] rounded-[14px] -m-3 md:-m-5 z-0" />
@@ -180,10 +180,9 @@ function Hero({ heroData, heroCount, setHeroCount }) {
             </p>
           </div>
         </div>
-      </div>
 
-      {/* Layer 4: Static CTA Button - Separate from animated content */}
-      <div className="relative z-30 text-center mt-8">
+        {/* Static CTA Button - Right below text, not animated */}
+        <div className="text-center pt-8">
         <button 
           ref={ctaRef}
           className="relative bg-[#2563EB] hover:bg-[#1d4ed8] px-10 py-4 text-white font-bold rounded-full group overflow-hidden"
@@ -206,6 +205,7 @@ function Hero({ heroData, heroCount, setHeroCount }) {
             boxShadow: '0 0 24px rgba(79,140,255,0.25)'
           }} />
         </button>
+        </div>
       </div>
 
       {/* Navigation Arrows - Outside content card */}

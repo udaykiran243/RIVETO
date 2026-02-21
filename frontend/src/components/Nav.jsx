@@ -2,11 +2,12 @@ import React, { useContext, useState, useRef, useEffect } from 'react';
 import logo from '../assets/logof.png';
 import { IoSearchCircleOutline, IoSearchCircleSharp } from "react-icons/io5";
 import { FaUserCircle } from "react-icons/fa";
-import { MdOutlineShoppingCart } from "react-icons/md";
+import { MdOutlineShoppingCart, MdLogout } from "react-icons/md";
 import { IoMdHome } from "react-icons/io";
 import { HiOutlineCollection, HiOutlineUserGroup } from "react-icons/hi";
 import { RiContactsLine } from "react-icons/ri";
-import { BsMoon, BsSun, BsSearch } from "react-icons/bs";
+import { BsMoon, BsSun, BsSearch, BsBoxSeam } from "react-icons/bs";
+import { FiInfo, FiUser, FiLogIn } from "react-icons/fi";
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { userDataContext } from '../context/UserContext';
@@ -210,41 +211,91 @@ function Nav() {
       {showProfile && (
         <div
           ref={profileRef}
-          className="absolute top-full right-4 mt-2 w-56 bg-white dark:bg-gray-900 shadow-xl rounded-xl border border-gray-200 dark:border-gray-700 z-40 overflow-hidden"
+          className="absolute top-full right-4 mt-2 w-64 bg-white dark:bg-[#111c33] shadow-2xl rounded-xl border border-gray-200 dark:border-[#1f2a44] z-40 overflow-hidden"
         >
-          <ul className="text-sm text-gray-700 dark:text-gray-200">
+          {/* User Info Section */}
+          {userData && (
+            <div className="px-4 py-4 border-b border-gray-200 dark:border-[#1f2a44] bg-gray-50 dark:bg-[#0f172a]">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-semibold text-lg">
+                  {userData.name ? userData.name.charAt(0).toUpperCase() : 'U'}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
+                    {userData.name || 'User'}
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                    {userData.email || ''}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Menu Items */}
+          <div className="py-2">
             {!userData ? (
-              <li
-                className="px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors flex items-center gap-2"
+              <button
+                className="w-full px-4 py-3 hover:bg-gray-100 dark:hover:bg-[#1a2332] cursor-pointer transition-all duration-200 flex items-center gap-3 group text-left"
                 onClick={() => { navigate("/login"); setShowProfile(false); }}
               >
-                <span className="w-2 h-2 bg-green-400 rounded-full"></span>
-                Login
-              </li>
-            ) : (
-              <li
-                className="px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors flex items-center gap-2"
-                onClick={() => { handleLogout(); setShowProfile(false); }}
-              >
-                <span className="w-2 h-2 bg-red-400 rounded-full"></span>
-                Logout
-              </li>
-            )}
-            <li
-              className="px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors flex items-center gap-2"
+                <div className="w-9 h-9 rounded-lg bg-green-50 dark:bg-green-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <FiLogIn className="w-5 h-5 text-green-600 dark:text-green-400" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-gray-900 dark:text-white">Login</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Access your account</p>
+                </div>
+              </button>
+            ) : null}
+            
+            <button
+              className="w-full px-4 py-3 hover:bg-gray-100 dark:hover:bg-[#1a2332] cursor-pointer transition-all duration-200 flex items-center gap-3 group text-left"
               onClick={() => { navigate("/order"); setShowProfile(false); }}
             >
-              <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
-              Orders
-            </li>
-            <li
-              className="px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors flex items-center gap-2"
+              <div className="w-9 h-9 rounded-lg bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <BsBoxSeam className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-gray-900 dark:text-white">Orders</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Track your purchases</p>
+              </div>
+            </button>
+
+            <button
+              className="w-full px-4 py-3 hover:bg-gray-100 dark:hover:bg-[#1a2332] cursor-pointer transition-all duration-200 flex items-center gap-3 group text-left"
               onClick={() => { navigate("/about"); setShowProfile(false); }}
             >
-              <span className="w-2 h-2 bg-cyan-400 rounded-full"></span>
-              About
-            </li>
-          </ul>
+              <div className="w-9 h-9 rounded-lg bg-cyan-50 dark:bg-cyan-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <FiInfo className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-gray-900 dark:text-white">About</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Learn more about us</p>
+              </div>
+            </button>
+          </div>
+
+          {/* Logout Section - Bottom */}
+          {userData && (
+            <>
+              <div className="border-t border-gray-200 dark:border-[#1f2a44]"></div>
+              <div className="py-2">
+                <button
+                  className="w-full px-4 py-3 hover:bg-red-50 dark:hover:bg-red-500/10 cursor-pointer transition-all duration-200 flex items-center gap-3 group text-left"
+                  onClick={() => { handleLogout(); setShowProfile(false); }}
+                >
+                  <div className="w-9 h-9 rounded-lg bg-red-50 dark:bg-red-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <MdLogout className="w-5 h-5 text-red-600 dark:text-red-400" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-red-600 dark:text-red-400">Logout</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Sign out of your account</p>
+                  </div>
+                </button>
+              </div>
+            </>
+          )}
         </div>
       )}
 

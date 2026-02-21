@@ -16,8 +16,8 @@ const Contributors = () => {
     // Special mentions (hardcoded specific contributors)
     const specialMentions = {
         firstContributor: 'madhav2348',
-        uiDesigner: 'vedantbudhabaware',
-        innovator: 'asadanwarr0'
+        innovator: 'asadanwarr0',
+        uiDesigner: 'vedantbudhaware'
     };
 
     // Separate top 3 by contributions and special mentions
@@ -239,108 +239,157 @@ const Contributors = () => {
                         <h2 className="text-3xl font-bold text-white text-center" style={{ fontFamily: 'Poppins, sans-serif' }}>Outstanding Achievements</h2>
                     </div>
 
-                    {!loading && (
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                             {/* First Contributor */}
-                            {contributors.find(c => c.login === specialMentions.firstContributor) && (
+                            {(() => {
+                                const contributor = contributors.find(c => c.login === specialMentions.firstContributor);
+                                return (
                                 <motion.div
                                     initial={{ opacity: 0, scale: 0.9 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ delay: 0.4 }}
-                                    className="relative group p-6 rounded-3xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/30 backdrop-blur-xl overflow-hidden"
+                                    className="relative group rounded-3xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/30 backdrop-blur-xl overflow-hidden hover:border-blue-400/50 transition-all duration-300"
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-cyan-500/0 group-hover:from-blue-500/10 group-hover:to-cyan-500/10 transition-all duration-500" />
                                     
-                                    <div className="relative">
-                                        <div className="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-4 border border-blue-500/30">
-                                            <FaRocket className="text-blue-400 text-2xl" />
-                                        </div>
-                                        
-                                        <h3 className="text-xl font-bold text-white mb-2">First Contributor</h3>
-                                        <p className="text-gray-400 text-sm mb-4">The pioneer who started it all</p>
-                                        
-                                        <div className="flex items-center gap-3">
-                                            <img
-                                                src={contributors.find(c => c.login === specialMentions.firstContributor).avatar_url}
-                                                alt={specialMentions.firstContributor}
-                                                className="w-12 h-12 rounded-full border-2 border-blue-500/50"
-                                            />
-                                            <div>
-                                                <p className="text-white font-semibold">{specialMentions.firstContributor}</p>
-                                                <p className="text-gray-500 text-xs">🎯 Excellence</p>
+                                    <div className="relative p-6">
+                                        <div className="flex justify-center mb-4">
+                                            <div className="relative">
+                                                <img
+                                                    src={contributor?.avatar_url || `https://github.com/${specialMentions.firstContributor}.png`}
+                                                    alt={specialMentions.firstContributor}
+                                                    className="w-24 h-24 rounded-full border-4 border-blue-500/50 shadow-xl"
+                                                />
+                                                <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center border-2 border-white/20">
+                                                    <span className="text-xl">🎯</span>
+                                                </div>
                                             </div>
                                         </div>
+                                        
+                                        <div className="text-center mb-4">
+                                            <div className="inline-block px-3 py-1 bg-cyan-500/20 border border-cyan-500/30 rounded-full text-cyan-300 text-xs font-bold uppercase tracking-wider mb-3">
+                                                FIRST CONTRIBUTOR
+                                            </div>
+                                            <h3 className="text-xl font-bold text-white mb-1">{specialMentions.firstContributor}</h3>
+                                            <p className="text-cyan-400 text-sm font-semibold mb-1">@{specialMentions.firstContributor}</p>
+                                        </div>
+                                        
+                                        <p className="text-gray-400 text-sm text-center mb-6 leading-relaxed">
+                                            For being the first to join and contribute to RIVETO! Pioneering the spirit of community.
+                                        </p>
+                                        
+                                        <a
+                                            href={`https://github.com/${specialMentions.firstContributor}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="block w-full py-3 px-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-center rounded-xl font-semibold transition-all duration-300 transform hover:scale-105"
+                                        >
+                                            View Profile
+                                        </a>
                                     </div>
                                 </motion.div>
-                            )}
+                            );})()}
 
-                            {/* UI/UX Designer */}
-                            {contributors.find(c => c.login === specialMentions.uiDesigner) && (
+                            {/* Most Innovative */}
+                            {(() => {
+                                const contributor = contributors.find(c => c.login === specialMentions.innovator);
+                                return (
                                 <motion.div
                                     initial={{ opacity: 0, scale: 0.9 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ delay: 0.5 }}
-                                    className="relative group p-6 rounded-3xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 backdrop-blur-xl overflow-hidden"
+                                    className="relative group rounded-3xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/30 backdrop-blur-xl overflow-hidden hover:border-green-400/50 transition-all duration-300"
                                 >
-                                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/0 to-pink-500/0 group-hover:from-purple-500/10 group-hover:to-pink-500/10 transition-all duration-500" />
+                                    <div className="absolute inset-0 bg-gradient-to-br from-green-500/0 to-emerald-500/0 group-hover:from-green-500/10 group-hover:to-emerald-500/10 transition-all duration-500" />
                                     
-                                    <div className="relative">
-                                        <div className="w-16 h-16 bg-purple-500/20 rounded-2xl flex items-center justify-center mb-4 border border-purple-500/30">
-                                            <FaPalette className="text-purple-400 text-2xl" />
-                                        </div>
-                                        
-                                        <h3 className="text-xl font-bold text-white mb-2">UI/UX Champion</h3>
-                                        <p className="text-gray-400 text-sm mb-4">Master of design excellence</p>
-                                        
-                                        <div className="flex items-center gap-3">
-                                            <img
-                                                src={contributors.find(c => c.login === specialMentions.uiDesigner).avatar_url}
-                                                alt={specialMentions.uiDesigner}
-                                                className="w-12 h-12 rounded-full border-2 border-purple-500/50"
-                                            />
-                                            <div>
-                                                <p className="text-white font-semibold">{specialMentions.uiDesigner}</p>
-                                                <p className="text-gray-500 text-xs">🎨 Design</p>
+                                    <div className="relative p-6">
+                                        <div className="flex justify-center mb-4">
+                                            <div className="relative">
+                                                <img
+                                                    src={contributor?.avatar_url || `https://github.com/${specialMentions.innovator}.png`}
+                                                    alt={specialMentions.innovator}
+                                                    className="w-24 h-24 rounded-full border-4 border-green-500/50 shadow-xl"
+                                                />
+                                                <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center border-2 border-white/20">
+                                                    <span className="text-xl">💡</span>
+                                                </div>
                                             </div>
                                         </div>
+                                        
+                                        <div className="text-center mb-4">
+                                            <div className="inline-block px-3 py-1 bg-green-500/20 border border-green-500/30 rounded-full text-green-300 text-xs font-bold uppercase tracking-wider mb-3">
+                                                MOST INNOVATIVE
+                                            </div>
+                                            <h3 className="text-xl font-bold text-white mb-1">{specialMentions.innovator}</h3>
+                                            <p className="text-green-400 text-sm font-semibold mb-1">@{specialMentions.innovator}</p>
+                                        </div>
+                                        
+                                        <p className="text-gray-400 text-sm text-center mb-6 leading-relaxed">
+                                            For enhancing the About, Contact, and Home sections with creative touches.
+                                        </p>
+                                        
+                                        <a
+                                            href={`https://github.com/${specialMentions.innovator}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="block w-full py-3 px-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white text-center rounded-xl font-semibold transition-all duration-300 transform hover:scale-105"
+                                        >
+                                            View Profile
+                                        </a>
                                     </div>
                                 </motion.div>
-                            )}
+                            );})()}
 
-                            {/* Most Innovative */}
-                            {contributors.find(c => c.login === specialMentions.innovator) && (
+                            {/* UI/UX Designer */}
+                            {(() => {
+                                const contributor = contributors.find(c => c.login === specialMentions.uiDesigner);
+                                return (
                                 <motion.div
                                     initial={{ opacity: 0, scale: 0.9 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ delay: 0.6 }}
-                                    className="relative group p-6 rounded-3xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/30 backdrop-blur-xl overflow-hidden"
+                                    className="relative group rounded-3xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 backdrop-blur-xl overflow-hidden hover:border-purple-400/50 transition-all duration-300"
                                 >
-                                    <div className="absolute inset-0 bg-gradient-to-br from-green-500/0 to-emerald-500/0 group-hover:from-green-500/10 group-hover:to-emerald-500/10 transition-all duration-500" />
+                                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/0 to-pink-500/0 group-hover:from-purple-500/10 group-hover:to-pink-500/10 transition-all duration-500" />
                                     
-                                    <div className="relative">
-                                        <div className="w-16 h-16 bg-green-500/20 rounded-2xl flex items-center justify-center mb-4 border border-green-500/30">
-                                            <FaLightbulb className="text-green-400 text-2xl" />
-                                        </div>
-                                        
-                                        <h3 className="text-xl font-bold text-white mb-2">Most Innovative</h3>
-                                        <p className="text-gray-400 text-sm mb-4">Creative problem solver</p>
-                                        
-                                        <div className="flex items-center gap-3">
-                                            <img
-                                                src={contributors.find(c => c.login === specialMentions.innovator).avatar_url}
-                                                alt={specialMentions.innovator}
-                                                className="w-12 h-12 rounded-full border-2 border-green-500/50"
-                                            />
-                                            <div>
-                                                <p className="text-white font-semibold">{specialMentions.innovator}</p>
-                                                <p className="text-gray-500 text-xs">💡 Innovation</p>
+                                    <div className="relative p-6">
+                                        <div className="flex justify-center mb-4">
+                                            <div className="relative">
+                                                <img
+                                                    src={contributor?.avatar_url || `https://github.com/${specialMentions.uiDesigner}.png`}
+                                                    alt={specialMentions.uiDesigner}
+                                                    className="w-24 h-24 rounded-full border-4 border-purple-500/50 shadow-xl"
+                                                />
+                                                <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center border-2 border-white/20">
+                                                    <span className="text-xl">🎨</span>
+                                                </div>
                                             </div>
                                         </div>
+                                        
+                                        <div className="text-center mb-4">
+                                            <div className="inline-block px-3 py-1 bg-purple-500/20 border border-purple-500/30 rounded-full text-purple-300 text-xs font-bold uppercase tracking-wider mb-3">
+                                                UI/UX CHAMPION
+                                            </div>
+                                            <h3 className="text-xl font-bold text-white mb-1">{specialMentions.uiDesigner}</h3>
+                                            <p className="text-purple-400 text-sm font-semibold mb-1">@{specialMentions.uiDesigner}</p>
+                                        </div>
+                                        
+                                        <p className="text-gray-400 text-sm text-center mb-6 leading-relaxed">
+                                            For fixing critical UI issues and optimizing the mobile experience for our users.
+                                        </p>
+                                        
+                                        <a
+                                            href={`https://github.com/${specialMentions.uiDesigner}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="block w-full py-3 px-4 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-400 hover:to-pink-500 text-white text-center rounded-xl font-semibold transition-all duration-300 transform hover:scale-105"
+                                        >
+                                            View Profile
+                                        </a>
                                     </div>
                                 </motion.div>
-                            )}
+                            );})()}
                         </div>
-                    )}
                 </section>
 
                 {/* All Contributors Grid */}

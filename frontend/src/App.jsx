@@ -177,18 +177,14 @@ function App() {
             )
           }
         />
+
+        {/* Public routes - Legal pages should be accessible without login */}
         <Route
           path="/privicypolicy"
           element={
-            userData ? (
-              <PrivicyPolicy />
-            ) : (
-              <Navigate to="/login" state={{ from: location.pathname }} />
-            )
+            <PrivicyPolicy />
           }
         />
-
-        {/* public routes */}
         <Route
           path="/termsandservices"
           element={

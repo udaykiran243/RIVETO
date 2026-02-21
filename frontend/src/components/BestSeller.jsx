@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState, useRef } from 'react';
 import Title from './Title';
 import Card from './Card';
 import { shopDataContext } from '../context/ShopContext';
-import { FaFire, FaArrowRight } from 'react-icons/fa';
+import { FaFire, FaArrowRight, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -11,6 +11,8 @@ gsap.registerPlugin(ScrollTrigger);
 function BestSeller() {
   const { product, compareList, toggleCompare } = useContext(shopDataContext);
   const [bestseller, setBestseller] = useState([]);
+  const [showLeftArrow, setShowLeftArrow] = useState(false);
+  const [showRightArrow, setShowRightArrow] = useState(false);
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const cardsRef = useRef([]);
@@ -21,6 +23,44 @@ function BestSeller() {
     const filterProduct = product.filter(item => item.bestseller);
     setBestseller(filterProduct.slice(0, 8)); // Show top 8 bestsellers
   }, [product]);
+
+  // Check scroll position to show/hide arrows
+  const checkScrollPosition = () => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const { scrollLeft, scrollWidth, clientWidth } = container;
+    setShowLeftArrow(scrollLeft > 0);
+    setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 10);
+  };
+
+  // Scroll navigation functions
+  const scrollLeft = () => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    container.scrollBy({ left: -300, behavior: 'smooth' });
+  };
+
+  const scrollRight = () => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    container.scrollBy({ left: 300, behavior: 'smooth' });
+  };
+
+  // Update arrow visibility on scroll and resize
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    checkScrollPosition();
+    container.addEventListener('scroll', checkScrollPosition);
+    window.addEventListener('resize', checkScrollPosition);
+
+    return () => {
+      container.removeEventListener('scroll', checkScrollPosition);
+      window.removeEventListener('resize', checkScrollPosition);
+    };
+  }, [bestseller]);
 
   // Auto-scroll functionality
   const handleCardHover = (index) => {
@@ -144,6 +184,28 @@ function BestSeller() {
         {/* Horizontal Scrollable Carousel */}
         {bestseller.length > 0 ? (
           <div className="relative">
+            {/* Left Navigation Arrow */}
+            {showLeftArrow && (
+              <button
+                onClick={scrollLeft}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 group"
+                aria-label="Scroll left"
+              >
+                <FaChevronLeft className="text-gray-700 dark:text-gray-300 group-hover:text-[#2563EB] dark:group-hover:text-[#4F8CFF] transition-colors" />
+              </button>
+            )}
+
+            {/* Right Navigation Arrow */}
+            {showRightArrow && (
+              <button
+                onClick={scrollRight}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 group"
+                aria-label="Scroll right"
+              >
+                <FaChevronRight className="text-gray-700 dark:text-gray-300 group-hover:text-[#2563EB] dark:group-hover:text-[#4F8CFF] transition-colors" />
+              </button>
+            )}
+
             <div 
               ref={scrollContainerRef}
               className="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 scrollbar-hide"

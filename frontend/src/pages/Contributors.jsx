@@ -6,41 +6,53 @@ import ContributorCard from '../components/ContributorCard';
 import Footer from '../components/Footer';
 import { BsSearch, BsArrowUpRight, BsGithub, BsStar, BsGit } from 'react-icons/bs';
 import { HiOutlineUserGroup } from 'react-icons/hi';
+import { FaTrophy, FaMedal, FaAward, FaCrown, FaPalette, FaLightbulb, FaRocket } from 'react-icons/fa';
 
 const Contributors = () => {
     const { contributors, stats, loading, error } = useGitHubContributors();
     const [searchTerm, setSearchTerm] = useState('');
     const [sortBy, setSortBy] = useState('contributions'); // 'contributions' or 'name'
 
+    // Special mentions (hardcoded specific contributors)
+    const specialMentions = {
+        firstContributor: 'madhav2348',
+        uiDesigner: 'vedantbudhabaware',
+        innovator: 'asadanwarr0'
+    };
+
+    // Separate top 3 by contributions and special mentions
+    const { topThree, specialContributors, regularContributors } = useMemo(() => {
+        const sorted = [...contributors].sort((a, b) => b.contributions - a.contributions);
+        
+        // Get top 3 by contributions
+        const top3 = sorted.slice(0, 3);
+        
+        // Get special mention contributors (if not already in top 3)
+        const special = contributors.filter(c => 
+            Object.values(specialMentions).includes(c.login) && 
+            !top3.find(t => t.login === c.login)
+        );
+        
+        // Get remaining contributors
+        const regular = sorted.slice(3).filter(c => 
+            !Object.values(specialMentions).includes(c.login)
+        );
+        
+        return {
+            topThree: top3,
+            specialContributors: special,
+            regularContributors: regular
+        };
+    }, [contributors]);
+
     const filteredContributors = useMemo(() => {
-        return contributors
+        return regularContributors
             .filter(c => c.login.toLowerCase().includes(searchTerm.toLowerCase()))
             .sort((a, b) => {
                 if (sortBy === 'contributions') return b.contributions - a.contributions;
                 return a.login.localeCompare(b.login);
             });
-    }, [contributors, searchTerm, sortBy]);
-
-    const featured = [
-        {
-            username: 'madhav2348',
-            role: 'First Contributor',
-            badge: '🎯 Excellence',
-            description: 'For being the first to join and contribute to RIVETO! Pioneering the spirit of community.'
-        },
-        {
-            username: 'asadanwarr0',
-            role: 'Most Innovative',
-            badge: '💡 Innovation',
-            description: 'For enhancing the About, Contact, and Home sections with creative touches.'
-        },
-        {
-            username: 'vedantbudhabaware',
-            role: 'UI/UX Champion',
-            badge: '🎨 Design',
-            description: 'For fixing critical UI issues and optimizing the mobile experience for our users.'
-        }
-    ];
+    }, [regularContributors, searchTerm, sortBy]);
 
     if (error) {
         return (
@@ -105,26 +117,239 @@ const Contributors = () => {
                 <section className="container mx-auto px-4 py-20">
                     <div className="flex flex-col items-center mb-16">
                         <span className="text-[#4F8CFF] text-sm font-bold uppercase tracking-[0.3em] mb-4" style={{ fontFamily: 'Inter, sans-serif' }}>The Hall of Fame</span>
-                        <h2 className="text-4xl font-bold text-white text-center" style={{ fontFamily: 'Poppins, sans-serif' }}>Special Recognition</h2>
+                        <h2 className="text-4xl font-bold text-white text-center mb-2" style={{ fontFamily: 'Poppins, sans-serif' }}>Top Contributors</h2>
+                        <p className="text-gray-400 text-center max-w-2xl">Based on number of contributions</p>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {featured.map((f, i) => (
-                            <FeaturedContributor
-                                key={i}
-                                contributor={f.username}
-                                role={f.role}
-                                description={f.description}
-                                badge={f.badge}
-                                rank={i + 1}
-                            />
-                        ))}
+
+                    {/* Podium for Top 3 Contributors */}
+                    {!loading && topThree.length >= 3 && (
+                        <div className="max-w-5xl mx-auto mb-20">
+                            <div className="flex items-end justify-center gap-4 md:gap-8">
+                                {/* 2nd Place - Silver */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 50 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.2, duration: 0.6 }}
+                                    className="flex-1 max-w-[250px]"
+                                >
+                                    <div className="relative">
+                                        {/* Silver Medal Badge */}
+                                        <div className="absolute -top-6 left-1/2 -translate-x-1/2 z-10 w-12 h-12 bg-gradient-to-br from-gray-300 to-gray-400 rounded-full flex items-center justify-center border-4 border-white/20 shadow-2xl">
+                                            <FaMedal className="text-white text-xl" />
+                                        </div>
+                                        
+                                        <div className="bg-gradient-to-br from-gray-300/20 to-gray-400/20 border border-gray-300/30 rounded-t-3xl p-6 pt-10 text-center backdrop-blur-xl">
+                                            <img
+                                                src={topThree[1].avatar_url}
+                                                alt={topThree[1].login}
+                                                className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-gray-300/50 shadow-xl"
+                                            />
+                                            <h3 className="text-xl font-bold text-white mb-1">{topThree[1].login}</h3>
+                                            <p className="text-gray-400 text-sm mb-3">2nd Place</p>
+                                            <div className="inline-block px-4 py-2 bg-gray-300/20 rounded-full border border-gray-300/30">
+                                                <span className="text-white font-bold">{topThree[1].contributions}</span>
+                                                <span className="text-gray-400 text-sm ml-1">contributions</span>
+                                            </div>
+                                        </div>
+                                        
+                                        {/* Podium Base */}
+                                        <div className="h-24 bg-gradient-to-t from-gray-400/30 to-gray-300/20 border-x border-b border-gray-300/30 rounded-b-3xl flex items-center justify-center backdrop-blur-xl">
+                                            <span className="text-5xl font-black text-gray-300/40">2</span>
+                                        </div>
+                                    </div>
+                                </motion.div>
+
+                                {/* 1st Place - Gold */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 50 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.1, duration: 0.6 }}
+                                    className="flex-1 max-w-[280px]"
+                                >
+                                    <div className="relative">
+                                        {/* Crown with Gold Medal */}
+                                        <div className="absolute -top-14 left-1/2 -translate-x-1/2 z-10">
+                                            <FaCrown className="text-yellow-400 text-4xl drop-shadow-2xl animate-pulse" />
+                                        </div>
+                                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10 w-14 h-14 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center border-4 border-white/20 shadow-2xl">
+                                            <FaTrophy className="text-white text-2xl" />
+                                        </div>
+                                        
+                                        <div className="bg-gradient-to-br from-yellow-400/20 to-orange-500/20 border border-yellow-400/40 rounded-t-3xl p-8 pt-14 text-center backdrop-blur-xl shadow-2xl">
+                                            <img
+                                                src={topThree[0].avatar_url}
+                                                alt={topThree[0].login}
+                                                className="w-28 h-28 rounded-full mx-auto mb-4 border-4 border-yellow-400/50 shadow-2xl ring-4 ring-yellow-400/20"
+                                            />
+                                            <h3 className="text-2xl font-bold text-white mb-1">{topThree[0].login}</h3>
+                                            <p className="text-yellow-400 text-sm mb-4 font-semibold">🏆 Champion</p>
+                                            <div className="inline-block px-6 py-2 bg-yellow-400/20 rounded-full border border-yellow-400/40">
+                                                <span className="text-white font-bold text-lg">{topThree[0].contributions}</span>
+                                                <span className="text-gray-300 text-sm ml-1">contributions</span>
+                                            </div>
+                                        </div>
+                                        
+                                        {/* Podium Base */}
+                                        <div className="h-32 bg-gradient-to-t from-orange-500/30 to-yellow-400/20 border-x border-b border-yellow-400/40 rounded-b-3xl flex items-center justify-center backdrop-blur-xl">
+                                            <span className="text-6xl font-black text-yellow-400/40">1</span>
+                                        </div>
+                                    </div>
+                                </motion.div>
+
+                                {/* 3rd Place - Bronze */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 50 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.3, duration: 0.6 }}
+                                    className="flex-1 max-w-[250px]"
+                                >
+                                    <div className="relative">
+                                        {/* Bronze Medal Badge */}
+                                        <div className="absolute -top-6 left-1/2 -translate-x-1/2 z-10 w-12 h-12 bg-gradient-to-br from-orange-600 to-amber-700 rounded-full flex items-center justify-center border-4 border-white/20 shadow-2xl">
+                                            <FaAward className="text-white text-xl" />
+                                        </div>
+                                        
+                                        <div className="bg-gradient-to-br from-orange-600/20 to-amber-700/20 border border-orange-600/30 rounded-t-3xl p-6 pt-10 text-center backdrop-blur-xl">
+                                            <img
+                                                src={topThree[2].avatar_url}
+                                                alt={topThree[2].login}
+                                                className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-orange-600/50 shadow-xl"
+                                            />
+                                            <h3 className="text-xl font-bold text-white mb-1">{topThree[2].login}</h3>
+                                            <p className="text-gray-400 text-sm mb-3">3rd Place</p>
+                                            <div className="inline-block px-4 py-2 bg-orange-600/20 rounded-full border border-orange-600/30">
+                                                <span className="text-white font-bold">{topThree[2].contributions}</span>
+                                                <span className="text-gray-400 text-sm ml-1">contributions</span>
+                                            </div>
+                                        </div>
+                                        
+                                        {/* Podium Base */}
+                                        <div className="h-20 bg-gradient-to-t from-amber-700/30 to-orange-600/20 border-x border-b border-orange-600/30 rounded-b-3xl flex items-center justify-center backdrop-blur-xl">
+                                            <span className="text-5xl font-black text-orange-600/40">3</span>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Special Mentions Section */}
+                    <div className="flex flex-col items-center mb-12 mt-20">
+                        <span className="text-purple-400 text-sm font-bold uppercase tracking-[0.3em] mb-4" style={{ fontFamily: 'Inter, sans-serif' }}>Special Recognition</span>
+                        <h2 className="text-3xl font-bold text-white text-center" style={{ fontFamily: 'Poppins, sans-serif' }}>Outstanding Achievements</h2>
                     </div>
+
+                    {!loading && (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                            {/* First Contributor */}
+                            {contributors.find(c => c.login === specialMentions.firstContributor) && (
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: 0.4 }}
+                                    className="relative group p-6 rounded-3xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-blue-500/30 backdrop-blur-xl overflow-hidden"
+                                >
+                                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-cyan-500/0 group-hover:from-blue-500/10 group-hover:to-cyan-500/10 transition-all duration-500" />
+                                    
+                                    <div className="relative">
+                                        <div className="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center mb-4 border border-blue-500/30">
+                                            <FaRocket className="text-blue-400 text-2xl" />
+                                        </div>
+                                        
+                                        <h3 className="text-xl font-bold text-white mb-2">First Contributor</h3>
+                                        <p className="text-gray-400 text-sm mb-4">The pioneer who started it all</p>
+                                        
+                                        <div className="flex items-center gap-3">
+                                            <img
+                                                src={contributors.find(c => c.login === specialMentions.firstContributor).avatar_url}
+                                                alt={specialMentions.firstContributor}
+                                                className="w-12 h-12 rounded-full border-2 border-blue-500/50"
+                                            />
+                                            <div>
+                                                <p className="text-white font-semibold">{specialMentions.firstContributor}</p>
+                                                <p className="text-gray-500 text-xs">🎯 Excellence</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            )}
+
+                            {/* UI/UX Designer */}
+                            {contributors.find(c => c.login === specialMentions.uiDesigner) && (
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: 0.5 }}
+                                    className="relative group p-6 rounded-3xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 backdrop-blur-xl overflow-hidden"
+                                >
+                                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/0 to-pink-500/0 group-hover:from-purple-500/10 group-hover:to-pink-500/10 transition-all duration-500" />
+                                    
+                                    <div className="relative">
+                                        <div className="w-16 h-16 bg-purple-500/20 rounded-2xl flex items-center justify-center mb-4 border border-purple-500/30">
+                                            <FaPalette className="text-purple-400 text-2xl" />
+                                        </div>
+                                        
+                                        <h3 className="text-xl font-bold text-white mb-2">UI/UX Champion</h3>
+                                        <p className="text-gray-400 text-sm mb-4">Master of design excellence</p>
+                                        
+                                        <div className="flex items-center gap-3">
+                                            <img
+                                                src={contributors.find(c => c.login === specialMentions.uiDesigner).avatar_url}
+                                                alt={specialMentions.uiDesigner}
+                                                className="w-12 h-12 rounded-full border-2 border-purple-500/50"
+                                            />
+                                            <div>
+                                                <p className="text-white font-semibold">{specialMentions.uiDesigner}</p>
+                                                <p className="text-gray-500 text-xs">🎨 Design</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            )}
+
+                            {/* Most Innovative */}
+                            {contributors.find(c => c.login === specialMentions.innovator) && (
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: 0.6 }}
+                                    className="relative group p-6 rounded-3xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/30 backdrop-blur-xl overflow-hidden"
+                                >
+                                    <div className="absolute inset-0 bg-gradient-to-br from-green-500/0 to-emerald-500/0 group-hover:from-green-500/10 group-hover:to-emerald-500/10 transition-all duration-500" />
+                                    
+                                    <div className="relative">
+                                        <div className="w-16 h-16 bg-green-500/20 rounded-2xl flex items-center justify-center mb-4 border border-green-500/30">
+                                            <FaLightbulb className="text-green-400 text-2xl" />
+                                        </div>
+                                        
+                                        <h3 className="text-xl font-bold text-white mb-2">Most Innovative</h3>
+                                        <p className="text-gray-400 text-sm mb-4">Creative problem solver</p>
+                                        
+                                        <div className="flex items-center gap-3">
+                                            <img
+                                                src={contributors.find(c => c.login === specialMentions.innovator).avatar_url}
+                                                alt={specialMentions.innovator}
+                                                className="w-12 h-12 rounded-full border-2 border-green-500/50"
+                                            />
+                                            <div>
+                                                <p className="text-white font-semibold">{specialMentions.innovator}</p>
+                                                <p className="text-gray-500 text-xs">💡 Innovation</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </div>
+                    )}
                 </section>
 
                 {/* All Contributors Grid */}
                 <section className="container mx-auto px-4 py-20">
                     <div className="flex flex-col md:flex-row items-center justify-between mb-12 gap-6">
-                        <h2 className="text-3xl font-black text-white tracking-tight">All Contributors</h2>
+                        <div>
+                            <h2 className="text-3xl font-black text-white tracking-tight mb-2">All Contributors</h2>
+                            <p className="text-gray-400 text-sm">Every contribution matters</p>
+                        </div>
 
                         {/* Controls */}
                         <div className="flex flex-wrap items-center gap-4 w-full md:w-auto">
@@ -141,10 +366,17 @@ const Contributors = () => {
                             <select
                                 value={sortBy}
                                 onChange={(e) => setSortBy(e.target.value)}
-                                className="px-4 py-3 bg-white/5 border border-white/10 rounded-2xl text-white focus:outline-none focus:border-cyan-500 transition-colors cursor-pointer"
+                                className="px-4 py-3 bg-white/5 border border-white/10 rounded-2xl text-white focus:outline-none focus:border-cyan-500 transition-colors cursor-pointer appearance-none"
+                                style={{ 
+                                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E")`,
+                                    backgroundPosition: 'right 0.5rem center',
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundSize: '1.5em 1.5em',
+                                    paddingRight: '2.5rem'
+                                }}
                             >
-                                <option value="contributions">Sort by: Contributions</option>
-                                <option value="name">Sort by: Name</option>
+                                <option value="contributions" className="bg-[#1a1f2e] text-white">Sort by: Contributions</option>
+                                <option value="name" className="bg-[#1a1f2e] text-white">Sort by: Name</option>
                             </select>
                         </div>
                     </div>

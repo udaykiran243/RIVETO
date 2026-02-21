@@ -278,7 +278,7 @@ const TermsAndServices = () => {
                 <div className="inline-block px-4 py-1 bg-cyan-500/20 border border-cyan-500/30 rounded-full text-cyan-300 text-sm font-medium mb-4">
                   Legal Document
                 </div>
-                <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                <h1 className="text-4xl md:text-6xl font-bold text-white mb-4" style={{ fontFamily: 'Poppins, sans-serif' }}>
                   Terms & Services
                 </h1>
                 <p className="text-gray-400 text-lg">

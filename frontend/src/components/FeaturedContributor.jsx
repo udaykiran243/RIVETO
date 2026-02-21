@@ -1,47 +1,60 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const FeaturedContributor = ({ contributor, role, description, badge }) => {
+const FeaturedContributor = ({ contributor, role, description, badge, rank = 1 }) => {
+    // Podium heights based on rank
+    const podiumStyles = {
+        1: { height: 'min-h-[450px]', avatarSize: 'w-40 h-40', badgeSize: 'text-3xl', accentColor: '#FFD700' }, // Gold - tallest
+        2: { height: 'min-h-[400px]', avatarSize: 'w-36 h-36', badgeSize: 'text-2xl', accentColor: '#C0C0C0' }, // Silver - medium
+        3: { height: 'min-h-[350px]', avatarSize: 'w-32 h-32', badgeSize: 'text-xl', accentColor: '#CD7F32' }  // Bronze - shortest
+    };
+
+    const style = podiumStyles[rank] || podiumStyles[1];
+
     return (
         <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="group relative p-8 rounded-[40px] bg-white/10 dark:bg-gray-900/60 backdrop-blur-2xl border border-white/20 dark:border-gray-800/80 shadow-2xl overflow-hidden"
+            transition={{ duration: 0.6, delay: rank === 1 ? 0.2 : rank === 2 ? 0 : 0.4 }}
+            className={`group relative p-8 rounded-3xl bg-[#121826] border border-gray-700/50 hover:border-gray-600 shadow-xl overflow-hidden ${style.height} flex flex-col`}
         >
-            {/* Animated Gradient Background */}
-            <div className="absolute -inset-[100%] bg-[conic-gradient(from_0deg,transparent_0deg,transparent_150deg,#06b6d4_180deg,transparent_210deg,transparent_360deg)] animate-spin-slow opacity-10 group-hover:opacity-30 transition-opacity duration-700" />
+            {/* Removed animated gradient background for corporate stability */}
+
+            {/* Rank indicator at top */}
+            <div className="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center font-bold text-white shadow-lg" style={{ backgroundColor: style.accentColor }}>
+                #{rank}
+            </div>
 
             {/* Card Content */}
-            <div className="relative flex flex-col items-center text-center z-10">
-                {/* Avatar with Animated Gradient Border */}
-                <div className="relative w-32 h-32 mb-6">
-                    <div className="absolute inset-[-4px] bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 rounded-full animate-spin-slow blur-sm opacity-70 group-hover:blur-md transition-all duration-500" />
-                    <div className="absolute inset-0 bg-gray-900 rounded-full z-0" />
+            <div className="relative flex flex-col items-center text-center z-10 flex-1 justify-center">
+                {/* Avatar with solid border */}
+                <div className={`relative ${style.avatarSize} mb-6`}>
+                    <div className="absolute inset-[-4px] rounded-full shadow-lg" style={{ backgroundColor: style.accentColor }}></div>
+                    <div className="absolute inset-0 bg-[#0B0F1A] rounded-full z-0" />
                     <img
                         src={`https://github.com/${contributor}.png`}
                         alt={contributor}
-                        className="w-full h-full rounded-full object-cover z-10 relative border-2 border-white/10"
+                        className="w-full h-full rounded-full object-cover z-10 relative border-2 border-gray-700"
                     />
                     {/* Badge */}
-                    <div className="absolute -bottom-2 -right-2 bg-gradient-to-r from-yellow-400 to-orange-500 p-2 rounded-xl shadow-lg border border-white/20 z-20">
-                        <span className="text-xl">{badge.split(' ')[0]}</span>
+                    <div className="absolute -bottom-2 -right-2 p-2 rounded-xl shadow-lg border border-gray-700 z-20" style={{ backgroundColor: style.accentColor }}>
+                        <span className={style.badgeSize}>{badge.split(' ')[0]}</span>
                     </div>
                 </div>
 
                 {/* Roles & Info */}
                 <div className="mb-4">
-                    <span className="px-4 py-1.5 rounded-full bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 text-xs font-bold uppercase tracking-widest mb-3 block">
+                    <span className="px-4 py-1.5 rounded-full border text-xs font-bold uppercase tracking-widest mb-3 block" style={{ backgroundColor: `${style.accentColor}20`, borderColor: `${style.accentColor}50`, color: style.accentColor }}>
                         {role}
                     </span>
-                    <h3 className="text-2xl font-black text-white mb-1 tracking-tight">
+                    <h3 className="text-2xl font-bold text-white mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>
                         {contributor}
                     </h3>
-                    <p className="text-cyan-400/80 text-sm font-medium">@{contributor}</p>
+                    <p className="text-gray-400 text-sm font-medium" style={{ fontFamily: 'Inter, sans-serif' }}>@{contributor}</p>
                 </div>
 
-                <p className="text-gray-400 text-sm leading-relaxed mb-8 max-w-[250px]">
+                <p className="text-gray-400 text-sm leading-relaxed mb-8 max-w-[250px]" style={{ fontFamily: 'Inter, sans-serif' }}>
                     {description}
                 </p>
 
@@ -52,15 +65,14 @@ const FeaturedContributor = ({ contributor, role, description, badge }) => {
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="px-8 py-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-sm font-bold shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300"
+                    className="px-8 py-3 rounded-2xl bg-[#2563EB] hover:bg-[#1d4ed8] text-white text-sm font-bold shadow-lg transition-all duration-300"
+                    style={{ fontFamily: 'Inter, sans-serif' }}
                 >
                     View Profile
                 </motion.a>
             </div>
 
-            {/* Decorative Orbs */}
-            <div className="absolute -top-20 -right-20 w-40 h-40 bg-cyan-500/10 rounded-full blur-[60px]" />
-            <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-blue-600/10 rounded-full blur-[60px]" />
+            {/* Removed decorative orbs for corporate stability */}
         </motion.div>
     );
 };

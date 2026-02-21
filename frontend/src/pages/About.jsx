@@ -23,51 +23,45 @@ function About() {
       icon: <FaShieldAlt className="w-8 h-8" />,
       title: 'QUALITY ASSURANCE',
       text: 'Every product undergoes rigorous quality checks to ensure durability, comfort, and exceptional craftsmanship that meets our high standards.',
-      color: 'from-violet-500 via-purple-500 to-fuchsia-500',
-      glow: 'hover:shadow-violet-500/30'
+      color: '#7C5CFF'
     },
     {
       icon: <FaRocket className="w-8 h-8" />,
       title: 'SEAMLESS EXPERIENCE',
       text: 'Enjoy intuitive navigation, fast loading times, and a streamlined checkout process designed for maximum convenience and satisfaction.',
-      color: 'from-cyan-400 via-blue-500 to-indigo-600',
-      glow: 'hover:shadow-cyan-500/30'
+      color: '#4F8CFF'
     },
     {
       icon: <FaUsers className="w-8 h-8" />,
       title: 'EXCEPTIONAL SERVICE',
       text: 'Our dedicated support team provides personalized assistance, ensuring your shopping experience is nothing short of exceptional.',
-      color: 'from-amber-400 via-orange-500 to-red-500',
-      glow: 'hover:shadow-amber-500/30'
+      color: '#2563EB'
     },
     {
       icon: <FaAward className="w-8 h-8" />,
       title: 'PREMIUM SELECTION',
       text: 'Curated collections featuring the latest trends and timeless classics, carefully selected to elevate your style and confidence.',
-      color: 'from-emerald-400 via-teal-500 to-cyan-500',
-      glow: 'hover:shadow-emerald-500/30'
+      color: '#4F8CFF'
     },
     {
       icon: <FaHeart className="w-8 h-8" />,
       title: 'CUSTOMER FOCUSED',
       text: 'Your satisfaction is our priority. We continuously evolve based on your feedback to deliver what you truly want and need.',
-      color: 'from-pink-400 via-rose-500 to-red-500',
-      glow: 'hover:shadow-pink-500/30'
+      color: '#EF4444'
     },
     {
       icon: <FaLightbulb className="w-8 h-8" />,
       title: 'INNOVATION DRIVEN',
       text: 'Leveraging cutting-edge technology to create immersive shopping experiences that anticipate and exceed your expectations.',
-      color: 'from-yellow-400 via-amber-500 to-orange-500',
-      glow: 'hover:shadow-yellow-500/30'
+      color: '#7C5CFF'
     }
   ];
 
   const stats = [
-    { number: '50K+', label: 'Happy Customers', icon: '😊', color: 'from-pink-500 to-rose-500' },
-    { number: '10K+', label: 'Products Available', icon: '🛍️', color: 'from-cyan-500 to-blue-500' },
-    { number: '98%', label: 'Satisfaction Rate', icon: '⭐', color: 'from-amber-500 to-yellow-500' },
-    { number: '24/7', label: 'Customer Support', icon: '🛡️', color: 'from-emerald-500 to-teal-500' }
+    { number: '50K+', label: 'Happy Customers', color: '#EF4444' },
+    { number: '10K+', label: 'Products Available', color: '#4F8CFF' },
+    { number: '98%', label: 'Satisfaction Rate', color: '#2563EB' },
+    { number: '24/7', label: 'Customer Support', color: '#7C5CFF' }
   ];
 
   // Mouse move handler for parallax effect
@@ -200,29 +194,8 @@ function About() {
 
   return (
     <>
-    <div className="w-full min-h-screen bg-gradient-to-br from-gray-950 via-[#0a0f1a] to-[#071525] pt-24 pb-20 overflow-x-hidden">
-      {/* Animated Background Elements */}
-      <div className="fixed inset-0 overflow-hidden z-0 pointer-events-none">
-        <div
-          className="floating-orb absolute -top-24 -right-24 w-[500px] h-[500px] bg-gradient-to-br from-violet-600/10 via-purple-500/5 to-transparent rounded-full blur-3xl"
-          style={{ transform: `translate(${mousePosition.x}px, ${mousePosition.y}px)` }}
-        ></div>
-        <div
-          className="floating-orb absolute -bottom-32 -left-32 w-[400px] h-[400px] bg-gradient-to-tr from-cyan-500/10 via-blue-500/5 to-transparent rounded-full blur-3xl"
-          style={{ transform: `translate(${-mousePosition.x}px, ${-mousePosition.y}px)` }}
-        ></div>
-        <div
-          className="floating-orb absolute top-1/3 left-1/3 w-[300px] h-[300px] bg-gradient-to-r from-emerald-500/8 via-teal-500/5 to-transparent rounded-full blur-3xl"
-          style={{ transform: `translate(${mousePosition.x * 0.5}px, ${mousePosition.y * 0.5}px)` }}
-        ></div>
-        <div
-          className="floating-orb absolute bottom-1/4 right-1/4 w-[250px] h-[250px] bg-gradient-to-l from-pink-500/8 via-rose-500/5 to-transparent rounded-full blur-3xl"
-          style={{ transform: `translate(${-mousePosition.x * 0.3}px, ${-mousePosition.y * 0.3}px)` }}
-        ></div>
-
-        {/* Grid pattern overlay */}
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%236366f1%22%20fill-opacity%3D%220.03%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')] opacity-50"></div>
-      </div>
+    <div className="w-full min-h-screen bg-[#0B0F1A] pt-24 pb-20 overflow-x-hidden">
+      {/* Removed animated background elements for corporate stability */}
 
       {/* Header Section */}
       <div ref={heroRef} className="relative z-10 text-center mb-16 px-4">
@@ -290,14 +263,11 @@ function About() {
               key={index}
               className="group relative cursor-pointer"
             >
-              <div className={`absolute -inset-0.5 bg-gradient-to-r ${stat.color} rounded-2xl blur opacity-0 group-hover:opacity-40 transition-all duration-500`}></div>
-              <div className="relative text-center p-6 bg-gray-900/80 backdrop-blur-xl rounded-2xl border border-white/10 group-hover:border-white/20 transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-2xl overflow-hidden">
-                <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-5 transition-all duration-500`}></div>
-                <div className={`text-4xl lg:text-5xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300`}>
+              <div className="relative text-center p-6 bg-[#121826] rounded-2xl border border-gray-700/50 hover:border-gray-600 transition-all duration-300 hover:shadow-xl overflow-hidden">
+                <div className="text-4xl lg:text-5xl font-bold mb-2 transition-transform duration-300" style={{ color: stat.color, fontFamily: 'Poppins, sans-serif' }}>
                   {stat.number}
                 </div>
-                <div className="text-gray-300 text-sm font-medium">{stat.label}</div>
-                <div className="text-3xl mt-3 group-hover:scale-125 group-hover:rotate-12 transition-all duration-300">{stat.icon}</div>
+                <div className="text-gray-300 text-sm font-medium" style={{ fontFamily: 'Inter, sans-serif' }}>{stat.label}</div>
               </div>
             </div>
           ))}
@@ -317,36 +287,24 @@ function About() {
               <div
                 key={index}
                 ref={el => cardsRef.current[index] = el}
-                className={`group relative cursor-pointer perspective-1000`}
+                className="group relative cursor-pointer"
               >
-                <div className={`absolute -inset-0.5 bg-gradient-to-r ${feature.color} rounded-2xl blur opacity-0 group-hover:opacity-40 transition-all duration-700`}></div>
-                <div className={`relative bg-gray-900/80 backdrop-blur-xl p-8 rounded-2xl border border-white/10 group-hover:border-white/20 transition-all duration-700 group-hover:-translate-y-3 group-hover:shadow-2xl ${feature.glow} overflow-hidden h-full`}>
-                  {/* Animated gradient border */}
-                  <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${feature.color} transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500`}></div>
+                <div className="relative bg-[#121826] p-8 rounded-2xl border border-gray-700/50 hover:border-gray-600 transition-all duration-300 hover:shadow-xl overflow-hidden h-full">
+                  {/* Top accent border */}
+                  <div className="absolute top-0 left-0 w-full h-1" style={{ backgroundColor: feature.color }}></div>
 
-                  {/* Glow effect on hover */}
-                  <div className={`absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br ${feature.color} rounded-full blur-3xl opacity-0 group-hover:opacity-20 transition-all duration-700`}></div>
-
-                  {/* Icon with animation */}
-                  <div className={`relative w-16 h-16 mb-6 rounded-xl bg-gradient-to-r ${feature.color} flex items-center justify-center text-white shadow-lg group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-xl transition-all duration-500`}>
+                  {/* Icon with solid color */}
+                  <div className="relative w-16 h-16 mb-6 rounded-xl flex items-center justify-center text-white shadow-lg transition-all duration-300" style={{ backgroundColor: feature.color }}>
                     {feature.icon}
-                    <div className="absolute inset-0 rounded-xl bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
 
                   {/* Content */}
-                  <h3 className="text-lg font-bold text-white mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-300 transition-all duration-300">
+                  <h3 className="text-lg font-bold text-white mb-3" style={{ fontFamily: 'Inter, sans-serif' }}>
                     {feature.title}
                   </h3>
-                  <p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+                  <p className="text-gray-400 text-sm leading-relaxed" style={{ fontFamily: 'Inter, sans-serif' }}>
                     {feature.text}
                   </p>
-
-                  {/* Arrow indicator */}
-                  <div className="absolute bottom-6 right-6 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transform translate-x-4 group-hover:translate-x-0 transition-all duration-500">
-                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
-                  </div>
                 </div>
               </div>
             ))}

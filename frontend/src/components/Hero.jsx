@@ -105,81 +105,58 @@ function Hero({ heroData, heroCount, setHeroCount }) {
 
   return (
     <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
-      {/* Animated Background Particles */}
-      <div ref={particlesRef} className="absolute inset-0 pointer-events-none">
-        {particles.map((particle) => (
+      {/* Layer 1: Background Image Slider */}
+      <div className="absolute inset-0 z-0">
+        {[heroData.image, heroData.image, heroData.image, heroData.image].map((img, index) => (
           <div
-            key={particle.id}
-            className={`absolute w-2 h-2 rounded-full animate-float opacity-40`}
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-1000 ${
+              index === heroCount ? 'opacity-100' : 'opacity-0'
+            }`}
             style={{
-              left: `${particle.left}%`,
-              top: `${particle.top}%`,
-              background: `linear-gradient(45deg, ${particle.color1}, ${particle.color2})`,
-              animationDelay: `${particle.delay}s`,
-              animationDuration: `${particle.duration}s`,
-              boxShadow: `0 0 ${particle.glow}px ${particle.color1}`,
+              backgroundImage: `url(${img})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              filter: 'brightness(0.6)',
             }}
           />
         ))}
       </div>
 
-      {/* Glowing Orbs */}
-      <div 
-        className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 animate-morph"
-        style={{
-          background: `radial-gradient(circle, ${currentTheme.accent === 'blue' ? '#3b82f6' : currentTheme.accent === 'purple' ? '#8b5cf6' : currentTheme.accent === 'orange' ? '#f59e0b' : '#10b981'}, transparent)`,
-          left: '10%',
-          top: '20%',
-          transform: `translate(${mousePosition.x * -30}px, ${mousePosition.y * -30}px)`,
-        }}
-      />
-      <div 
-        className="absolute w-80 h-80 rounded-full blur-3xl opacity-15 animate-morph"
-        style={{
-          background: `radial-gradient(circle, ${currentTheme.accent === 'blue' ? '#06b6d4' : currentTheme.accent === 'purple' ? '#ec4899' : currentTheme.accent === 'orange' ? '#ef4444' : '#06b6d4'}, transparent)`,
-          right: '10%',
-          bottom: '20%',
-          animationDelay: '-4s',
-          transform: `translate(${mousePosition.x * 40}px, ${mousePosition.y * 40}px)`,
-        }}
-      />
+      {/* Layer 2: Overlay Gradient */}
+      <div className="absolute inset-0 z-10 bg-gradient-to-b from-[#0B0F1A]/60 via-[#0B0F1A]/80 to-[#0B0F1A]/95" />
 
+      {/* Layer 3: Content Card */}
       <div 
         ref={containerRef} 
-        className="w-full md:w-[75%] lg:w-[55%] xl:w-[48%] relative glass-card rounded-3xl p-10 md:p-12 border border-white/20 shadow-2xl gradient-border"
+        className="relative z-20 w-full"
       >
-        {/* Shimmer overlay */}
-        <div className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none">
-          <div className="absolute inset-0 animate-shimmer opacity-30" />
+        {/* Full-width semi-transparent white background rectangle */}
+        <div className="bg-white/30 backdrop-blur-sm w-full px-8 py-10 md:px-12 md:py-16 shadow-2xl">
+          {/* Hero Text */}
+          <div className="space-y-5 md:space-y-7 text-center relative z-10 max-w-4xl mx-auto">
+            <p 
+              ref={text1Ref} 
+              className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-900"
+              style={{ fontFamily: 'Poppins, sans-serif' }}
+            >
+              {heroData.text1}
+            </p>
+            <p 
+              ref={text2Ref} 
+              className="text-lg md:text-xl lg:text-2xl font-medium text-gray-800 tracking-wide"
+              style={{ fontFamily: 'Inter, sans-serif' }}
+            >
+              {heroData.text2}
+            </p>
+          </div>
         </div>
-
-        {/* Hero Text */}
-        <div className="space-y-5 md:space-y-7 text-center relative z-10">
-          <p 
-            ref={text1Ref} 
-            className={`text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-tight bg-clip-text text-transparent`}
-            style={{
-              backgroundImage: currentTheme.primary.includes('blue')
-                ? 'linear-gradient(135deg, #3b82f6, #06b6d4, #8b5cf6)'
-                : currentTheme.primary.includes('purple')
-                ? 'linear-gradient(135deg, #8b5cf6, #ec4899, #f43f5e)'
-                : currentTheme.primary.includes('amber')
-                ? 'linear-gradient(135deg, #f59e0b, #ef4444, #ec4899)'
-                : 'linear-gradient(135deg, #10b981, #06b6d4, #3b82f6)',
-                backgroundSize: '200% 200%',
-                animation: 'gradient-shift 4s ease infinite',
-            }}
-          >
-            {heroData.text1}
-          </p>
-          <p ref={text2Ref} className="text-lg md:text-xl lg:text-2xl font-medium text-gray-200/90 tracking-wide">
-            {heroData.text2}
-          </p>
-          
-          {/* CTA Button */}
-          <div ref={ctaRef} className="pt-5">
-            <button className={`cta-button px-10 py-4 text-white font-bold rounded-full shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-110 relative overflow-hidden group`}>
-              <span className="relative z-10 flex items-center gap-2">
+        
+        {/* CTA Button - Outside the white background */}
+        <div className="text-center">
+          <div ref={ctaRef} className="pt-8 inline-block">
+            <button className="bg-[#2563EB] hover:bg-[#1d4ed8] px-10 py-4 text-white font-bold rounded-full shadow-lg transition-all duration-300 group" style={{ fontFamily: 'Inter, sans-serif' }}>
+              <span className="flex items-center gap-2">
                 Shop Now
                 <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -188,44 +165,41 @@ function Hero({ heroData, heroCount, setHeroCount }) {
             </button>
           </div>
         </div>
+      </div>
 
-        {/* Navigation Arrows */}
-        <button 
-          onClick={prevSlide}
-          className="absolute left-3 md:left-5 top-1/2 transform -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md shadow-lg hover:bg-white/20 hover:scale-110 transition-all duration-400 group border border-white/20"
-        >
-          <FaChevronLeft className="text-white text-lg group-hover:text-cyan-400 transition-colors" />
-        </button>
-        
-        <button 
-          onClick={nextSlide}
-          className="absolute right-3 md:right-5 top-1/2 transform -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md shadow-lg hover:bg-white/20 hover:scale-110 transition-all duration-400 group border border-white/20"
-        >
-          <FaChevronRight className="text-white text-lg group-hover:text-cyan-400 transition-colors" />
-        </button>
+      {/* Navigation Arrows - Outside content card */}
+      <button 
+        onClick={prevSlide}
+        className="absolute left-6 top-1/2 transform -translate-y-1/2 z-30 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md shadow-lg hover:bg-white/20 transition-all duration-300 border border-white/20"
+      >
+        <FaChevronLeft className="text-white text-lg" />
+      </button>
+      
+      <button 
+        onClick={nextSlide}
+        className="absolute right-6 top-1/2 transform -translate-y-1/2 z-30 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md shadow-lg hover:bg-white/20 transition-all duration-300 border border-white/20"
+      >
+        <FaChevronRight className="text-white text-lg" />
+      </button>
 
-        {/* Dots Navigation */}
-        <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 flex items-center justify-center gap-4 bg-black/40 backdrop-blur-xl px-6 py-3 rounded-full shadow-xl border border-white/10">
-          {[0, 1, 2, 3].map((i) => (
-            <button
-              key={i}
-              onClick={() => setHeroCount(i)}
-              className="focus:outline-none transition-all duration-400 hover:scale-150 group"
-            >
-              <div
-                ref={el => dotsRef.current[i] = el}
-                className={`w-3 h-3 rounded-full transition-all duration-400 ${
-                  heroCount === i 
-                    ? `bg-gradient-to-r ${currentTheme.primary} shadow-lg scale-125` 
-                    : 'bg-white/40 hover:bg-white/60'
-                }`}
-                style={{
-                  boxShadow: heroCount === i ? `0 0 15px ${currentTheme.accent === 'blue' ? '#3b82f6' : currentTheme.accent === 'purple' ? '#8b5cf6' : currentTheme.accent === 'orange' ? '#f59e0b' : '#10b981'}` : 'none'
-                }}
-              />
-            </button>
-          ))}
-        </div>
+      {/* Pill Style Carousel Indicator - Outside content card */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30 flex items-center justify-center gap-2 bg-black/40 backdrop-blur-xl px-5 py-2.5 rounded-full shadow-lg">
+        {[0, 1, 2, 3].map((i) => (
+          <button
+            key={i}
+            onClick={() => setHeroCount(i)}
+            className="focus:outline-none transition-all duration-300"
+          >
+            <div
+              ref={el => dotsRef.current[i] = el}
+              className={`transition-all duration-300 rounded-full ${
+                heroCount === i 
+                  ? 'w-7 h-2.5 bg-[#2563EB]' 
+                  : 'w-2 h-2 bg-white/50 hover:bg-white/70'
+              }`}
+            />
+          </button>
+        ))}
       </div>
     </div>
   );

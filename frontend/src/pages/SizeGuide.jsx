@@ -306,7 +306,7 @@ const SizeGuide = () => {
             <FaRulerHorizontal className="text-cyan-400 text-sm" />
             <span className="text-cyan-300 text-sm font-medium">Find Your Perfect Fit</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-4">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4" style={{ fontFamily: 'Poppins, sans-serif' }}>
             Size Guide
           </h1>
           <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
@@ -327,8 +327,8 @@ const SizeGuide = () => {
               onClick={() => setActiveCategory(cat.key)}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 border ${
                 activeCategory === cat.key
-                  ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white border-transparent shadow-lg shadow-cyan-500/20"
-                  : "bg-gray-800/50 text-gray-400 border-gray-700/50 hover:text-white hover:border-cyan-500/40"
+                  ? "bg-blue-600 text-white border-transparent shadow-lg"
+                  : "bg-gray-800/50 text-gray-400 border-gray-700/50 hover:text-white hover:border-blue-500/40"
               }`}
             >
               {cat.icon}

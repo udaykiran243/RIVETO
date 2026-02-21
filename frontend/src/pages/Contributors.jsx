@@ -60,12 +60,8 @@ const Contributors = () => {
     }
 
     return (
-        <div className="bg-[#000000] min-h-screen overflow-x-hidden pt-20">
-            {/* Background Orbs */}
-            <div className="fixed inset-0 pointer-events-none z-0">
-                <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-cyan-500/10 rounded-full blur-[120px] animate-pulse" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-600/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
-            </div>
+        <div className="bg-[#0B0F1A] min-h-screen overflow-x-hidden pt-20">
+            {/* Removed background orbs for corporate stability */}
 
             <div className="relative z-10">
                 {/* Hero Section */}
@@ -75,10 +71,10 @@ const Contributors = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                     >
-                        <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-400 to-blue-600">
+                        <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white" style={{ fontFamily: 'Poppins, sans-serif' }}>
                             Our Amazing <br /> Contributors
                         </h1>
-                        <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-medium">
+                        <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-medium" style={{ fontFamily: 'Inter, sans-serif' }}>
                             The brilliant minds building RIVETO together. We celebrate every commit, every idea, and every contributor.
                         </p>
                     </motion.div>
@@ -108,8 +104,8 @@ const Contributors = () => {
                 {/* Featured Section */}
                 <section className="container mx-auto px-4 py-20">
                     <div className="flex flex-col items-center mb-16">
-                        <span className="text-cyan-400 text-sm font-black uppercase tracking-[0.3em] mb-4">The Hall of Fame</span>
-                        <h2 className="text-4xl font-black text-white text-center tracking-tight">Special Recognition</h2>
+                        <span className="text-[#4F8CFF] text-sm font-bold uppercase tracking-[0.3em] mb-4" style={{ fontFamily: 'Inter, sans-serif' }}>The Hall of Fame</span>
+                        <h2 className="text-4xl font-bold text-white text-center" style={{ fontFamily: 'Poppins, sans-serif' }}>Special Recognition</h2>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {featured.map((f, i) => (
@@ -119,6 +115,7 @@ const Contributors = () => {
                                 role={f.role}
                                 description={f.description}
                                 badge={f.badge}
+                                rank={i + 1}
                             />
                         ))}
                     </div>

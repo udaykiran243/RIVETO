@@ -17,57 +17,19 @@ function Card({ name, image, id, price, showQuickActions = true, badge, badgeCol
   const cardRef = useRef(null);
   const glowRef = useRef(null);
 
-  // 3D tilt effect on mouse move
+  // Removed 3D tilt effect for corporate stability
   const handleMouseMove = (e) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
-
-    setMousePosition({ x, y });
-
-    // Update glow position
-    if (glowRef.current) {
-      gsap.to(glowRef.current, {
-        left: `${x * 100}%`,
-        top: `${y * 100}%`,
-        duration: 0.3,
-        ease: 'power2.out'
-      });
-    }
-
-    // Apply 3D tilt
-    gsap.to(cardRef.current, {
-      rotateY: (x - 0.5) * 15,
-      rotateX: (0.5 - y) * 15,
-      transformPerspective: 1000,
-      duration: 0.4,
-      ease: 'power2.out'
-    });
+    // No transform changes - stability over motion
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
-    if (cardRef.current) {
-      gsap.to(cardRef.current, {
-        rotateY: 0,
-        rotateX: 0,
-        scale: 1,
-        duration: 0.5,
-        ease: 'power3.out'
-      });
-    }
+    // No transform changes - stability over motion
   };
 
   const handleMouseEnter = () => {
     setIsHovered(true);
-    if (cardRef.current) {
-      gsap.to(cardRef.current, {
-        scale: 1.02,
-        duration: 0.3,
-        ease: 'power2.out'
-      });
-    }
+    // No transform changes - stability over motion
   };
 
   const handleAddToCart = (e) => {
@@ -129,29 +91,15 @@ function Card({ name, image, id, price, showQuickActions = true, badge, badgeCol
   return (
     <div
       ref={cardRef}
-      className="relative bg-white dark:bg-gradient-to-br dark:from-gray-900/90 dark:to-gray-800/90 rounded-2xl overflow-hidden shadow-xl cursor-pointer group border border-gray-200 dark:border-gray-700/50 backdrop-blur-sm transition-colors duration-300"
+      className="relative bg-white dark:bg-[#121826] rounded-2xl overflow-hidden cursor-pointer group border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:shadow-2xl hover:border-[#2563EB]/50"
       onClick={() => navigate(`/productdetail/${id}`)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
-      style={{ transformStyle: 'preserve-3d' }}
     >
-      {/* Dynamic Glow Effect */}
-      <div
-        ref={glowRef}
-        className="absolute w-40 h-40 rounded-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        style={{
-          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent)',
-          transform: 'translate(-50%, -50%)',
-          filter: 'blur(40px)',
-          zIndex: 0,
-        }}
-      />
+      {/* Removed dynamic glow effect for commerce stability */}
 
-      {/* Animated Border Gradient */}
-      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-        <div className="absolute inset-0 rounded-2xl gradient-border" />
-      </div>
+      {/* Animated Border Gradient - Removed for commerce stability */}
 
       {/* Image Container */}
       <div className="relative overflow-hidden">
@@ -170,39 +118,43 @@ function Card({ name, image, id, price, showQuickActions = true, badge, badgeCol
             setImageError(true);
             e.target.src = '/fallback.jpg';
           }}
-          className={`w-full h-64 object-cover transition-all duration-700 group-hover:scale-115 ${imageLoaded ? 'opacity-100' : 'opacity-0'
+          className={`w-full h-64 object-cover transition-all duration-500 group-hover:scale-110 ${imageLoaded ? 'opacity-100' : 'opacity-0'
             }`}
-          style={{
-            transform: isHovered ? `scale(1.1) translate(${(mousePosition.x - 0.5) * -10}px, ${(mousePosition.y - 0.5) * -10}px)` : 'scale(1)',
-            transition: 'transform 0.5s ease-out',
-          }}
         />
 
         {/* Overlay Gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-500" />
 
-        {/* Shimmer Effect on Hover */}
-        <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500`}>
-          <div className="absolute inset-0 animate-shimmer" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)' }} />
+        {/* Quick View Overlay */}
+        <div className={`absolute inset-0 bg-black/60 flex items-center justify-center transition-opacity duration-300 ${
+          isHovered ? 'opacity-100' : 'opacity-0'
+        }`}>
+          <button
+            onClick={handleQuickView}
+            className="px-6 py-3 bg-white text-gray-900 rounded-full font-semibold text-sm hover:bg-gray-100 transition-all duration-300 shadow-xl"
+            style={{ fontFamily: 'Inter, sans-serif' }}
+          >
+            Quick View
+          </button>
         </div>
 
         {/* Quick Actions */}
         {showQuickActions && (
-          <div className={`absolute top-4 right-4 flex flex-col gap-3 transition-all duration-500 ${isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-6'
+          <div className={`absolute top-4 right-4 flex flex-col gap-3 transition-all duration-300 ${isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-6'
             }`}>
             <button
               onClick={handleAddToWishlist}
-              className="w-11 h-11 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-rose-500/40 transition-all duration-300 hover:scale-110 group/wishlist border border-white/20 hover:border-rose-400/50"
+              className="w-11 h-11 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center hover:bg-rose-50 dark:hover:bg-rose-900/30 transition-all duration-300 group/wishlist border border-gray-200 dark:border-gray-700 hover:border-rose-400 shadow-md"
               aria-label="Add to wishlist"
             >
-              <FaHeart className="text-white text-sm group-hover/wishlist:text-rose-400 transition-colors" />
+              <FaHeart className="text-gray-700 dark:text-gray-300 text-sm group-hover/wishlist:text-rose-500 transition-colors" />
             </button>
             <button
               onClick={handleQuickView}
-              className="w-11 h-11 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-cyan-500/40 transition-all duration-300 hover:scale-110 group/view border border-white/20 hover:border-cyan-400/50"
+              className="w-11 h-11 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all duration-300 group/view border border-gray-200 dark:border-gray-700 hover:border-blue-400 shadow-md"
               aria-label="Quick view"
             >
-              <FaEye className="text-white text-sm group-hover/view:text-cyan-400 transition-colors" />
+              <FaEye className="text-gray-700 dark:text-gray-300 text-sm group-hover/view:text-blue-600 transition-colors" />
             </button>
 
             {onCompare && (
@@ -226,15 +178,17 @@ function Card({ name, image, id, price, showQuickActions = true, badge, badgeCol
 
         {/* Discount Badge */}
         <div className="absolute top-4 left-4">
-          <span className="px-3 py-1.5 bg-gradient-to-r from-rose-500 to-pink-500 text-white text-xs font-bold rounded-full shadow-lg backdrop-blur-sm animate-pulse-glow">
+          <span className="px-3 py-1.5 bg-[#EF4444] text-white text-xs font-bold rounded-full shadow-lg">
             -{discountPercent}%
           </span>
         </div>
 
         {/* Custom Badge */}
         {badge && (
-          <div className={`absolute top-14 left-4 px-3 py-1.5 bg-gradient-to-r ${badgeColor} text-white text-xs font-bold rounded-full shadow-lg backdrop-blur-sm`}>
-            {badge}
+          <div className="absolute top-14 left-4">
+            <span className="px-3 py-1.5 bg-[#2563EB] text-white text-xs font-bold rounded-full shadow-lg">
+              {badge}
+            </span>
           </div>
         )}
         {/* Stock Indicator */}
@@ -267,16 +221,16 @@ function Card({ name, image, id, price, showQuickActions = true, badge, badgeCol
         </div>
 
         {/* Product Name */}
-        <h3 className="font-semibold text-gray-900 dark:text-white text-lg mb-2 line-clamp-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-blue-500 transition-all duration-500 min-h-[3.5rem]">
+        <h3 className="font-semibold text-gray-900 dark:text-white text-lg mb-2 line-clamp-2 transition-colors duration-300 min-h-[3.5rem]">
           {name}
         </h3>
 
         {/* Price */}
         <div className="flex items-center gap-3 mb-4">
-          <p className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 font-bold text-xl">
+          <p className="text-gray-900 dark:text-white font-bold text-xl">
             {currency}{price.toLocaleString()}
           </p>
-          <p className="text-gray-400 dark:text-gray-500 text-sm line-through">
+          <p className="text-gray-400 dark:text-gray-500 text-sm line-through font-light">
             {currency}{originalPrice}
           </p>
         </div>
@@ -285,10 +239,11 @@ function Card({ name, image, id, price, showQuickActions = true, badge, badgeCol
         <button
           onClick={handleAddToCart}
           disabled={isAddingToCart}
-          className={`w-full py-3.5 rounded-xl font-semibold transition-all duration-400 flex items-center justify-center gap-2 relative overflow-hidden ${isAddingToCart
-              ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white'
-              : 'cta-button text-white hover:shadow-xl hover:shadow-cyan-500/20'
+          className={`w-full py-3.5 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 ${isAddingToCart
+              ? 'bg-green-600 text-white hover:bg-green-700'
+              : 'bg-[#2563EB] text-white hover:bg-[#1d4ed8] hover:shadow-lg'
             }`}
+          style={{ fontFamily: 'Inter, sans-serif' }}
         >
           {isAddingToCart ? (
             <>
@@ -297,17 +252,17 @@ function Card({ name, image, id, price, showQuickActions = true, badge, badgeCol
             </>
           ) : (
             <>
-              <FaShoppingCart className="group-hover/button:rotate-12 transition-transform duration-300" />
-              <span className="relative z-10">Add to Cart</span>
+              <FaShoppingCart className="transition-transform duration-300" />
+              <span>Add to Cart</span>
             </>
           )}
         </button>
       </div>
 
       {/* Hover Effect Border Glow */}
-      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none"
+      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none"
         style={{
-          boxShadow: '0 0 30px rgba(59, 130, 246, 0.3), inset 0 0 20px rgba(59, 130, 246, 0.1)'
+          boxShadow: '0 0 0 2px rgba(37, 99, 235, 0.3)'
         }}
       />
     </div>

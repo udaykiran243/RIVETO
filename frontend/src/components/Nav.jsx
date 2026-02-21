@@ -7,7 +7,7 @@ import { IoMdHome } from "react-icons/io";
 import { HiOutlineCollection, HiOutlineUserGroup } from "react-icons/hi";
 import { RiContactsLine } from "react-icons/ri";
 import { BsMoon, BsSun, BsSearch } from "react-icons/bs";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { userDataContext } from '../context/UserContext';
 import { authDataContext } from '../context/AuthContext';
@@ -24,6 +24,7 @@ function Nav() {
   const [showProfile, setShowProfile] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const logoRef = useRef(null);
   const navRef = useRef(null);
@@ -92,27 +93,38 @@ function Nav() {
   };
 
   return (
-    <header className={`w-full fixed top-0 left-0 z-50 transition-all duration-300 ${isScrolled ? 'shadow-lg shadow-black/20 ' : 'shadow-md shadow-black/10'} backdrop-blur-md bg-white/60 dark:bg-gray-900/70 border-b border-white/20 dark:border-gray-800/40`}>
+    <header className={`w-full fixed top-0 left-0 z-50 transition-all duration-300 ${isScrolled ? 'shadow-lg bg-white/95 dark:bg-[#0B0F1A]/95 backdrop-blur-xl' : 'bg-white/80 dark:bg-[#0B0F1A]/80 backdrop-blur-md'} border-b border-gray-200/50 dark:border-gray-800/50`}>
       <div className="max-w-[1440px] mx-auto px-3 md:px-6 flex justify-between items-center h-15">
         {/* Logo */}
         <div ref={logoRef} className="flex items-center gap-5 cursor-pointer" onClick={() => navigate('/')}>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
+          <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white" style={{ fontFamily: 'Poppins, sans-serif' }}>
             Riveto
           </h1>
         </div>
 
         {/* Desktop Navigation */}
         <nav ref={navRef} className="hidden md:flex gap-12 text-sm font-medium cursor-pointer">
-          {['Home', 'Collection', 'Contributors', 'About', 'Contact'].map((item) => (
-            <button
-              key={item}
-              onClick={() => navigate(`/${item.toLowerCase() === 'home' ? '' : item.toLowerCase()}`)}
-              className="relative text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors group cursor-pointer"
-            >
-              {item}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-600 transition-all duration-300 group-hover:w-full"></span>
-            </button>
-          ))}
+          {['Home', 'Collection', 'Contributors', 'About', 'Contact'].map((item) => {
+            const path = item.toLowerCase() === 'home' ? '/' : `/${item.toLowerCase()}`;
+            const isActive = location.pathname === path;
+            return (
+              <button
+                key={item}
+                onClick={() => navigate(path)}
+                className={`relative py-2 transition-colors cursor-pointer ${
+                  isActive 
+                    ? 'text-[#2563EB] font-semibold' 
+                    : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+                }`}
+                style={{ fontFamily: 'Inter, sans-serif' }}
+              >
+                {item}
+                <span className={`absolute -bottom-1 left-0 h-0.5 bg-[#2563EB] transition-all duration-300 ${
+                  isActive ? 'w-full' : 'w-0'
+                }`}></span>
+              </button>
+            );
+          })}
         </nav>
 
         {/* Icons Section */}
@@ -155,7 +167,7 @@ function Nav() {
             {!userData ? (
               <FaUserCircle className="w-6 h-6 text-gray-700 dark:text-gray-300" />
             ) : (
-              <div className="w-6 h-6 bg-gradient-to-r from-cyan-400 to-blue-600 text-white text-xs flex items-center justify-center rounded-full">
+              <div className="w-6 h-6 bg-blue-600 text-white text-xs flex items-center justify-center rounded-full font-semibold">
                 {userData.name.slice(0, 1).toUpperCase()}
               </div>
             )}
@@ -179,13 +191,13 @@ function Nav() {
 
       {/* Search Bar */}
       {showSearch && (
-        <div ref={searchRef} className="w-full px-4 py-3 bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 flex justify-center border-t border-gray-200 dark:border-gray-700">
+        <div ref={searchRef} className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 flex justify-center border-t border-gray-200 dark:border-gray-700">
           <div className="w-full md:w-[60%] relative">
             <BsSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400" />
             <input
               type="text"
               placeholder="Search products..."
-              className="w-full pl-11 pr-4 py-3 rounded-full bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 outline-none border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
+              className="w-full pl-11 pr-4 py-3 rounded-full bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 outline-none border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
               onChange={(e) => setSearch(e.target.value)}
               value={search}
               autoFocus
@@ -237,31 +249,46 @@ function Nav() {
       )}
 
       {/* Mobile Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 w-full md:hidden h-16 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 flex items-center justify-around z-40 shadow-lg">
+      <div className="fixed bottom-0 left-0 w-full md:hidden h-16 bg-white dark:bg-[#121826] border-t border-gray-200 dark:border-gray-800 flex items-center justify-around z-40 shadow-lg">
         {[
           { icon: IoMdHome, label: "Home", path: "/" },
           { icon: HiOutlineCollection, label: "Collection", path: "/collection" },
           { icon: HiOutlineUserGroup, label: "Contributors", path: "/contributors" },
           { icon: RiContactsLine, label: "Contact", path: "/contact" },
-        ].map((item, index) => (
-          <button
-            key={index}
-            onClick={() => navigate(item.path)}
-            className="flex flex-col items-center justify-center w-16 h-16 rounded-xl transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
-          >
-            <item.icon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-            <span className="text-xs mt-1 text-gray-600 dark:text-gray-400">{item.label}</span>
-          </button>
-        ))}
+        ].map((item, index) => {
+          const isActive = location.pathname === item.path;
+          return (
+            <button
+              key={index}
+              onClick={() => navigate(item.path)}
+              className={`flex flex-col items-center justify-center w-16 h-16 rounded-xl transition-all ${
+                isActive 
+                  ? 'bg-[#2563EB]/10' 
+                  : 'hover:bg-gray-100 dark:hover:bg-gray-800'
+              }`}
+            >
+              <item.icon className={`w-5 h-5 ${
+                isActive 
+                  ? 'text-[#2563EB]' 
+                  : 'text-gray-700 dark:text-gray-300'
+              }`} />
+              <span className={`text-xs mt-1 ${
+                isActive 
+                  ? 'text-[#2563EB] font-semibold' 
+                  : 'text-gray-600 dark:text-gray-400'
+              }`} style={{ fontFamily: 'Inter, sans-serif' }}>{item.label}</span>
+            </button>
+          );
+        })}
 
         <button
           className="relative flex flex-col items-center justify-center w-16 h-16 rounded-xl transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
           onClick={() => navigate("/cart")}
         >
           <MdOutlineShoppingCart className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-          <span className="text-xs mt-1 text-gray-600 dark:text-gray-400">Cart</span>
+          <span className="text-xs mt-1 text-gray-600 dark:text-gray-400" style={{ fontFamily: 'Inter, sans-serif' }}>Cart</span>
           {getCartCount() > 0 && (
-            <span className="absolute top-2 right-4 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
+            <span className="absolute top-2 right-4 bg-[#EF4444] text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
               {getCartCount()}
             </span>
           )}

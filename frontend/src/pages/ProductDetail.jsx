@@ -164,7 +164,7 @@ function ProductDetail() {
                   className={`w-16 h-16 object-cover rounded-lg cursor-pointer transition-all duration-300 gallery-image ${
                     selectedImage === img 
                       ? 'ring-2 ring-cyan-400 scale-110' 
-                      : 'opacity-70 hover:opacity-100 hover:scale-105'
+                      : 'opacity-70 hover:opacity-100'
                   }`}
                   onClick={() => {
                     setSelectedImage(img);
@@ -277,7 +277,7 @@ function ProductDetail() {
                   className="w-14 h-14 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-xl flex items-center justify-center transition-all duration-300 group"
                   title="Add to Wishlist"
                 >
-                  <FaHeart className="text-gray-400 group-hover:text-rose-400 group-hover:scale-110 transition-all" />
+                  <FaHeart className="text-gray-400 group-hover:text-rose-400 transition-all" />
                 </button>
                 
                 <button
@@ -285,7 +285,7 @@ function ProductDetail() {
                   className="w-14 h-14 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-xl flex items-center justify-center transition-all duration-300 group"
                   title="Share Product"
                 >
-                  <FaShare className="text-gray-400 group-hover:text-cyan-400 group-hover:scale-110 transition-all" />
+                  <FaShare className="text-gray-400 group-hover:text-blue-400 transition-all" />
                 </button>
               </div>
             </div>

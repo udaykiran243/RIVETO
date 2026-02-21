@@ -2,13 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { shopDataContext } from '../context/ShopContext';
 import RelatedProduct from '../components/RelatedProduct';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FaShoppingCart, FaHeart, FaShare, FaStar, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-
-gsap.registerPlugin(ScrollTrigger);
+import { FaShoppingCart, FaHeart, FaShare, FaStar, FaChevronLeft, FaChevronRight, FaCheck } from 'react-icons/fa';
 
 function ProductDetail() {
   const { productId } = useParams();
@@ -27,33 +23,6 @@ function ProductDetail() {
       setSelectedImage(found.image1);
     }
   }, [productId, product]);
-
-  useEffect(() => {
-    if (!productData) return;
-    
-    // Enhanced animations
-    gsap.fromTo(".fade-in", 
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: ".fade-in",
-          start: "top 85%",
-          toggleActions: "play none none none"
-        }
-      }
-    );
-
-    // Image gallery animation
-    gsap.fromTo(".gallery-image", 
-      { scale: 0.9, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 0.6, stagger: 0.1 }
-    );
-  }, [productData]);
 
   const handleAddToCart = () => {
     if (!size) {

@@ -38,6 +38,14 @@ function Hero({ heroData, heroCount, setHeroCount }) {
     });
   }, [mousePosition]);
 
+  // Initial CTA button animation - runs only once on mount
+  useEffect(() => {
+    gsap.fromTo(ctaRef.current, 
+      { opacity: 0, scale: 0.6, y: 30 }, 
+      { opacity: 1, scale: 1, y: 0, delay: 1, duration: 0.8, ease: 'elastic.out(1, 0.5)' }
+    );
+  }, []);
+
   useEffect(() => {
     // Animate entire container
     gsap.fromTo(containerRef.current, 
@@ -54,12 +62,6 @@ function Hero({ heroData, heroCount, setHeroCount }) {
     gsap.fromTo(text2Ref.current, 
       { opacity: 0, y: 40, filter: 'blur(8px)' }, 
       { opacity: 1, y: 0, filter: 'blur(0px)', delay: 0.4, duration: 0.9, ease: 'power3.out' }
-    );
-    
-    // Animate CTA button with bounce
-    gsap.fromTo(ctaRef.current, 
-      { opacity: 0, scale: 0.6, y: 30 }, 
-      { opacity: 1, scale: 1, y: 0, delay: 0.7, duration: 0.8, ease: 'elastic.out(1, 0.5)' }
     );
     
     // Animate dots with staggered effect
@@ -147,7 +149,7 @@ function Hero({ heroData, heroCount, setHeroCount }) {
         `
       }} />
 
-      {/* Layer 3: Content Container */}
+      {/* Layer 3: Content Container - Animated Text Only */}
       <div 
         ref={containerRef} 
         className="relative z-20 w-full max-w-4xl mx-auto px-6 md:px-10"
@@ -177,31 +179,33 @@ function Hero({ heroData, heroCount, setHeroCount }) {
               {heroData.text2}
             </p>
           </div>
-          
-          {/* CTA Button with Intent-Driven Micro Interaction */}
-          <div ref={ctaRef} className="pt-8">
-            <button 
-              className="relative bg-[#2563EB] hover:bg-[#1d4ed8] px-10 py-4 text-white font-bold rounded-full transition-all duration-300 group overflow-hidden"
-              style={{ 
-                fontFamily: 'Inter, sans-serif',
-                boxShadow: '0 0 0px rgba(79,140,255,0.4)'
-              }}
-            >
-              <span className="flex items-center gap-2 relative z-10">
-                {/* Shopping bag icon - slides in on hover */}
-                <BsHandbag className="w-5 h-5 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
-                Shop Now
-                <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </span>
-              {/* Light bloom effect on hover */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{
-                boxShadow: '0 0 24px rgba(79,140,255,0.25)'
-              }} />
-            </button>
-          </div>
         </div>
+      </div>
+
+      {/* Layer 4: Static CTA Button - Separate from animated content */}
+      <div className="relative z-30 text-center mt-8">
+        <button 
+          ref={ctaRef}
+          className="relative bg-[#2563EB] hover:bg-[#1d4ed8] px-10 py-4 text-white font-bold rounded-full group overflow-hidden"
+          style={{ 
+            fontFamily: 'Inter, sans-serif',
+            boxShadow: '0 0 0px rgba(79,140,255,0.4)',
+            transition: 'background-color 0.3s, box-shadow 0.3s'
+          }}
+        >
+          <span className="flex items-center gap-2 relative z-10">
+            {/* Shopping bag icon - slides in on hover */}
+            <BsHandbag className="w-5 h-5 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+            Shop Now
+            <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </span>
+          {/* Light bloom effect on hover */}
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{
+            boxShadow: '0 0 24px rgba(79,140,255,0.25)'
+          }} />
+        </button>
       </div>
 
       {/* Navigation Arrows - Outside content card */}

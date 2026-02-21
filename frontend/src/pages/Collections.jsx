@@ -341,70 +341,71 @@ function Collections() {
 
   return (
     <>
-      <div className='min-h-screen bg-gradient-to-br from-gray-900 via-[#0f172a] to-[#0c4a6e] pt-24 pb-20 overflow-x-hidden'>
-        {/* Main Content */}
-        <div className='max-w-7xl mx-auto px-4 lg:px-8 flex flex-col lg:flex-row gap-8'>
-          {/* Filter Sidebar - Desktop Only */}
-          <div
-            ref={filterRef}
-            className='hidden lg:block lg:w-80 bg-gray-800/50 backdrop-blur-md rounded-2xl border border-gray-700 p-6 sticky top-24 h-fit'
-          >
-            <div className='flex items-center justify-between mb-6'>
-              <h2 className='text-xl font-bold text-white flex items-center gap-2'>
-                <FaFilter className='text-cyan-400' />
-                Filters {activeFilters > 0 && `(${activeFilters})`}
-              </h2>
+      <div className='min-h-screen bg-gradient-to-br from-gray-900 via-[#0f172a] to-[#0c4a6e] pt-20 pb-20 overflow-x-hidden'>
+        {/* Main Content - Product First */}
+        <div className='max-w-7xl mx-auto px-4 lg:px-8'>
+          
+          {/* Editorial Header - No Box Container */}
+          <div className='mb-6' ref={filterRef}>
+            <h1 className='text-4xl md:text-5xl font-bold text-white mb-2' style={{ fontFamily: 'Poppins, sans-serif' }}>
+              Explore Our Collection
+            </h1>
+            <div className='flex items-center gap-2 text-gray-400 text-sm'>
+              <div className='h-[1px] w-16 bg-gray-600'></div>
+              <span>{filterProduct.length} Items</span>
             </div>
-
-            <FilterContent
-              activeFilters={activeFilters}
-              clearAllFilters={clearAllFilters}
-              priceRange={priceRange}
-              setPriceRange={setPriceRange}
-              categories={categories}
-              category={category}
-              toggleCategory={toggleCategory}
-              subCategories={subCategories}
-              subCategory={subCategory}
-              toggleSubCategory={toggleSubCategory}
-              ratings={ratings}
-              selectedRatings={selectedRatings}
-              toggleRating={toggleRating}
-            />
           </div>
 
-          {/* Products Section */}
-          <div className='flex-1' ref={contentRef}>
-            {/* Header */}
-            <div className='flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8 p-6 bg-gray-800/50 rounded-2xl backdrop-blur-md border border-gray-700'>
-              <h1 className='text-3xl font-extrabold text-white tracking-tight'>ALL <span className='text-cyan-400'>COLLECTIONS</span></h1>
-
-              <div className='flex items-center gap-4'>
-                {/* Mobile Filter Toggle */}
+          {/* Category Scroller - Primary Browsing Control */}
+          <div className='mb-8 overflow-x-auto scrollbar-hide'>
+            <div className='flex gap-3 pb-2'>
+              {categories.map((cat, i) => (
                 <button
-                  onClick={() => setShowFilter(!showFilter)}
-                  className='lg:hidden flex items-center gap-2 px-4 py-2 bg-gray-700 rounded-lg text-white'
+                  key={i}
+                  onClick={() => toggleCategory(cat)}
+                  className={`flex-shrink-0 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                    category.includes(cat)
+                      ? 'bg-[#2563EB] text-white shadow-lg shadow-blue-500/30'
+                      : 'bg-white/5 text-gray-300 hover:bg-white/10 border border-gray-700/50'
+                  }`}
+                  style={{ fontFamily: 'Inter, sans-serif' }}
                 >
-                  <FaFilter className='text-cyan-400' />
-                  Filters {activeFilters > 0 && `(${activeFilters})`}
+                  {cat}
                 </button>
-
-                {/* Sort Dropdown */}
-                <div className='relative flex-1 min-w-0 sm:min-w-[160px]'>
-                  <select
-                    value={sortType}
-                    onChange={(e) => setSortType(e.target.value)}
-                    className='w-full appearance-none bg-gray-700 text-white px-3 py-2 sm:px-4 rounded-lg pr-8 sm:pr-10 focus:outline-none focus:ring-2 focus:ring-cyan-500 border border-gray-600 text-sm'
-                  >
-                    <option value="relevant">Sort by: Relevant</option>
-                    <option value="low-high">Sort by: Price Low to High</option>
-                    <option value="high-low">Sort by: Price High to Low</option>
-                    <option value="rating">Sort by: Rating</option>
-                  </select>
-                  <RiArrowUpDownLine className='absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none text-sm' />
-                </div>
-              </div>
+              ))}
             </div>
+          </div>
+
+          {/* Filter & Sort Bar - Floating Style */}
+          <div className='flex items-center justify-between mb-6'>
+            <button
+              onClick={() => setShowFilter(!showFilter)}
+              className='flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-white/10 border border-gray-700/50 rounded-full text-white transition-all duration-300'
+              style={{ fontFamily: 'Inter, sans-serif' }}
+            >
+              <FaFilter className='text-cyan-400 text-sm' />
+              <span className='text-sm font-medium'>Filters</span>
+              {activeFilters > 0 && (
+                <span className='ml-1 px-2 py-0.5 bg-cyan-500 text-white text-xs rounded-full'>{activeFilters}</span>
+              )}
+            </button>
+
+            {/* Sort - Minimal Style */}
+            <div className='relative'>
+              <select
+                value={sortType}
+                onChange={(e) => setSortType(e.target.value)}
+                className='appearance-none bg-white/5 hover:bg-white/10 border border-gray-700/50 text-white px-4 py-2.5 rounded-full pr-10 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 text-sm font-medium transition-all'
+                style={{ fontFamily: 'Inter, sans-serif' }}
+              >
+                <option value="relevant">Relevant</option>
+                <option value="low-high">Price: Low to High</option>
+                <option value="high-low">Price: High to Low</option>
+                <option value="rating">Top Rated</option>
+              </select>
+              <RiArrowUpDownLine className='absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none text-sm' />
+            </div>
+          </div>
 
             {/* Loading State */}
             {isLoading ? (

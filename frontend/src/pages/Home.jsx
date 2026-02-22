@@ -184,7 +184,7 @@ function Home() {
       </div>
 
       {/* Hero Section */}
-      <div className='relative w-screen h-screen overflow-hidden'>
+      <div className='relative w-full h-screen overflow-hidden'>
         <Background heroCount={heroCount} />
         <Hero heroCount={heroCount} heroData={heroData[heroCount]} setHeroCount={setHeroCount} />
         

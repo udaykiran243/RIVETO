@@ -12,6 +12,30 @@ body {
   @apply bg-white dark:bg-[#0B0F1A] text-gray-900 dark:text-gray-100;
 }
 
+/* Custom Scrollbar Styling */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(59, 130, 246, 0.5) rgba(11, 15, 26, 0.3);
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(11, 15, 26, 0.3);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.5);
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.7);
+}
+
 /* Removed glow animations for corporate stability */
 
 /* Shimmer animation for cards */

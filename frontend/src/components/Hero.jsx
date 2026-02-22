@@ -154,10 +154,10 @@ function Hero({ heroData, heroCount, setHeroCount }) {
         {/* Animated Text Container */}
         <div 
           ref={containerRef} 
-          className="space-y-5 md:space-y-7 text-center relative"
+          className="space-y-5 md:space-y-7 text-center relative flex flex-col items-center"
         >
           {/* Title with localized backdrop */}
-          <div className="relative inline-block">
+          <div className="relative w-full max-w-3xl">
             <div className="absolute inset-0 bg-[#0B0F1A]/28 backdrop-blur-[10px] rounded-[14px] -m-3 md:-m-5 z-0" />
             <p 
               ref={text1Ref} 
@@ -169,7 +169,7 @@ function Hero({ heroData, heroCount, setHeroCount }) {
           </div>
 
           {/* Subtitle with localized backdrop */}
-          <div className="relative inline-block">
+          <div className="relative w-full max-w-2xl">
             <div className="absolute inset-0 bg-[#0B0F1A]/25 backdrop-blur-[8px] rounded-[12px] -m-3 md:-m-4 z-0" />
             <p 
               ref={text2Ref} 

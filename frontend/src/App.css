@@ -41,16 +41,10 @@ h3 {
   line-height: 1.4;
 }
 
-p, span {
-  font-size: var(--text-body);
-  line-height: 1.6;
-}
-
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .logo {

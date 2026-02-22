@@ -1,7 +1,7 @@
 import React, { useContext, useState, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { shopDataContext } from '../context/ShopContext';
-import { FaHeart, FaShoppingCart, FaStar, FaCheck } from 'react-icons/fa';
+import { FaHeart, FaShoppingCart, FaStar, FaCheck, FaExchangeAlt } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import gsap from 'gsap';
 
@@ -65,6 +65,43 @@ function Card({ name, image, id, price, showQuickActions = true, badge, badgeCol
       pauseOnHover: true,
       draggable: true,
     });
+  };
+
+  const handleCompare = (e) => {
+    e.stopPropagation();
+
+    if (onCompare) {
+      // Compare button animation
+      gsap.to(e.currentTarget, {
+        scale: 1.5,
+        duration: 0.2,
+        yoyo: true,
+        repeat: 1,
+        ease: 'back.out(2)'
+      });
+
+      onCompare();
+      
+      if (!isCompared) {
+        toast.success('Added to compare list!', {
+          position: "bottom-right",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      } else {
+        toast.info('Removed from compare list', {
+          position: "bottom-right",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+    }
   };
 
   const handleQuickView = (e) => {
@@ -152,6 +189,25 @@ function Card({ name, image, id, price, showQuickActions = true, badge, badgeCol
             aria-label="Add to wishlist"
           >
             <FaHeart className="text-gray-700 dark:text-gray-300 text-sm hover:text-rose-500 transition-colors" />
+          </button>
+        )}
+
+        {/* Compare Icon - Top Left on Hover */}
+        {showQuickActions && onCompare && (
+          <button
+            onClick={handleCompare}
+            className={`absolute top-4 left-4 w-11 h-11 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 border shadow-md ${
+              isCompared 
+                ? 'bg-[#2563EB] border-[#2563EB] hover:bg-[#1d4ed8]' 
+                : 'bg-white/90 dark:bg-gray-800/90 border-gray-200 dark:border-gray-700 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:border-blue-400'
+            } ${
+              isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
+            }`}
+            aria-label={isCompared ? "Remove from compare" : "Add to compare"}
+          >
+            <FaExchangeAlt className={`text-sm transition-colors ${
+              isCompared ? 'text-white' : 'text-gray-700 dark:text-gray-300 hover:text-blue-500'
+            }`} />
           </button>
         )}
 

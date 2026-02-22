@@ -10,6 +10,7 @@ import gsap from 'gsap';
 
 function LatestCollection() {
   const { product, compareList, toggleCompare } = useContext(shopDataContext);
+  const navigate = useNavigate();
   const [isVideoPlaying, setIsVideoPlaying] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const videoRef = useRef(null);

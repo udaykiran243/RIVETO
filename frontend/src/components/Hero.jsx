@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { FaCircle, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { BsHandbag } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 
 function Hero({ heroData, heroCount, setHeroCount }) {
+  const navigate = useNavigate();
   const text1Ref = useRef(null);
   const text2Ref = useRef(null);
   const dotsRef = useRef([]);
@@ -120,31 +122,31 @@ function Hero({ heroData, heroCount, setHeroCount }) {
               backgroundImage: `url(${img})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
-              filter: 'brightness(0.6)',
+              filter: 'brightness(0.85)',
             }}
           />
         ))}
       </div>
 
-      {/* Layer 2: Overlay Gradient */}
-      <div className="absolute inset-0 z-10 bg-gradient-to-b from-[#0B0F1A]/60 via-[#0B0F1A]/80 to-[#0B0F1A]/95" />
+      {/* Layer 2: Overlay Gradient - Reduced for better visibility */}
+      <div className="absolute inset-0 z-10 bg-gradient-to-b from-[#0B0F1A]/30 via-[#0B0F1A]/40 to-[#0B0F1A]/50" />
 
-      {/* Layer 2.5: Directional Edge Vignette - Guides Focus from Edges */}
+      {/* Layer 2.5: Directional Edge Vignette - Reduced for better visibility */}
       <div className="absolute inset-0 z-10 pointer-events-none" style={{
         background: `
           linear-gradient(to right,
-            rgba(11,15,26,0.75) 0%,
-            rgba(11,15,26,0.35) 12%,
+            rgba(11,15,26,0.35) 0%,
+            rgba(11,15,26,0.15) 12%,
             rgba(11,15,26,0) 30%,
             rgba(11,15,26,0) 70%,
-            rgba(11,15,26,0.35) 88%,
-            rgba(11,15,26,0.75) 100%
+            rgba(11,15,26,0.15) 88%,
+            rgba(11,15,26,0.35) 100%
           ),
           linear-gradient(to bottom,
-            rgba(11,15,26,0.65) 0%,
+            rgba(11,15,26,0.30) 0%,
             rgba(11,15,26,0) 40%,
             rgba(11,15,26,0) 60%,
-            rgba(11,15,26,0.85) 100%
+            rgba(11,15,26,0.45) 100%
           )
         `
       }} />
@@ -158,7 +160,7 @@ function Hero({ heroData, heroCount, setHeroCount }) {
         >
           {/* Title with localized backdrop */}
           <div className="relative w-full max-w-3xl">
-            <div className="absolute inset-0 bg-[#0B0F1A]/28 backdrop-blur-[10px] rounded-[14px] -m-3 md:-m-5 z-0" />
+            <div className="absolute inset-0 bg-[#0B0F1A]/20 backdrop-blur-[8px] rounded-[14px] -m-3 md:-m-5 z-0" />
             <p 
               ref={text1Ref} 
               className="relative z-10 text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white px-4 py-2"
@@ -170,7 +172,7 @@ function Hero({ heroData, heroCount, setHeroCount }) {
 
           {/* Subtitle with localized backdrop */}
           <div className="relative w-full max-w-2xl">
-            <div className="absolute inset-0 bg-[#0B0F1A]/25 backdrop-blur-[8px] rounded-[12px] -m-3 md:-m-4 z-0" />
+            <div className="absolute inset-0 bg-[#0B0F1A]/18 backdrop-blur-[6px] rounded-[12px] -m-3 md:-m-4 z-0" />
             <p 
               ref={text2Ref} 
               className="relative z-10 text-lg md:text-xl lg:text-2xl font-medium text-gray-100 tracking-wide px-3 py-1.5"
@@ -185,6 +187,7 @@ function Hero({ heroData, heroCount, setHeroCount }) {
         <div className="text-center pt-8">
         <button 
           ref={ctaRef}
+          onClick={() => navigate('/collection')}
           className="relative bg-[#2563EB] hover:bg-[#1d4ed8] px-10 py-4 text-white font-bold rounded-full group overflow-hidden"
           style={{ 
             fontFamily: 'Inter, sans-serif',

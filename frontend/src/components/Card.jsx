@@ -81,26 +81,7 @@ function Card({ name, image, id, price, showQuickActions = true, badge, badgeCol
       });
 
       onCompare();
-      
-      if (!isCompared) {
-        toast.success('Added to compare list!', {
-          position: "bottom-right",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
-      } else {
-        toast.info('Removed from compare list', {
-          position: "bottom-right",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
-      }
+      // Toast notifications are handled in ShopContext to avoid duplicates
     }
   };
 
@@ -141,6 +122,15 @@ function Card({ name, image, id, price, showQuickActions = true, badge, badgeCol
 
       {/* Image Container with Interaction Zone */}
       <div className="relative overflow-hidden">
+        {/* Badge - e.g., BESTSELLER */}
+        {badge && (
+          <div className="absolute top-3 right-3 z-10">
+            <div className={`px-3 py-1.5 rounded-full bg-gradient-to-r ${badgeColor} text-white text-xs font-bold shadow-lg backdrop-blur-sm transform hover:scale-105 transition-transform duration-200`}>
+              {badge}
+            </div>
+          </div>
+        )}
+
         {/* Loading Skeleton */}
         {!imageLoaded && !imageError && (
           <div className={`w-full bg-gradient-to-br from-gray-800 to-gray-700 animate-pulse ${

@@ -122,8 +122,8 @@ const FilterContent = ({
               key={i}
               onClick={() => toggleCategory(cat)}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${category.includes(cat)
-                  ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
-                  : 'bg-white/5 text-gray-300 hover:bg-white/10 border border-gray-700/50'
+                ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
+                : 'bg-white/5 text-gray-300 hover:bg-white/10 border border-gray-700/50'
                 }`}
             >
               {cat}
@@ -141,8 +141,8 @@ const FilterContent = ({
               key={i}
               onClick={() => toggleSubCategory(sub)}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${subCategory.includes(sub)
-                  ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
-                  : 'bg-white/5 text-gray-300 hover:bg-white/10 border border-gray-700/50'
+                ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
+                : 'bg-white/5 text-gray-300 hover:bg-white/10 border border-gray-700/50'
                 }`}
             >
               {sub}
@@ -160,8 +160,8 @@ const FilterContent = ({
               key={i}
               onClick={() => toggleRating(rating)}
               className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-300 flex items-center gap-2 ${selectedRatings.includes(rating)
-                  ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/20'
-                  : 'bg-white/5 text-gray-300 hover:bg-white/10 border border-gray-700/50'
+                ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/20'
+                : 'bg-white/5 text-gray-300 hover:bg-white/10 border border-gray-700/50'
                 }`}
             >
               <div className='flex items-center gap-1'>
@@ -388,6 +388,21 @@ function Collections() {
                 Filters {activeFilters > 0 && `(${activeFilters})`}
               </h2>
             </div>
+            <FilterContent
+              activeFilters={activeFilters}
+              clearAllFilters={clearAllFilters}
+              priceRange={priceRange}
+              setPriceRange={setPriceRange}
+              categories={categories}
+              category={category}
+              toggleCategory={toggleCategory}
+              subCategories={subCategories}
+              subCategory={subCategory}
+              toggleSubCategory={toggleSubCategory}
+              ratings={ratings}
+              selectedRatings={selectedRatings}
+              toggleRating={toggleRating}
+            />
           </div>
 
           {/* Products Section */}
@@ -402,7 +417,8 @@ function Collections() {
                   onClick={() => setShowFilter(!showFilter)}
                   className='lg:hidden flex items-center gap-2 px-4 py-2 bg-slate-200 dark:bg-gray-700 rounded-lg text-slate-800 dark:text-white'
                 >
-                  {cat}
+                  <FaFilter className='text-sm' />
+                  Filters {activeFilters > 0 && `(${activeFilters})`}
                 </button>
 
                 {/* Sort Dropdown */}

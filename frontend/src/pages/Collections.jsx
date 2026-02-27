@@ -406,73 +406,37 @@ function Collections() {
           </div>
 
           {/* Products Section */}
-          <div className='flex-1' ref={contentRef}>
+          <div className='flex-1 min-w-0' ref={contentRef}>
             {/* Header */}
-            <div className='flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8 p-6 bg-white/90 dark:bg-gray-800/50 rounded-2xl backdrop-blur-md border border-slate-200 dark:border-gray-700'>
+            <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 p-5 bg-white/90 dark:bg-gray-800/50 rounded-2xl backdrop-blur-md border border-slate-200 dark:border-gray-700'>
               <h1 className='text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight'>ALL <span className='text-cyan-500 dark:text-cyan-400'>COLLECTIONS</span></h1>
-
-              <div className='flex items-center gap-4'>
+              <div className='flex items-center gap-3'>
                 {/* Mobile Filter Toggle */}
                 <button
                   onClick={() => setShowFilter(!showFilter)}
-                  className='lg:hidden flex items-center gap-2 px-4 py-2 bg-slate-200 dark:bg-gray-700 rounded-lg text-slate-800 dark:text-white'
+                  className='lg:hidden flex items-center gap-2 px-4 py-2 bg-slate-200 dark:bg-gray-700 rounded-lg text-slate-800 dark:text-white text-sm font-medium'
                 >
                   <FaFilter className='text-sm' />
                   Filters {activeFilters > 0 && `(${activeFilters})`}
                 </button>
-
                 {/* Sort Dropdown */}
-                <div className='relative flex-1 min-w-0 sm:min-w-[160px]'>
+                <div className='relative'>
                   <select
                     value={sortType}
                     onChange={(e) => setSortType(e.target.value)}
-                    className='w-full appearance-none bg-white dark:bg-gray-700 text-slate-900 dark:text-white px-3 py-2 sm:px-4 rounded-lg pr-8 sm:pr-10 focus:outline-none focus:ring-2 focus:ring-cyan-500 border border-slate-300 dark:border-gray-600 text-sm'
+                    className='appearance-none bg-white dark:bg-gray-700 text-slate-900 dark:text-white px-4 py-2 rounded-lg pr-9 focus:outline-none focus:ring-2 focus:ring-cyan-500 border border-slate-300 dark:border-gray-600 text-sm'
                   >
                     <option value="relevant">Sort by: Relevant</option>
-                    <option value="low-high">Sort by: Price Low to High</option>
-                    <option value="high-low">Sort by: Price High to Low</option>
-                    <option value="rating">Sort by: Rating</option>
+                    <option value="low-high">Price: Low to High</option>
+                    <option value="high-low">Price: High to Low</option>
+                    <option value="rating">Top Rated</option>
                   </select>
-                  <RiArrowUpDownLine className='absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 text-slate-500 dark:text-gray-400 pointer-events-none text-sm' />
+                  <RiArrowUpDownLine className='absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 dark:text-gray-400 pointer-events-none text-sm' />
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Filter & Sort Bar - Floating Style */}
-          <div className='flex items-center justify-between mb-6'>
-            <button
-              onClick={() => setShowFilter(!showFilter)}
-              className='flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-white/10 border border-gray-700/50 rounded-full text-white transition-all duration-300'
-              style={{ fontFamily: 'Inter, sans-serif' }}
-            >
-              <FaFilter className='text-cyan-400 text-sm' />
-              <span className='text-sm font-medium'>Filters</span>
-              {activeFilters > 0 && (
-                <span className='ml-1 px-2 py-0.5 bg-cyan-500 text-white text-xs rounded-full'>{activeFilters}</span>
-              )}
-            </button>
-
-            {/* Sort - Minimal Style */}
-            <div className='relative'>
-              <select
-                value={sortType}
-                onChange={(e) => setSortType(e.target.value)}
-                className='appearance-none bg-white/5 hover:bg-white/10 border border-gray-700/50 text-white px-4 py-2.5 rounded-full pr-10 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 text-sm font-medium transition-all'
-                style={{ fontFamily: 'Inter, sans-serif' }}
-              >
-                <option value="relevant" style={{ backgroundColor: '#1f2937', color: '#ffffff' }}>Relevant</option>
-                <option value="low-high" style={{ backgroundColor: '#1f2937', color: '#ffffff' }}>Price: Low to High</option>
-                <option value="high-low" style={{ backgroundColor: '#1f2937', color: '#ffffff' }}>Price: High to Low</option>
-                <option value="rating" style={{ backgroundColor: '#1f2937', color: '#ffffff' }}>Top Rated</option>
-              </select>
-              <RiArrowUpDownLine className='absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none text-sm' />
-            </div>
-          </div>
-
-          {/* Product Grid - Immediate Entry, No Delay */}
-          <div ref={contentRef}>
-            {/* Loading State */}
+            {/* Product Grid */}
             {isLoading ? (
               <div className="space-y-8">
                 <Loader />

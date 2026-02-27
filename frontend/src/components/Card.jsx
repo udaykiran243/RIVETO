@@ -108,9 +108,8 @@ function Card({ name, image, id, price, showQuickActions = true, badge, badgeCol
   return (
     <div
       ref={cardRef}
-      className={`relative bg-white dark:bg-[#121826] rounded-2xl overflow-hidden cursor-pointer group border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:shadow-2xl hover:border-[#2563EB]/50 ${
-        isFeatured ? 'sm:col-span-2 sm:row-span-1' : ''
-      }`}
+      className={`relative bg-white dark:bg-[#121826] rounded-2xl overflow-hidden cursor-pointer group border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:shadow-2xl hover:border-[#2563EB]/50 ${isFeatured ? 'sm:col-span-2 sm:row-span-1' : ''
+        }`}
       onClick={() => navigate(`/productdetail/${id}`)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -124,7 +123,7 @@ function Card({ name, image, id, price, showQuickActions = true, badge, badgeCol
       <div className="relative overflow-hidden">
         {/* Badge - e.g., BESTSELLER */}
         {badge && (
-          <div className="absolute top-3 right-3 z-10">
+          <div className="absolute top-3 left-3 z-10">
             <div className={`px-3 py-1.5 rounded-full bg-gradient-to-r ${badgeColor} text-white text-xs font-bold shadow-lg backdrop-blur-sm transform hover:scale-105 transition-transform duration-200`}>
               {badge}
             </div>
@@ -133,9 +132,8 @@ function Card({ name, image, id, price, showQuickActions = true, badge, badgeCol
 
         {/* Loading Skeleton */}
         {!imageLoaded && !imageError && (
-          <div className={`w-full bg-gradient-to-br from-gray-800 to-gray-700 animate-pulse ${
-            isFeatured ? 'h-80' : 'h-64'
-          }`}>
+          <div className={`w-full bg-gradient-to-br from-gray-800 to-gray-700 animate-pulse ${isFeatured ? 'h-80' : 'h-64'
+            }`}>
             <div className="absolute inset-0 animate-shimmer" />
           </div>
         )}
@@ -148,18 +146,16 @@ function Card({ name, image, id, price, showQuickActions = true, badge, badgeCol
             setImageError(true);
             e.target.src = '/fallback.jpg';
           }}
-          className={`w-full object-cover transition-all duration-500 group-hover:scale-104 ${
-            isFeatured ? 'h-80' : 'h-64'
-          } ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+          className={`w-full object-cover transition-all duration-500 group-hover:scale-104 ${isFeatured ? 'h-80' : 'h-64'
+            } ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
         />
 
         {/* Dark Overlay on Hover */}
         <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
         {/* Layer 1: Quick View CTA (Evaluation) */}
-        <div className={`absolute inset-0 flex items-center justify-center transition-all duration-300 ${
-          isHovered ? 'opacity-100' : 'opacity-0'
-        }`}>
+        <div className={`absolute inset-0 flex items-center justify-center transition-all duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'
+          }`}>
           <button
             onClick={handleQuickView}
             className="px-6 py-3 bg-white text-gray-900 rounded-full font-semibold text-sm hover:bg-gray-100 transition-all duration-300 shadow-xl transform hover:scale-105"
@@ -173,9 +169,8 @@ function Card({ name, image, id, price, showQuickActions = true, badge, badgeCol
         {showQuickActions && (
           <button
             onClick={handleAddToWishlist}
-            className={`absolute top-4 right-4 w-11 h-11 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-rose-50 dark:hover:bg-rose-900/30 transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:border-rose-400 shadow-md ${
-              isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
-            }`}
+            className={`absolute top-4 right-4 w-11 h-11 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-rose-50 dark:hover:bg-rose-900/30 transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:border-rose-400 shadow-md ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
+              }`}
             aria-label="Add to wishlist"
           >
             <FaHeart className="text-gray-700 dark:text-gray-300 text-sm hover:text-rose-500 transition-colors" />
@@ -186,18 +181,15 @@ function Card({ name, image, id, price, showQuickActions = true, badge, badgeCol
         {showQuickActions && onCompare && (
           <button
             onClick={handleCompare}
-            className={`absolute top-4 left-4 w-11 h-11 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 border shadow-md ${
-              isCompared 
-                ? 'bg-[#2563EB] border-[#2563EB] hover:bg-[#1d4ed8]' 
+            className={`absolute top-4 left-4 w-11 h-11 backdrop-blur-sm rounded-full flex items-center justify-center transition-all duration-300 border shadow-md ${isCompared
+                ? 'bg-[#2563EB] border-[#2563EB] hover:bg-[#1d4ed8]'
                 : 'bg-white/90 dark:bg-gray-800/90 border-gray-200 dark:border-gray-700 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:border-blue-400'
-            } ${
-              isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
-            }`}
+              } ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
+              }`}
             aria-label={isCompared ? "Remove from compare" : "Add to compare"}
           >
-            <FaExchangeAlt className={`text-sm transition-colors ${
-              isCompared ? 'text-white' : 'text-gray-700 dark:text-gray-300 hover:text-blue-500'
-            }`} />
+            <FaExchangeAlt className={`text-sm transition-colors ${isCompared ? 'text-white' : 'text-gray-700 dark:text-gray-300 hover:text-blue-500'
+              }`} />
           </button>
         )}
 
@@ -248,11 +240,10 @@ function Card({ name, image, id, price, showQuickActions = true, badge, badgeCol
         <button
           onClick={handleAddToCart}
           disabled={isAddingToCart}
-          className={`w-full py-2.5 rounded-lg font-medium transition-all duration-300 flex items-center justify-center gap-2 text-sm border ${
-            isAddingToCart
+          className={`w-full py-2.5 rounded-lg font-medium transition-all duration-300 flex items-center justify-center gap-2 text-sm border ${isAddingToCart
               ? 'bg-green-600 text-white border-green-600 hover:bg-green-700'
               : 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600 hover:border-[#2563EB] hover:text-[#2563EB] dark:hover:border-[#2563EB] dark:hover:text-[#2563EB]'
-          }`}
+            }`}
           style={{ fontFamily: 'Inter, sans-serif' }}
         >
           {isAddingToCart ? (

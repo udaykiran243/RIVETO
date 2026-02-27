@@ -33,7 +33,7 @@ function Cart() {
 
   const handleQuantityChange = (productId, size, newQuantity) => {
     if (newQuantity < 0) return;
-    
+
     if (newQuantity === 0) {
       if (window.confirm('Are you sure you want to remove this item from your cart?')) {
         UpdateQuantity(productId, size, 0);
@@ -88,8 +88,8 @@ function Cart() {
                 <div className="w-20 h-20 mx-auto mb-6 bg-[#111c33] border border-[#1f2a44] rounded-full flex items-center justify-center">
                   <FaShoppingBasket className="text-gray-500 text-3xl" />
                 </div>
-                <h3 className="text-white text-xl font-semibold mb-2">Your cart is empty</h3>
-                <p className="text-gray-400 mb-6">Looks like you haven't added anything to your cart yet</p>
+                <h3 className="text-slate-900 dark:text-white text-xl font-semibold mb-2">Your cart is empty</h3>
+                <p className="text-slate-600 dark:text-gray-400 mb-6">Looks like you haven't added anything to your cart yet</p>
                 <button
                   onClick={() => navigate('/collection')}
                   className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium"
@@ -108,7 +108,7 @@ function Cart() {
                         <div className="flex items-center justify-between">
                           <div>
                             <p className="text-red-400 font-medium">Product not available</p>
-                            <p className="text-red-300 text-sm">ID: {item._id}</p>
+                            <p className="text-red-500 dark:text-red-300 text-sm">ID: {item._id}</p>
                           </div>
                           <button
                             onClick={() => UpdateQuantity(item._id, item.size, 0)}
@@ -165,20 +165,20 @@ function Cart() {
                             <RiDeleteBin6Line className="w-5 h-5" />
                           </button>
 
-                          <div className="flex items-center gap-2 bg-[#111c33] border border-[#1f2a44] rounded-lg p-1">
+                          <div className="flex items-center gap-3 bg-slate-200 dark:bg-gray-700 rounded-xl p-2">
                             <button
                               onClick={() => handleQuantityChange(item._id, item.size, item.quantity - 1)}
-                              className="w-8 h-8 flex items-center justify-center hover:bg-[#1a2332] rounded transition-colors"
+                              className="w-8 h-8 flex items-center justify-center bg-slate-300 dark:bg-gray-600 hover:bg-slate-400 dark:hover:bg-gray-500 rounded-lg transition-colors"
                               aria-label="Decrease quantity"
                             >
                               <RiSubtractLine className="w-4 h-4 text-gray-400" />
                             </button>
 
-                            <span className="w-10 text-center font-semibold text-white">{item.quantity}</span>
+                            <span className="w-8 text-center font-bold text-slate-900 dark:text-white">{item.quantity}</span>
 
                             <button
                               onClick={() => handleQuantityChange(item._id, item.size, item.quantity + 1)}
-                              className="w-8 h-8 flex items-center justify-center hover:bg-[#1a2332] rounded transition-colors"
+                              className="w-8 h-8 flex items-center justify-center bg-slate-300 dark:bg-gray-600 hover:bg-slate-400 dark:hover:bg-gray-500 rounded-lg transition-colors"
                               aria-label="Increase quantity"
                             >
                               <RiAddLine className="w-4 h-4 text-gray-400" />
@@ -195,22 +195,20 @@ function Cart() {
 
           {/* Order Summary */}
           <div className="lg:col-span-1">
-            <div className="sticky top-24 space-y-5">
-              {/* Main Summary Panel */}
-              <div className="bg-[#0f172a] border border-[#1f2a44] rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-white mb-5 flex items-center gap-2">
-                  <RiShoppingBag3Line className="w-5 h-5 text-blue-400" />
+            <div className="sticky top-24 space-y-6">
+              <div className="bg-gradient-to-br from-white to-slate-100 dark:from-gray-800 dark:to-gray-900 rounded-2xl border border-slate-200 dark:border-gray-700 p-6">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+                  <RiShoppingBag3Line className="w-5 h-5 text-cyan-400" />
                   Order Summary
                 </h3>
-                
+
                 <CartTotal />
-                
+
                 <button
-                  className={`w-full mt-6 py-3.5 rounded-lg font-semibold transition-all duration-200 ${
-                    cartData.length > 0
+                  className={`w-full mt-6 py-3.5 rounded-lg font-semibold transition-all duration-200 ${cartData.length > 0
                       ? 'bg-blue-600 hover:bg-blue-700 text-white'
                       : 'bg-[#111c33] border border-[#1f2a44] text-gray-500 cursor-not-allowed'
-                  }`}
+                    }`}
                   onClick={() => {
                     if (cartData.length > 0) {
                       navigate("/placeorder");

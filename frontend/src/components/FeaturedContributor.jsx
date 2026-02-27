@@ -16,8 +16,8 @@ const FeaturedContributor = ({ contributor, role, description, badge, rank = 1 }
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: rank === 1 ? 0.2 : rank === 2 ? 0 : 0.4 }}
-            className={`group relative p-8 rounded-3xl bg-[#121826] border border-gray-700/50 hover:border-gray-600 shadow-xl overflow-hidden ${style.height} flex flex-col`}
+            transition={{ duration: 0.6 }}
+            className="group relative p-8 rounded-[40px] bg-white/90 dark:bg-gray-900/60 backdrop-blur-2xl border border-slate-200 dark:border-gray-800/80 shadow-2xl overflow-hidden"
         >
             {/* Removed animated gradient background for corporate stability */}
 
@@ -27,11 +27,11 @@ const FeaturedContributor = ({ contributor, role, description, badge, rank = 1 }
             </div>
 
             {/* Card Content */}
-            <div className="relative flex flex-col items-center text-center z-10 flex-1 justify-center">
-                {/* Avatar with solid border */}
-                <div className={`relative ${style.avatarSize} mb-6`}>
-                    <div className="absolute inset-[-4px] rounded-full shadow-lg" style={{ backgroundColor: style.accentColor }}></div>
-                    <div className="absolute inset-0 bg-[#0B0F1A] rounded-full z-0" />
+            <div className="relative flex flex-col items-center text-center z-10">
+                {/* Avatar with Animated Gradient Border */}
+                <div className="relative w-32 h-32 mb-6">
+                    <div className="absolute inset-[-4px] bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 rounded-full animate-spin-slow blur-sm opacity-70 group-hover:blur-md transition-all duration-500" />
+                    <div className="absolute inset-0 bg-slate-100 dark:bg-gray-900 rounded-full z-0" />
                     <img
                         src={`https://github.com/${contributor}.png`}
                         alt={contributor}
@@ -48,13 +48,13 @@ const FeaturedContributor = ({ contributor, role, description, badge, rank = 1 }
                     <span className="px-4 py-1.5 rounded-full border text-xs font-bold uppercase tracking-widest mb-3 block" style={{ backgroundColor: `${style.accentColor}20`, borderColor: `${style.accentColor}50`, color: style.accentColor }}>
                         {role}
                     </span>
-                    <h3 className="text-2xl font-bold text-white mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                    <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-1 tracking-tight">
                         {contributor}
                     </h3>
                     <p className="text-gray-400 text-sm font-medium" style={{ fontFamily: 'Inter, sans-serif' }}>@{contributor}</p>
                 </div>
 
-                <p className="text-gray-400 text-sm leading-relaxed mb-8 max-w-[250px]" style={{ fontFamily: 'Inter, sans-serif' }}>
+                <p className="text-slate-600 dark:text-gray-400 text-sm leading-relaxed mb-8 max-w-[250px]">
                     {description}
                 </p>
 

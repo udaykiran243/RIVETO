@@ -5,7 +5,7 @@ import Card from './Card';
 import Title from './Title';
 import mobvid from '../assets/4 Mobile.mp4';
 import { FaPlay, FaPause, FaExpand, FaCompress } from 'react-icons/fa';
-import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+
 import gsap from 'gsap';
 
 function LatestCollection() {
@@ -65,14 +65,7 @@ function LatestCollection() {
     }
   };
 
-  const handleAddToCart = () => {
-    if (!size) {
-      toast.warning('Please select a size before adding to cart.');
-      return;
-    }
-    addtoCart(productData._id, size);
-    toast.success(`${productData.name} added to cart!`);
-  };
+
 
   // Handle fullscreen change events
   useEffect(() => {
@@ -106,7 +99,7 @@ function LatestCollection() {
               Discover our handpicked selection of the latest and most sought-after mobile devices
             </p>
           </div>
-          <button 
+          <button
             onClick={() => navigate('/collection')}
             className="hidden md:flex items-center gap-2 text-[#2563EB] hover:text-[#1d4ed8] font-semibold transition-colors duration-300 group"
           >

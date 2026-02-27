@@ -107,12 +107,12 @@ function About() {
   return (
     <>
       <div className="w-full min-h-screen pt-24 pb-0">
-        
+
         {/* SECTION 1: Corporate Hero - bg-[#0b1220] */}
         <div className="bg-[#0b1220] relative">
           {/* Depth mask */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-transparent pointer-events-none"></div>
-          
+
           <div ref={heroRef} className="relative max-w-7xl mx-auto px-4 lg:px-8 py-16">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left: Headline and Trust */}
@@ -207,13 +207,13 @@ function About() {
             <h2 className="text-2xl font-semibold text-gray-200 mb-8 text-center" style={{ fontFamily: 'Poppins, sans-serif' }}>
               Platform Capabilities
             </h2>
-            
+
             {/* Contained Platform Zone */}
             <div ref={capabilitiesRef} className="bg-[#111c33] border border-[#1f2a44] rounded-2xl p-10">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {capabilities.map((capability, index) => (
-                  <div 
-                    key={index} 
+                  <div
+                    key={index}
                     className="capability-card bg-[#101a2f] border border-[#1f2a44] p-6 rounded-lg transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/40 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)]"
                   >
                     <div className="flex items-start gap-4">
@@ -266,9 +266,9 @@ function About() {
 
       {/* Newsletter Section with Scratch Card */}
       <div className="relative z-10">
-        <NewsletterBox/>
+        <NewsletterBox />
       </div>
-      
+
       {/* Footer */}
       <Footer />
     </>

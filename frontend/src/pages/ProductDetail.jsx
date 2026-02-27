@@ -70,10 +70,10 @@ function ProductDetail() {
 
   if (!productData) {
     return (
-      <div className="min-h-screen bg-[#0b1220] flex items-center justify-center pt-20">
-        <div className="text-white text-center">
-          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-400">Loading product details...</p>
+      <div className="min-h-screen bg-gradient-to-br from-slate-100 to-sky-100 dark:from-[#0f172a] dark:to-[#0c4a6e] flex items-center justify-center">
+        <div className="text-slate-900 dark:text-white text-center">
+          <div className="w-16 h-16 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-lg">Loading product details...</p>
         </div>
       </div>
     );
@@ -84,19 +84,19 @@ function ProductDetail() {
   const reviewCount = 124;
 
   return (
-    <div className="min-h-screen bg-[#0b1220]">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-sky-100 dark:from-[#0f172a] dark:to-[#0c4a6e]">
       {/* Main Product Section */}
       <div className="max-w-7xl mx-auto px-4 lg:px-8 py-20 pt-32">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {/* Image Gallery */}
           <div>
             <div className="relative rounded-lg overflow-hidden border border-[#1f2a44]">
-              <img 
-                src={selectedImage} 
+              <img
+                src={selectedImage}
                 alt={productData.name}
                 className="w-full h-96 lg:h-[500px] object-cover"
               />
-              
+
               {/* Navigation Arrows */}
               {images.length > 1 && (
                 <>
@@ -114,7 +114,7 @@ function ProductDetail() {
                   </button>
                 </>
               )}
-              
+
               {/* Image Counter */}
               {images.length > 1 && (
                 <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/50 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm">
@@ -130,11 +130,10 @@ function ProductDetail() {
                   key={i}
                   src={img}
                   alt={`Thumbnail ${i + 1}`}
-                  className={`w-16 h-16 object-cover rounded-lg cursor-pointer transition-all duration-300 border-2 ${
-                    selectedImage === img 
-                      ? 'border-blue-500' 
+                  className={`w-16 h-16 object-cover rounded-lg cursor-pointer transition-all duration-300 border-2 ${selectedImage === img
+                      ? 'border-blue-500'
                       : 'border-[#1f2a44] opacity-70 hover:opacity-100'
-                  }`}
+                    }`}
                   onClick={() => {
                     setSelectedImage(img);
                     setCurrentImageIndex(i);
@@ -144,22 +143,24 @@ function ProductDetail() {
             </div>
           </div>
 
-          {/* Purchase Module */}
-          <div className="bg-[#111c33] border border-[#1f2a44] rounded-2xl p-8 flex flex-col gap-6">
+          {/* Product Info */}
+          <div className="fade-in text-slate-900 dark:text-white space-y-6">
             {/* Breadcrumb */}
-            <div className="text-sm text-gray-500">
-              Home / {productData.category} / {productData.subCategory}
+            <div className="text-sm text-slate-500 dark:text-gray-400">
+              Home / {productData.category} / {productData.subCategory} / <span className="text-cyan-500 dark:text-cyan-400">{productData.name}</span>
             </div>
 
-            {/* Title */}
-            <h1 className="text-3xl lg:text-4xl font-bold text-white">{productData.name}</h1>
-
-            {/* Rating */}
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-1">
-                {[...Array(5)].map((_, i) => (
-                  <FaStar key={i} className={`text-sm ${i < Math.floor(rating) ? 'text-yellow-400' : 'text-gray-600'}`} />
-                ))}
+            {/* Title and Rating */}
+            <div>
+              <h1 className="text-3xl lg:text-4xl font-bold mb-2">{productData.name}</h1>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <FaStar key={i} className={`text-sm ${i < Math.floor(rating) ? 'text-yellow-400' : 'text-slate-400 dark:text-gray-600'}`} />
+                  ))}
+                  <span className="text-cyan-500 dark:text-cyan-400 ml-2">{rating}</span>
+                </div>
+                <span className="text-slate-500 dark:text-gray-400">({reviewCount} reviews)</span>
               </div>
               <span className="text-white font-medium">{rating}</span>
               <span className="text-gray-500">({reviewCount} reviews)</span>
@@ -169,17 +170,17 @@ function ProductDetail() {
             <div className="flex items-center gap-4">
               <p className="text-3xl font-bold text-white">{currency}{productData.price.toLocaleString()}</p>
               {productData.originalPrice && (
-                <>
-                  <p className="text-xl text-gray-500 line-through">{currency}{productData.originalPrice.toLocaleString()}</p>
-                  <span className="bg-red-500 text-white px-2.5 py-1 rounded text-sm font-semibold">
-                    Save {currency}{(productData.originalPrice - productData.price).toLocaleString()}
-                  </span>
-                </>
+                <p className="text-xl text-slate-500 dark:text-gray-400 line-through">{currency}{productData.originalPrice.toLocaleString()}</p>
+              )}
+              {productData.originalPrice && (
+                <span className="bg-rose-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+                  Save {currency}{(productData.originalPrice - productData.price).toLocaleString()}
+                </span>
               )}
             </div>
 
             {/* Description */}
-            <p className="text-gray-400 leading-relaxed">{productData.description}</p>
+            <p className="text-slate-700 dark:text-gray-300 leading-relaxed">{productData.description}</p>
 
             {/* Size Selection */}
             <div className="space-y-3">
@@ -189,11 +190,10 @@ function ProductDetail() {
                   <button
                     key={i}
                     onClick={() => setSize(s)}
-                    className={`px-5 py-2.5 rounded-lg border text-sm font-medium transition-all duration-200 ${
-                      size === s
-                        ? 'bg-blue-600 border-blue-600 text-white'
-                        : 'bg-[#0f172a] border-[#1f2a44] text-gray-300 hover:border-blue-500/40 hover:text-white'
-                    }`}
+                    className={`px-5 py-2.5 rounded-lg border text-sm font-medium transition-all duration-200 ${size === s
+                        ? 'bg-cyan-500 border-cyan-500 text-white shadow-lg scale-105'
+                        : 'bg-white dark:bg-gray-800 border-slate-300 dark:border-gray-700 text-slate-700 dark:text-gray-300 hover:border-cyan-400 hover:text-slate-900 dark:hover:text-white'
+                      }`}
                   >
                     {s}
                   </button>
@@ -205,22 +205,22 @@ function ProductDetail() {
             <div className="space-y-3">
               <label className="block text-sm font-semibold text-white uppercase tracking-wide">Quantity</label>
               <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2 bg-[#0f172a] border border-[#1f2a44] rounded-lg p-1">
+                <div className="flex items-center gap-3 bg-slate-200 dark:bg-gray-800 rounded-xl p-1">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-9 h-9 flex items-center justify-center rounded hover:bg-[#1a2332] transition-colors text-gray-400"
+                    className="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-300 dark:bg-gray-700 hover:bg-slate-400 dark:hover:bg-gray-600 transition-colors"
                   >
                     -
                   </button>
                   <span className="text-lg font-semibold w-10 text-center text-white">{quantity}</span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="w-9 h-9 flex items-center justify-center rounded hover:bg-[#1a2332] transition-colors text-gray-400"
+                    className="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-300 dark:bg-gray-700 hover:bg-slate-400 dark:hover:bg-gray-600 transition-colors"
                   >
                     +
                   </button>
                 </div>
-                <span className="text-gray-500 text-sm">({productData.stock || 50} available)</span>
+                <span className="text-slate-500 dark:text-gray-400">({productData.stock || 50} available)</span>
               </div>
             </div>
 
@@ -243,127 +243,94 @@ function ProductDetail() {
                 <FaHeart />
                 Wishlist
               </button>
-              
-              <button
-                onClick={handleShare}
-                className="flex-1 bg-[#0f172a] hover:bg-[#1a2332] border border-[#1f2a44] text-gray-300 hover:text-white py-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
-                title="Share Product"
-              >
-                <FaShare />
-                Share
-              </button>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={handleAddToWishlist}
+                  className="w-14 h-14 bg-slate-200 dark:bg-gray-800 hover:bg-slate-300 dark:hover:bg-gray-700 border border-slate-300 dark:border-gray-700 rounded-xl flex items-center justify-center transition-all duration-300 group"
+                  title="Add to Wishlist"
+                >
+                  <FaHeart className="text-slate-500 dark:text-gray-400 group-hover:text-rose-400 group-hover:scale-110 transition-all" />
+                </button>
+
+                <button
+                  onClick={handleShare}
+                  className="w-14 h-14 bg-slate-200 dark:bg-gray-800 hover:bg-slate-300 dark:hover:bg-gray-700 border border-slate-300 dark:border-gray-700 rounded-xl flex items-center justify-center transition-all duration-300 group"
+                  title="Share Product"
+                >
+                  <FaShare className="text-slate-500 dark:text-gray-400 group-hover:text-cyan-400 group-hover:scale-110 transition-all" />
+                </button>
+              </div>
             </div>
 
-            {/* Trust Badges - Inline */}
-            <div className="flex flex-wrap gap-6 pt-4 border-t border-[#1f2a44] text-sm text-gray-400">
-              <div className="flex items-center gap-2">
-                <FaCheck className="text-green-400" />
-                <span>Free Shipping</span>
+            {/* Product Features */}
+            <div className="grid grid-cols-2 gap-4 pt-6">
+              <div className="text-center p-4 bg-white/80 dark:bg-gray-800/50 rounded-xl border border-slate-200 dark:border-gray-700/60">
+                <div className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <span className="text-white font-bold">✓</span>
+                </div>
+                <p className="text-sm text-slate-700 dark:text-gray-300">Free Shipping</p>
               </div>
-              <div className="flex items-center gap-2">
-                <FaCheck className="text-green-400" />
-                <span>30-Day Returns</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <FaCheck className="text-green-400" />
-                <span>Secure Checkout</span>
+              <div className="text-center p-4 bg-white/80 dark:bg-gray-800/50 rounded-xl border border-slate-200 dark:border-gray-700/60">
+                <div className="w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <span className="text-white font-bold">↺</span>
+                </div>
+                <p className="text-sm text-slate-700 dark:text-gray-300">30-Day Returns</p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Product Tabs Section - Informational Phase */}
-      <div className="bg-[#0f172a] mt-16 py-16">
+      {/* Product Tabs Section */}
+      <div className="bg-gradient-to-br from-slate-100 to-slate-200 dark:from-[#0f172a] dark:to-[#1e293b] py-16 border-t border-slate-200 dark:border-transparent">
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
-          <div className="flex gap-6 border-b border-[#1f2a44] mb-8">
-            {[
-              { id: 'description', label: 'Description' },
-              { id: 'specifications', label: 'Specifications' },
-              { id: 'reviews', label: `Reviews (${reviewCount})` }
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`px-6 py-3 text-sm font-semibold transition-all duration-200 ${
-                  activeTab === tab.id
-                    ? "text-white border-b-2 border-blue-500"
-                    : "text-gray-400 hover:text-gray-300"
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
+          <div className="fade-in">
+            <div className="flex gap-6 border-b border-slate-300 dark:border-gray-700 mb-8">
+              {[
+                { id: 'description', label: 'Description' },
+                { id: 'specifications', label: 'Specifications' },
+                { id: 'reviews', label: `Reviews (${reviewCount})` }
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`px-6 py-3 text-lg font-semibold transition-all duration-300 ${activeTab === tab.id
+                      ? "text-cyan-400 border-b-2 border-cyan-400"
+                      : "text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white"
+                    }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
 
-          <div className="bg-[#111c33] border border-[#1f2a44] rounded-lg p-8">
-            {activeTab === 'description' && (
-              <div className="text-gray-300 space-y-4">
-                <p className="leading-relaxed">
-                  {productData.description || "Discover effortless style with our premium product. Designed with comfort and durability in mind, this piece blends timeless fashion with modern quality."}
-                </p>
-                <ul className="space-y-2 mt-6">
-                  <li className="flex items-center gap-3">
-                    <FaCheck className="text-blue-400 flex-shrink-0" />
-                    Premium quality materials
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <FaCheck className="text-blue-400 flex-shrink-0" />
-                    Comfortable and durable design
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <FaCheck className="text-blue-400 flex-shrink-0" />
-                    Perfect for everyday wear
-                  </li>
-                </ul>
-              </div>
-            )}
-
-            {activeTab === 'specifications' && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-300">
-                <div>
-                  <h4 className="text-white font-semibold mb-4">Product Details</h4>
-                  <div className="space-y-2.5">
-                    <p className="flex justify-between"><span className="text-gray-400">Material:</span> <span>Premium Fabric</span></p>
-                    <p className="flex justify-between"><span className="text-gray-400">Color:</span> <span>As shown</span></p>
-                    <p className="flex justify-between"><span className="text-gray-400">Weight:</span> <span>0.5 kg</span></p>
-                  </div>
-                </div>
-                <div>
-                  <h4 className="text-white font-semibold mb-4">Dimensions</h4>
-                  <div className="space-y-2.5">
-                    <p className="flex justify-between"><span className="text-gray-400">Length:</span> <span>28 inches</span></p>
-                    <p className="flex justify-between"><span className="text-gray-400">Width:</span> <span>20 inches</span></p>
-                    <p className="flex justify-between"><span className="text-gray-400">Height:</span> <span>2 inches</span></p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {activeTab === 'reviews' && (
-              <div className="space-y-5">
-                <div className="bg-[#0f172a] border border-[#1f2a44] p-6 rounded-lg">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="flex items-center gap-1">
-                      {[...Array(5)].map((_, i) => (
-                        <FaStar key={i} className="text-yellow-400 text-sm" />
-                      ))}
-                    </div>
-                    <span className="text-white font-semibold">Excellent Product</span>
-                  </div>
-                  <p className="text-gray-300 leading-relaxed">
-                    "I bought this last month and it's already my favorite item. Great quality, fits perfectly, and looks amazing. Would definitely recommend!"
+            <div className="bg-white/90 dark:bg-gray-900/50 backdrop-blur-md border border-slate-200 dark:border-gray-800 rounded-2xl p-8 shadow-xl">
+              {activeTab === 'description' && (
+                <div className="text-slate-700 dark:text-gray-300 space-y-4">
+                  <p className="leading-relaxed">
+                    {productData.description || "Discover effortless style with our premium product. Designed with comfort and durability in mind, this piece blends timeless fashion with modern quality."}
                   </p>
                   <p className="text-gray-500 text-sm mt-4">- Sarah Johnson</p>
                 </div>
+              )}
 
-                <div className="bg-[#0f172a] border border-[#1f2a44] p-6 rounded-lg">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="flex items-center gap-1">
-                      {[...Array(4)].map((_, i) => (
-                        <FaStar key={i} className="text-yellow-400 text-sm" />
-                      ))}
-                      <FaStar className="text-gray-600 text-sm" />
+              {activeTab === 'specifications' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-slate-700 dark:text-gray-300">
+                  <div>
+                    <h4 className="text-cyan-400 font-semibold mb-3">Product Details</h4>
+                    <div className="space-y-2">
+                      <p><span className="text-slate-500 dark:text-gray-400">Material:</span> Premium Fabric</p>
+                      <p><span className="text-slate-500 dark:text-gray-400">Color:</span> As shown</p>
+                      <p><span className="text-slate-500 dark:text-gray-400">Weight:</span> 0.5 kg</p>
+                    </div>
+                  </div>
+                  <div>
+                    <h4 className="text-cyan-400 font-semibold mb-3">Dimensions</h4>
+                    <div className="space-y-2">
+                      <p><span className="text-slate-500 dark:text-gray-400">Length:</span> 28 inches</p>
+                      <p><span className="text-slate-500 dark:text-gray-400">Width:</span> 20 inches</p>
+                      <p><span className="text-slate-500 dark:text-gray-400">Height:</span> 2 inches</p>
                     </div>
                     <span className="text-white font-semibold">Great Fit</span>
                   </div>
@@ -372,14 +339,49 @@ function ProductDetail() {
                   </p>
                   <p className="text-gray-500 text-sm mt-4">- Mike Thompson</p>
                 </div>
-              </div>
-            )}
+              )}
+
+              {activeTab === 'reviews' && (
+                <div className="space-y-6">
+                  <div className="bg-slate-100 dark:bg-gray-800/50 p-6 rounded-xl border border-slate-200 dark:border-gray-700/60">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="flex items-center gap-1">
+                        {[...Array(5)].map((_, i) => (
+                          <FaStar key={i} className="text-yellow-400" />
+                        ))}
+                      </div>
+                      <span className="text-cyan-400 font-semibold">Excellent Product</span>
+                    </div>
+                    <p className="text-slate-700 dark:text-gray-300">
+                      "I bought this last month and it's already my favorite item. Great quality, fits perfectly, and looks amazing. Would definitely recommend!"
+                    </p>
+                    <p className="text-slate-500 dark:text-gray-400 text-sm mt-3">- Sarah Johnson</p>
+                  </div>
+
+                  <div className="bg-slate-100 dark:bg-gray-800/50 p-6 rounded-xl border border-slate-200 dark:border-gray-700/60">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="flex items-center gap-1">
+                        {[...Array(4)].map((_, i) => (
+                          <FaStar key={i} className="text-yellow-400" />
+                        ))}
+                        <FaStar className="text-slate-400 dark:text-gray-600" />
+                      </div>
+                      <span className="text-cyan-400 font-semibold">Great Fit</span>
+                    </div>
+                    <p className="text-slate-700 dark:text-gray-300">
+                      "Really happy with the material and fit. The quality is much better than I expected for the price. Will be buying again!"
+                    </p>
+                    <p className="text-slate-500 dark:text-gray-400 text-sm mt-3">- Mike Thompson</p>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
       {/* Related Products */}
-      <div className="bg-[#0b1220] py-16">
+      <div className="fade-in py-16 bg-gradient-to-br from-sky-100 to-slate-100 dark:from-[#0c4a6e] dark:to-[#0f172a] border-t border-slate-200 dark:border-transparent">
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <h2 className="text-2xl font-semibold text-white mb-6">Similar Items</h2>
           <RelatedProduct

@@ -41,8 +41,8 @@ const Loader = () => {
         <div className="absolute inset-0 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
         <div className="absolute inset-2 border-4 border-cyan-300 border-b-transparent rounded-full animate-spin-reverse"></div>
       </div>
-      <p className="text-cyan-200 text-lg font-medium">Loading Products...</p>
-      <p className="text-gray-400 text-sm mt-2">Discovering amazing items for you</p>
+      <p className="text-cyan-700 dark:text-cyan-200 text-lg font-medium">Loading Products...</p>
+      <p className="text-slate-500 dark:text-gray-400 text-sm mt-2">Discovering amazing items for you</p>
     </div>
   );
 };
@@ -50,14 +50,14 @@ const Loader = () => {
 // Skeleton Loader for Cards
 const CardSkeleton = () => {
   return (
-    <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl overflow-hidden shadow-xl border border-gray-700 animate-pulse">
-      <div className="w-full h-64 bg-gray-700"></div>
+    <div className="bg-gradient-to-br from-slate-100 to-white dark:from-gray-800 dark:to-gray-900 rounded-2xl overflow-hidden shadow-xl border border-slate-200 dark:border-gray-700 animate-pulse">
+      <div className="w-full h-64 bg-slate-200 dark:bg-gray-700"></div>
       <div className="p-5 space-y-3">
-        <div className="h-4 bg-gray-700 rounded"></div>
-        <div className="h-4 bg-gray-700 rounded w-3/4"></div>
+        <div className="h-4 bg-slate-200 dark:bg-gray-700 rounded"></div>
+        <div className="h-4 bg-slate-200 dark:bg-gray-700 rounded w-3/4"></div>
         <div className="flex justify-between items-center pt-2">
-          <div className="h-6 bg-gray-700 rounded w-1/3"></div>
-          <div className="h-10 bg-gray-700 rounded w-1/2"></div>
+          <div className="h-6 bg-slate-200 dark:bg-gray-700 rounded w-1/3"></div>
+          <div className="h-10 bg-slate-200 dark:bg-gray-700 rounded w-1/2"></div>
         </div>
       </div>
     </div>
@@ -91,9 +91,9 @@ const FilterContent = ({
         </button>
       )}
 
-      {/* Price Range Filter - Clean Design */}
-      <div>
-        <h3 className='text-base font-semibold text-white mb-4 flex items-center gap-2'>
+      {/* Price Range Filter */}
+      <div className='mb-6'>
+        <h3 className='text-lg font-semibold text-slate-900 dark:text-white mb-3 flex items-center gap-2'>
           <RiPriceTag3Line className='text-cyan-400' />
           Price Range
         </h3>
@@ -104,7 +104,7 @@ const FilterContent = ({
             max="2000"
             value={priceRange[1]}
             onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
-            className='w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider-thumb'
+            className='w-full h-2 bg-slate-300 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider-thumb'
           />
           <div className='flex justify-between mt-3'>
             <span className='text-gray-400 text-sm font-medium'>${priceRange[0]}</span>
@@ -113,19 +113,18 @@ const FilterContent = ({
         </div>
       </div>
 
-      {/* Category Filter - Pill Style */}
-      <div>
-        <h3 className='text-base font-semibold text-white mb-4'>Category</h3>
-        <div className='flex flex-wrap gap-2'>
+      {/* Category Filter */}
+      <div className='mb-6'>
+        <h3 className='text-lg font-semibold text-slate-900 dark:text-white mb-3'>Category</h3>
+        <div className='space-y-2'>
           {categories.map((cat, i) => (
             <button
               key={i}
               onClick={() => toggleCategory(cat)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                category.includes(cat)
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${category.includes(cat)
                   ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
                   : 'bg-white/5 text-gray-300 hover:bg-white/10 border border-gray-700/50'
-              }`}
+                }`}
             >
               {cat}
             </button>
@@ -141,11 +140,10 @@ const FilterContent = ({
             <button
               key={i}
               onClick={() => toggleSubCategory(sub)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                subCategory.includes(sub)
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${subCategory.includes(sub)
                   ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
                   : 'bg-white/5 text-gray-300 hover:bg-white/10 border border-gray-700/50'
-              }`}
+                }`}
             >
               {sub}
             </button>
@@ -161,19 +159,17 @@ const FilterContent = ({
             <button
               key={i}
               onClick={() => toggleRating(rating)}
-              className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-300 flex items-center gap-2 ${
-                selectedRatings.includes(rating)
+              className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-300 flex items-center gap-2 ${selectedRatings.includes(rating)
                   ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/20'
                   : 'bg-white/5 text-gray-300 hover:bg-white/10 border border-gray-700/50'
-              }`}
+                }`}
             >
               <div className='flex items-center gap-1'>
                 {[...Array(5)].map((_, starIndex) => (
                   <FaStar
                     key={starIndex}
-                    className={`text-sm ${
-                      starIndex < rating ? 'text-yellow-400' : 'text-gray-600'
-                    }`}
+                    className={`text-sm ${starIndex < rating ? 'text-yellow-400' : 'text-slate-400 dark:text-gray-600'
+                      }`}
                   />
                 ))}
               </div>
@@ -378,38 +374,52 @@ function Collections() {
 
   return (
     <>
-      <div className='min-h-screen bg-gradient-to-br from-gray-900 via-[#0f172a] to-[#0c4a6e] pt-20 pb-20 overflow-x-hidden'>
-        {/* Main Content - Product First */}
-        <div className='max-w-7xl mx-auto px-4 lg:px-8'>
-          
-          {/* Editorial Header - No Box Container */}
-          <div className='mb-6' ref={filterRef}>
-            <h1 className='text-4xl md:text-5xl font-bold text-white mb-2' style={{ fontFamily: 'Poppins, sans-serif' }}>
-              Explore Our Collection
-            </h1>
-            <div className='flex items-center gap-2 text-gray-400 text-sm'>
-              <div className='h-[1px] w-16 bg-gray-600'></div>
-              <span>{filterProduct.length} Items</span>
+      <div className='min-h-screen bg-gradient-to-br from-slate-100 via-white to-sky-100 dark:from-gray-900 dark:via-[#0f172a] dark:to-[#0c4a6e] pt-24 pb-20 overflow-x-hidden'>
+        {/* Main Content */}
+        <div className='max-w-7xl mx-auto px-4 lg:px-8 flex flex-col lg:flex-row gap-8'>
+          {/* Filter Sidebar - Desktop Only */}
+          <div
+            ref={filterRef}
+            className='hidden lg:block lg:w-80 bg-white/90 dark:bg-gray-800/50 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-gray-700 p-6 sticky top-24 h-fit'
+          >
+            <div className='flex items-center justify-between mb-6'>
+              <h2 className='text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2'>
+                <FaFilter className='text-cyan-400' />
+                Filters {activeFilters > 0 && `(${activeFilters})`}
+              </h2>
             </div>
           </div>
 
-          {/* Category Scroller - Primary Browsing Control */}
-          <div className='mb-8 overflow-x-auto scrollbar-hide'>
-            <div className='flex gap-3 pb-2'>
-              {categories.map((cat, i) => (
+          {/* Products Section */}
+          <div className='flex-1' ref={contentRef}>
+            {/* Header */}
+            <div className='flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8 p-6 bg-white/90 dark:bg-gray-800/50 rounded-2xl backdrop-blur-md border border-slate-200 dark:border-gray-700'>
+              <h1 className='text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight'>ALL <span className='text-cyan-500 dark:text-cyan-400'>COLLECTIONS</span></h1>
+
+              <div className='flex items-center gap-4'>
+                {/* Mobile Filter Toggle */}
                 <button
-                  key={i}
-                  onClick={() => toggleCategory(cat)}
-                  className={`flex-shrink-0 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-                    category.includes(cat)
-                      ? 'bg-[#2563EB] text-white shadow-lg shadow-blue-500/30'
-                      : 'bg-white/5 text-gray-300 hover:bg-white/10 border border-gray-700/50'
-                  }`}
-                  style={{ fontFamily: 'Inter, sans-serif' }}
+                  onClick={() => setShowFilter(!showFilter)}
+                  className='lg:hidden flex items-center gap-2 px-4 py-2 bg-slate-200 dark:bg-gray-700 rounded-lg text-slate-800 dark:text-white'
                 >
                   {cat}
                 </button>
-              ))}
+
+                {/* Sort Dropdown */}
+                <div className='relative flex-1 min-w-0 sm:min-w-[160px]'>
+                  <select
+                    value={sortType}
+                    onChange={(e) => setSortType(e.target.value)}
+                    className='w-full appearance-none bg-white dark:bg-gray-700 text-slate-900 dark:text-white px-3 py-2 sm:px-4 rounded-lg pr-8 sm:pr-10 focus:outline-none focus:ring-2 focus:ring-cyan-500 border border-slate-300 dark:border-gray-600 text-sm'
+                  >
+                    <option value="relevant">Sort by: Relevant</option>
+                    <option value="low-high">Sort by: Price Low to High</option>
+                    <option value="high-low">Sort by: Price High to Low</option>
+                    <option value="rating">Sort by: Rating</option>
+                  </select>
+                  <RiArrowUpDownLine className='absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 text-slate-500 dark:text-gray-400 pointer-events-none text-sm' />
+                </div>
+              </div>
             </div>
           </div>
 
@@ -459,7 +469,7 @@ function Collections() {
             ) : isFiltering ? (
               <div className="flex flex-col items-center justify-center py-12">
                 <div className="w-12 h-12 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-                <p className="text-cyan-200">Applying filters...</p>
+                <p className="text-cyan-700 dark:text-cyan-200">Applying filters...</p>
               </div>
             ) : filterProduct.length > 0 ? (
               <>
@@ -482,19 +492,19 @@ function Collections() {
                 {/* Load More Button */}
                 {filterProduct.length > 0 && filterProduct.length % 12 === 0 && (
                   <div className='text-center mt-12'>
-                    <button className='px-8 py-3 bg-white/5 hover:bg-white/10 border border-gray-700/50 text-white rounded-full transition-all duration-300 font-medium'>
+                    <button className='px-8 py-3 bg-slate-200 dark:bg-gray-700 hover:bg-slate-300 dark:hover:bg-gray-600 text-slate-800 dark:text-white rounded-lg transition-colors font-semibold'>
                       Load More Products
                     </button>
                   </div>
                 )}
               </>
             ) : (
-              <div className='text-center py-16'>
-                <div className='w-24 h-24 mx-auto mb-6 bg-gradient-to-r from-gray-800 to-gray-900 rounded-full flex items-center justify-center'>
-                  <FaSearch className='text-gray-600 text-3xl' />
+              <div className='text-center py-16 bg-white/80 dark:bg-gray-800/30 rounded-2xl border border-slate-200 dark:border-gray-700/40'>
+                <div className='w-24 h-24 mx-auto mb-6 bg-gradient-to-r from-slate-200 to-slate-300 dark:from-gray-800 dark:to-gray-900 rounded-full flex items-center justify-center'>
+                  <FaSearch className='text-slate-500 dark:text-gray-600 text-3xl' />
                 </div>
-                <h3 className='text-white text-xl font-semibold mb-2'>No products found</h3>
-                <p className='text-gray-400 mb-6'>
+                <h3 className='text-slate-900 dark:text-white text-xl font-semibold mb-2'>No products found</h3>
+                <p className='text-slate-600 dark:text-gray-400 mb-6'>
                   Try adjusting your filters to find what you're looking for.
                 </p>
                 <button
@@ -517,7 +527,7 @@ function Collections() {
             <div
               className='absolute top-0 right-0 h-full w-full max-w-md bg-gray-900/95 backdrop-blur-xl border-l border-gray-700/50 shadow-2xl overflow-y-auto transform transition-transform duration-300'
               onClick={(e) => e.stopPropagation()}
-              style={{ 
+              style={{
                 animation: 'slideInRight 0.3s ease-out',
               }}
             >

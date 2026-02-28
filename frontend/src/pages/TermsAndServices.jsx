@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Footer from "../components/Footer";
-import { 
-  FaShieldAlt, 
-  FaUserCheck, 
-  FaLock, 
-  FaMoneyBillWave, 
-  FaCopyright, 
+import {
+  FaShieldAlt,
+  FaUserCheck,
+  FaLock,
+  FaMoneyBillWave,
+  FaCopyright,
   FaExclamationTriangle,
   FaEdit,
   FaEnvelope,
@@ -23,12 +23,12 @@ const sections = [
     content: (
       <div className="space-y-4">
         <p className="text-lg">
-          Welcome to <span className="text-cyan-400 font-semibold">RIVETO</span>, your trusted e-commerce platform. 
+          Welcome to <span className="text-cyan-400 font-semibold">RIVETO</span>, your trusted e-commerce platform.
           These Terms and Services govern your use of our website and services.
         </p>
         <div className="bg-cyan-100 dark:bg-cyan-500/10 border border-cyan-300/60 dark:border-cyan-500/30 rounded-xl p-4">
           <p className="text-cyan-700 dark:text-cyan-200">
-            By accessing or using our platform, you agree to be bound by these terms. 
+            By accessing or using our platform, you agree to be bound by these terms.
             Please read them carefully before proceeding.
           </p>
         </div>
@@ -67,7 +67,7 @@ const sections = [
     content: (
       <div className="space-y-4">
         <p>
-          Your privacy is our top priority. We implement industry-standard security measures 
+          Your privacy is our top priority. We implement industry-standard security measures
           to protect your personal information.
         </p>
         <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-6">
@@ -97,7 +97,7 @@ const sections = [
     content: (
       <div className="space-y-4">
         <p>
-          All payments are processed securely through our trusted payment partners including 
+          All payments are processed securely through our trusted payment partners including
           <span className="text-cyan-400 font-semibold"> Razorpay</span>.
         </p>
         <div className="grid md:grid-cols-3 gap-4">
@@ -122,13 +122,13 @@ const sections = [
     content: (
       <div className="space-y-4">
         <p>
-          All content, trademarks, logos, and other intellectual property on this platform 
+          All content, trademarks, logos, and other intellectual property on this platform
           are owned by <span className="text-cyan-400 font-semibold">RIVETO</span> or its licensors.
         </p>
         <div className="bg-red-100 dark:bg-red-500/10 border border-red-300 dark:border-red-500/30 rounded-xl p-4 flex items-start gap-3">
           <FaExclamationTriangle className="text-red-400 text-xl mt-1 shrink-0" />
           <p className="text-red-700 dark:text-red-200">
-            Unauthorized use, reproduction, or distribution of any content is strictly prohibited 
+            Unauthorized use, reproduction, or distribution of any content is strictly prohibited
             and may result in legal action.
           </p>
         </div>
@@ -142,7 +142,7 @@ const sections = [
     content: (
       <div className="space-y-4">
         <p>
-          RIVETO shall not be liable for any indirect, incidental, special, consequential, 
+          RIVETO shall not be liable for any indirect, incidental, special, consequential,
           or punitive damages resulting from your use or inability to use the service.
         </p>
         <div className="bg-orange-100 dark:bg-orange-500/10 border border-orange-300 dark:border-orange-500/30 rounded-xl p-4">
@@ -160,7 +160,7 @@ const sections = [
     content: (
       <div className="space-y-4">
         <p>
-          We reserve the right to modify these terms at any time. Material changes will be 
+          We reserve the right to modify these terms at any time. Material changes will be
           communicated through email or prominent notice on our platform.
         </p>
         <div className="bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 rounded-xl p-4">
@@ -184,11 +184,10 @@ const TableOfContents = ({ activeSection, onSectionClick }) => (
         <button
           key={section.id}
           onClick={() => onSectionClick(section.id)}
-          className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center gap-3 ${
-            activeSection === section.id
+          className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-300 flex items-center gap-3 ${activeSection === section.id
               ? "bg-cyan-500 text-white shadow-lg shadow-cyan-500/30"
               : "text-slate-700 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-gray-700/50"
-          }`}
+            }`}
         >
           <span className={`text-sm ${activeSection === section.id ? "text-white" : "text-cyan-400"}`}>
             {section.icon}
@@ -202,28 +201,24 @@ const TableOfContents = ({ activeSection, onSectionClick }) => (
 );
 
 const Section = ({ section, isActive }) => (
-  <section 
+  <section
     id={section.id}
-    className={`scroll-mt-28 transform transition-all duration-500 ${
-      isActive ? "scale-100 opacity-100" : "scale-95 opacity-90"
-    }`}
+    className={`scroll-mt-28 transform transition-all duration-500 ${isActive ? "scale-100 opacity-100" : "scale-95 opacity-90"
+      }`}
   >
-    <div className={`bg-white/85 dark:bg-gray-800/30 rounded-2xl p-6 md:p-8 border transition-all duration-300 ${
-      isActive ? "border-cyan-500/50 shadow-lg shadow-cyan-500/10" : "border-slate-200 dark:border-gray-700"
-    }`}>
+    <div className={`bg-white/85 dark:bg-gray-800/30 rounded-2xl p-6 md:p-8 border transition-all duration-300 ${isActive ? "border-cyan-500/50 shadow-lg shadow-cyan-500/10" : "border-slate-200 dark:border-gray-700"
+      }`}>
       <div className="flex items-center gap-4 mb-6">
-        <div className={`p-4 rounded-xl transition-all duration-300 ${
-          isActive 
-            ? "bg-cyan-500 text-white shadow-lg shadow-cyan-500/30" 
+        <div className={`p-4 rounded-xl transition-all duration-300 ${isActive
+            ? "bg-cyan-500 text-white shadow-lg shadow-cyan-500/30"
             : "bg-slate-200 dark:bg-gray-700/50 text-cyan-500 dark:text-cyan-400"
-        }`}>
+          }`}>
           {section.icon}
         </div>
         <div>
           <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">{section.title}</h2>
-          <div className={`h-1 w-20 rounded-full mt-2 transition-all duration-300 ${
-            isActive ? "bg-cyan-400" : "bg-slate-400 dark:bg-gray-600"
-          }`}></div>
+          <div className={`h-1 w-20 rounded-full mt-2 transition-all duration-300 ${isActive ? "bg-cyan-400" : "bg-slate-400 dark:bg-gray-600"
+            }`}></div>
         </div>
       </div>
       <div className="text-slate-700 dark:text-gray-300 leading-relaxed text-base md:text-lg">
@@ -305,9 +300,9 @@ const TermsAndServices = () => {
           {/* Main Content */}
           <main className="flex-1 space-y-6">
             {sections.map((section) => (
-              <Section 
-                key={section.id} 
-                section={section} 
+              <Section
+                key={section.id}
+                section={section}
                 isActive={activeSection === section.id}
               />
             ))}
@@ -323,13 +318,13 @@ const TermsAndServices = () => {
                   <div className="h-1 w-20 bg-cyan-400 rounded-full mt-2"></div>
                 </div>
               </div>
-              
+
               <p className="text-slate-700 dark:text-gray-300 text-lg mb-6">
                 Have questions about our Terms and Services? We're here to help.
               </p>
-              
+
               <div className="grid md:grid-cols-2 gap-4">
-                <a 
+                <a
                   href="mailto:support@riveto.com"
                   className="group bg-slate-100 dark:bg-gray-700/30 hover:bg-slate-200 dark:hover:bg-gray-700/50 rounded-xl p-6 border border-slate-300 dark:border-gray-600 hover:border-cyan-500/50 transition-all duration-300"
                 >
@@ -343,8 +338,8 @@ const TermsAndServices = () => {
                     </div>
                   </div>
                 </a>
-                
-                <a 
+
+                <a
                   href="https://github.com/Nsanjayboruds"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -365,13 +360,13 @@ const TermsAndServices = () => {
           </main>
         </div>
       </div>
-      
+
       {/* Footer */}
       <div className="mt-20">
         <Footer />
       </div>
     </div>
-    
+
   );
 };
 

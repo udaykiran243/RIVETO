@@ -135,34 +135,34 @@ function Ai() {
   ];
 
   return (
-    <div className="fixed bottom-6 left-6 z-50">
+    <div className="fixed bottom-6 right-6 z-40">
       {/* AI Assistant Robot */}
       <div 
         className="relative cursor-pointer group"
         onClick={handleRobotClick}
       >
-        <div className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs animate-pulse">
+        <div className="absolute -top-2 -right-2 bg-[#EF4444] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs animate-pulse">
           <MessageCircle size={12} />
         </div>
         <img
           src={robot}
           alt="AI Assistant Robot"
-          className={`w-20 h-20 transition-all duration-300 ${activeAi ? 'scale-110' : 'scale-100'} group-hover:scale-110`}
-          style={{ filter: activeAi ? "drop-shadow(0 0 10px #00d2fc)" : "drop-shadow(0 4px 8px rgba(0,0,0,0.2))" }}
+          className="w-20 h-20 transition-all duration-300"
+          style={{ filter: activeAi ? "drop-shadow(0 4px 6px rgba(37, 99, 235, 0.4))" : "drop-shadow(0 4px 8px rgba(0,0,0,0.2))" }}
         />
-        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded-full whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded-full whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ fontFamily: 'Inter, sans-serif' }}>
           AI Assistant
         </div>
       </div>
 
       {/* Chat Interface */}
       {showChat && (
-        <div className="absolute bottom-24 left-0 w-80 h-96 bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200">
+        <div className="absolute bottom-24 right-0 w-80 h-96 bg-white dark:bg-[#121826] rounded-xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700">
           {/* Chat Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-4 flex justify-between items-center">
+          <div className="bg-[#2563EB] text-white p-4 flex justify-between items-center">
             <div className="flex items-center space-x-2">
               <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-              <h3 className="font-semibold">RIVETO AI Assistant</h3>
+              <h3 className="font-semibold" style={{ fontFamily: 'Inter, sans-serif' }}>RIVETO AI Assistant</h3>
             </div>
             <button 
               onClick={closeChat}
@@ -175,7 +175,7 @@ function Ai() {
           {/* Chat Messages */}
           <div 
             ref={chatContainerRef}
-            className="h-64 overflow-y-auto p-4 bg-gray-50"
+            className="h-64 overflow-y-auto p-4 bg-gray-50 dark:bg-gray-800"
           >
             {chatMessages.length === 0 ? (
               <div className="text-center text-gray-500 my-8">
@@ -221,14 +221,15 @@ function Ai() {
           </div>
           
           {/* Voice Control */}
-          <div className="p-3 border-t border-gray-200 bg-white flex justify-center">
+          <div className="p-3 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-[#121826] flex justify-center">
             <button 
               onClick={handleVoiceCommand}
               disabled={isListening}
               className={`flex items-center justify-center space-x-2 px-4 py-2 rounded-full text-white ${isListening 
-                ? 'bg-red-500 hover:bg-red-600' 
-                : 'bg-blue-500 hover:bg-blue-600'
-              } transition-colors focus:outline-none focus:ring-2 focus:ring-blue-300`}
+                ? 'bg-[#EF4444] hover:bg-red-600' 
+                : 'bg-[#2563EB] hover:bg-[#1d4ed8]'
+              } transition-all focus:outline-none focus:ring-2 focus:ring-[#2563EB]/30`}
+              style={{ fontFamily: 'Inter, sans-serif' }}
             >
               {isListening ? (
                 <>

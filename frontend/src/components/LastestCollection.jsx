@@ -1,14 +1,16 @@
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import { shopDataContext } from '../context/ShopContext';
+import { useNavigate } from 'react-router-dom';
 import Card from './Card';
 import Title from './Title';
 import mobvid from '../assets/4 Mobile.mp4';
 import { FaPlay, FaPause, FaExpand, FaCompress } from 'react-icons/fa';
-import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+
 import gsap from 'gsap';
 
 function LatestCollection() {
   const { product, compareList, toggleCompare } = useContext(shopDataContext);
+  const navigate = useNavigate();
   const [isVideoPlaying, setIsVideoPlaying] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const videoRef = useRef(null);
@@ -63,14 +65,7 @@ function LatestCollection() {
     }
   };
 
-  const handleAddToCart = () => {
-    if (!size) {
-      toast.warning('Please select a size before adding to cart.');
-      return;
-    }
-    addtoCart(productData._id, size);
-    toast.success(`${productData.name} added to cart!`);
-  };
+
 
   // Handle fullscreen change events
   useEffect(() => {
@@ -93,17 +88,32 @@ function LatestCollection() {
         <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl"></div>
       </div>
 
-      {/* Section Title */}
-      <div className="text-center mb-12 z-10 relative">
-        <Title text1="TRENDING" text2="STYLES" />
-        <p className="text-gray-600 dark:text-gray-400 mt-3 text-lg md:text-xl font-light max-w-2xl mx-auto">
-          Discover our handpicked selection of the latest and most sought-after mobile devices
-
-        </p>
+      {/* Section Header - Left-Aligned Merch Header */}
+      <div className="max-w-7xl mx-auto mb-12 z-10 relative">
+        <div className="flex items-baseline justify-between">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+              Trending Right Now
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base font-light max-w-xl">
+              Discover our handpicked selection of the latest and most sought-after mobile devices
+            </p>
+          </div>
+          <button
+            onClick={() => navigate('/collection')}
+            className="hidden md:flex items-center gap-2 text-[#2563EB] hover:text-[#1d4ed8] font-semibold transition-colors duration-300 group"
+          >
+            <span>Explore</span>
+            <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </button>
+        </div>
+        <div className="mt-4 h-px bg-gradient-to-r from-[#2563EB] via-transparent to-transparent"></div>
       </div>
 
-      {/* Product Grid */}
-      <div ref={gridRef} className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 z-10 relative">
+      {/* Product Grid with Featured Card Support */}
+      <div ref={gridRef} className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 z-10 relative">
         {product && product.length > 0 ? (
           product.slice(0, 8).map((item, index) => (
             <Card
@@ -112,6 +122,7 @@ function LatestCollection() {
               image={item.image1}
               id={item._id}
               price={item.price}
+              isFeatured={index === 0}
               className="transform transition-all duration-500 hover:scale-105 hover:shadow-2xl"
               onCompare={() => toggleCompare(item)}
               isCompared={compareList?.some(p => p._id === item._id)}

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import './App.css';
 import Registration from './pages/Registration';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -177,18 +178,14 @@ function App() {
             )
           }
         />
+
+        {/* Public routes - Legal pages should be accessible without login */}
         <Route
           path="/privicypolicy"
           element={
-            userData ? (
-              <PrivicyPolicy />
-            ) : (
-              <Navigate to="/login" state={{ from: location.pathname }} />
-            )
+            <PrivicyPolicy />
           }
         />
-
-        {/* public routes */}
         <Route
           path="/termsandservices"
           element={

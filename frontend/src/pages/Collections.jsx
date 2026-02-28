@@ -10,6 +10,29 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Add slide animation style
+const slideAnimationStyle = `
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+`;
+
 // Loader Component
 const Loader = () => {
   return (
@@ -58,11 +81,11 @@ const FilterContent = ({
   toggleRating,
 }) => {
   return (
-    <>
+    <div className="space-y-8">
       {activeFilters > 0 && (
         <button
           onClick={clearAllFilters}
-          className='w-full mb-4 text-sm px-3 py-2 bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-500/30 rounded-lg transition-colors'
+          className='w-full text-sm px-4 py-2.5 bg-red-500/10 text-red-400 hover:bg-red-500/20 rounded-xl transition-all border border-red-500/20'
         >
           Clear all filters
         </button>
@@ -74,7 +97,7 @@ const FilterContent = ({
           <RiPriceTag3Line className='text-cyan-400' />
           Price Range
         </h3>
-        <div className='px-2'>
+        <div className='px-1'>
           <input
             type="range"
             min="0"
@@ -83,9 +106,9 @@ const FilterContent = ({
             onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
             className='w-full h-2 bg-slate-300 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider-thumb'
           />
-          <div className='flex justify-between mt-2'>
-            <span className='text-slate-500 dark:text-gray-400 text-sm'>${priceRange[0]}</span>
-            <span className='text-slate-500 dark:text-gray-400 text-sm'>${priceRange[1]}</span>
+          <div className='flex justify-between mt-3'>
+            <span className='text-gray-400 text-sm font-medium'>${priceRange[0]}</span>
+            <span className='text-white text-sm font-medium'>${priceRange[1]}</span>
           </div>
         </div>
       </div>
@@ -98,9 +121,9 @@ const FilterContent = ({
             <button
               key={i}
               onClick={() => toggleCategory(cat)}
-              className={`w-full text-left px-3 py-2 rounded-lg transition-all duration-200 ${category.includes(cat)
-                ? 'bg-cyan-500 text-white'
-                : 'bg-slate-100 dark:bg-gray-700 text-slate-700 dark:text-gray-300 hover:bg-slate-200 dark:hover:bg-gray-600'
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${category.includes(cat)
+                ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
+                : 'bg-white/5 text-gray-300 hover:bg-white/10 border border-gray-700/50'
                 }`}
             >
               {cat}
@@ -109,17 +132,17 @@ const FilterContent = ({
         </div>
       </div>
 
-      {/* Sub-Category Filter */}
-      <div className='mb-6'>
-        <h3 className='text-lg font-semibold text-slate-900 dark:text-white mb-3'>Sub-Category</h3>
-        <div className='space-y-2'>
+      {/* Sub-Category Filter - Pill Style */}
+      <div>
+        <h3 className='text-base font-semibold text-white mb-4'>Sub-Category</h3>
+        <div className='flex flex-wrap gap-2'>
           {subCategories.map((sub, i) => (
             <button
               key={i}
               onClick={() => toggleSubCategory(sub)}
-              className={`w-full text-left px-3 py-2 rounded-lg transition-all duration-200 ${subCategory.includes(sub)
-                ? 'bg-cyan-500 text-white'
-                : 'bg-slate-100 dark:bg-gray-700 text-slate-700 dark:text-gray-300 hover:bg-slate-200 dark:hover:bg-gray-600'
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${subCategory.includes(sub)
+                ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/30'
+                : 'bg-white/5 text-gray-300 hover:bg-white/10 border border-gray-700/50'
                 }`}
             >
               {sub}
@@ -128,17 +151,17 @@ const FilterContent = ({
         </div>
       </div>
 
-      {/* Rating Filter */}
-      <div className='mb-6'>
-        <h3 className='text-lg font-semibold text-slate-900 dark:text-white mb-3'>Rating</h3>
+      {/* Rating Filter - Clean Cards */}
+      <div>
+        <h3 className='text-base font-semibold text-white mb-4'>Rating</h3>
         <div className='space-y-2'>
           {ratings.map((rating, i) => (
             <button
               key={i}
               onClick={() => toggleRating(rating)}
-              className={`w-full text-left px-3 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 ${selectedRatings.includes(rating)
-                ? 'bg-cyan-500 text-white'
-                : 'bg-slate-100 dark:bg-gray-700 text-slate-700 dark:text-gray-300 hover:bg-slate-200 dark:hover:bg-gray-600'
+              className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-300 flex items-center gap-2 ${selectedRatings.includes(rating)
+                ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/20'
+                : 'bg-white/5 text-gray-300 hover:bg-white/10 border border-gray-700/50'
                 }`}
             >
               <div className='flex items-center gap-1'>
@@ -150,12 +173,12 @@ const FilterContent = ({
                   />
                 ))}
               </div>
-              <span>& up</span>
+              <span className='text-sm font-medium'>& up</span>
             </button>
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
@@ -289,6 +312,16 @@ function Collections() {
     }, 500);
   };
 
+  // Inject style element on mount
+  useEffect(() => {
+    if (typeof document !== 'undefined' && !document.head.querySelector('[data-collections-style]')) {
+      const styleEl = document.createElement('style');
+      styleEl.setAttribute('data-collections-style', 'true');
+      styleEl.textContent = slideAnimationStyle;
+      document.head.appendChild(styleEl);
+    }
+  }, []);
+
   useEffect(() => {
     // Initial loading simulation
     const timer = setTimeout(() => {
@@ -355,7 +388,6 @@ function Collections() {
                 Filters {activeFilters > 0 && `(${activeFilters})`}
               </h2>
             </div>
-
             <FilterContent
               activeFilters={activeFilters}
               clearAllFilters={clearAllFilters}
@@ -374,43 +406,41 @@ function Collections() {
           </div>
 
           {/* Products Section */}
-          <div className='flex-1' ref={contentRef}>
+          <div className='flex-1 min-w-0' ref={contentRef}>
             {/* Header */}
-            <div className='flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-8 p-6 bg-white/90 dark:bg-gray-800/50 rounded-2xl backdrop-blur-md border border-slate-200 dark:border-gray-700'>
+            <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 p-5 bg-white/90 dark:bg-gray-800/50 rounded-2xl backdrop-blur-md border border-slate-200 dark:border-gray-700'>
               <h1 className='text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight'>ALL <span className='text-cyan-500 dark:text-cyan-400'>COLLECTIONS</span></h1>
-
-              <div className='flex items-center gap-4'>
+              <div className='flex items-center gap-3'>
                 {/* Mobile Filter Toggle */}
                 <button
                   onClick={() => setShowFilter(!showFilter)}
-                  className='lg:hidden flex items-center gap-2 px-4 py-2 bg-slate-200 dark:bg-gray-700 rounded-lg text-slate-800 dark:text-white'
+                  className='lg:hidden flex items-center gap-2 px-4 py-2 bg-slate-200 dark:bg-gray-700 rounded-lg text-slate-800 dark:text-white text-sm font-medium'
                 >
-                  <FaFilter className='text-cyan-400' />
+                  <FaFilter className='text-sm' />
                   Filters {activeFilters > 0 && `(${activeFilters})`}
                 </button>
-
                 {/* Sort Dropdown */}
-                <div className='relative flex-1 min-w-0 sm:min-w-[160px]'>
+                <div className='relative'>
                   <select
                     value={sortType}
                     onChange={(e) => setSortType(e.target.value)}
-                    className='w-full appearance-none bg-white dark:bg-gray-700 text-slate-900 dark:text-white px-3 py-2 sm:px-4 rounded-lg pr-8 sm:pr-10 focus:outline-none focus:ring-2 focus:ring-cyan-500 border border-slate-300 dark:border-gray-600 text-sm'
+                    className='appearance-none bg-white dark:bg-gray-700 text-slate-900 dark:text-white px-4 py-2 rounded-lg pr-9 focus:outline-none focus:ring-2 focus:ring-cyan-500 border border-slate-300 dark:border-gray-600 text-sm'
                   >
                     <option value="relevant">Sort by: Relevant</option>
-                    <option value="low-high">Sort by: Price Low to High</option>
-                    <option value="high-low">Sort by: Price High to Low</option>
-                    <option value="rating">Sort by: Rating</option>
+                    <option value="low-high">Price: Low to High</option>
+                    <option value="high-low">Price: High to Low</option>
+                    <option value="rating">Top Rated</option>
                   </select>
-                  <RiArrowUpDownLine className='absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 text-slate-500 dark:text-gray-400 pointer-events-none text-sm' />
+                  <RiArrowUpDownLine className='absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 dark:text-gray-400 pointer-events-none text-sm' />
                 </div>
               </div>
             </div>
 
-            {/* Loading State */}
+            {/* Product Grid */}
             {isLoading ? (
               <div className="space-y-8">
                 <Loader />
-                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'>
                   {[...Array(8)].map((_, index) => (
                     <CardSkeleton key={index} />
                   ))}
@@ -423,7 +453,7 @@ function Collections() {
               </div>
             ) : filterProduct.length > 0 ? (
               <>
-                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'>
                   {filterProduct.map((item, index) => (
                     <div key={item._id} className='collection-item'>
                       <Card
@@ -459,7 +489,7 @@ function Collections() {
                 </p>
                 <button
                   onClick={clearAllFilters}
-                  className='px-6 py-2 bg-cyan-500 hover:bg-cyan-600 text-white rounded-lg transition-colors'
+                  className='px-6 py-2.5 bg-cyan-500 hover:bg-cyan-600 text-white rounded-full transition-colors'
                 >
                   Clear All Filters
                 </button>
@@ -468,54 +498,74 @@ function Collections() {
           </div>
         </div>
 
-        {/* Mobile Filter Overlay */}
+        {/* Floating Filter Drawer - Slides from Right with Blur Overlay */}
         {showFilter && (
           <div
-            className='fixed inset-0 bg-black/50 dark:bg-black/70 z-50 lg:hidden'
+            className='fixed inset-0 z-50 backdrop-blur-sm bg-black/60 transition-all duration-300'
             onClick={() => setShowFilter(false)}
           >
             <div
-              className='absolute top-0 left-0 h-full w-80 bg-white dark:bg-gray-900 border-r border-slate-200 dark:border-gray-700 p-6 overflow-y-auto'
+              className='absolute top-0 right-0 h-full w-full max-w-md bg-gray-900/95 backdrop-blur-xl border-l border-gray-700/50 shadow-2xl overflow-y-auto transform transition-transform duration-300'
               onClick={(e) => e.stopPropagation()}
+              style={{
+                animation: 'slideInRight 0.3s ease-out',
+              }}
             >
-              <div className='flex items-center justify-between mb-6'>
-                <h2 className='text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2'>
-                  <FaFilter className='text-cyan-400' />
-                  Filters {activeFilters > 0 && `(${activeFilters})`}
-                </h2>
-                <button
-                  onClick={() => setShowFilter(false)}
-                  className='p-2 text-slate-500 dark:text-gray-400 hover:text-slate-800 dark:hover:text-white'
-                >
-                  <FaTimes className='text-xl' />
-                </button>
+              <div className='sticky top-0 bg-gray-900/95 backdrop-blur-xl border-b border-gray-700/50 p-6 z-10'>
+                <div className='flex items-center justify-between'>
+                  <h2 className='text-2xl font-bold text-white flex items-center gap-3'>
+                    <FaFilter className='text-cyan-400' />
+                    Filters
+                    {activeFilters > 0 && (
+                      <span className='px-2.5 py-1 bg-cyan-500 text-white text-sm rounded-full'>{activeFilters}</span>
+                    )}
+                  </h2>
+                  <button
+                    onClick={() => setShowFilter(false)}
+                    className='p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-full transition-all'
+                  >
+                    <FaTimes className='text-xl' />
+                  </button>
+                </div>
               </div>
 
-              {/* Mobile Filter Content */}
-              <FilterContent
-                activeFilters={activeFilters}
-                clearAllFilters={clearAllFilters}
-                priceRange={priceRange}
-                setPriceRange={setPriceRange}
-                categories={categories}
-                category={category}
-                toggleCategory={toggleCategory}
-                subCategories={subCategories}
-                subCategory={subCategory}
-                toggleSubCategory={toggleSubCategory}
-                ratings={ratings}
-                selectedRatings={selectedRatings}
-                toggleRating={toggleRating}
-              />
+              <div className='p-6'>
+                <FilterContent
+                  activeFilters={activeFilters}
+                  clearAllFilters={clearAllFilters}
+                  priceRange={priceRange}
+                  setPriceRange={setPriceRange}
+                  categories={categories}
+                  category={category}
+                  toggleCategory={toggleCategory}
+                  subCategories={subCategories}
+                  subCategory={subCategory}
+                  toggleSubCategory={toggleSubCategory}
+                  ratings={ratings}
+                  selectedRatings={selectedRatings}
+                  toggleRating={toggleRating}
+                />
+              </div>
 
-              {/* Close button for mobile */}
-              <div className='mt-8 pt-6 border-t border-slate-200 dark:border-gray-700'>
+              {/* Action Buttons */}
+              <div className='sticky bottom-0 bg-gray-900/95 backdrop-blur-xl border-t border-gray-700/50 p-6 space-y-3'>
                 <button
                   onClick={() => setShowFilter(false)}
-                  className='w-full px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-white rounded-lg transition-colors font-semibold'
+                  className='w-full px-4 py-3 bg-[#2563EB] hover:bg-[#1d4ed8] text-white rounded-xl transition-all duration-300 font-semibold'
                 >
-                  Done
+                  View {filterProduct.length} Products
                 </button>
+                {activeFilters > 0 && (
+                  <button
+                    onClick={() => {
+                      clearAllFilters();
+                      setShowFilter(false);
+                    }}
+                    className='w-full px-4 py-3 bg-white/5 hover:bg-white/10 text-gray-300 rounded-xl transition-all duration-300 font-medium'
+                  >
+                    Clear All
+                  </button>
+                )}
               </div>
             </div>
           </div>

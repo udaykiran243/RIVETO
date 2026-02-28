@@ -35,6 +35,19 @@ function Registration() {
       { opacity: 0, y: 20 },
       { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "back.out(1.7)" }
     );
+
+    // Safety fallback: ensure all elements are visible after 2 seconds
+    const safetyTimer = setTimeout(() => {
+      const container = document.querySelector('.registration-container');
+      const formElements = document.querySelectorAll('.form-element');
+      
+      if (container) container.style.opacity = '1';
+      formElements.forEach(el => {
+        el.style.opacity = '1';
+      });
+    }, 2000);
+
+    return () => clearTimeout(safetyTimer);
   }, []);
 
   const validateForm = () => {

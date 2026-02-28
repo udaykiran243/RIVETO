@@ -214,16 +214,14 @@ function SizeTable({ chart }) {
             {chart.rows.map((row, rIdx) => (
               <tr
                 key={rIdx}
-                className={`border-t border-slate-200 dark:border-gray-700/40 transition-colors ${
-                  rIdx % 2 === 0 ? "bg-white dark:bg-gray-800/30" : "bg-slate-50 dark:bg-gray-800/10"
-                } hover:bg-cyan-500/10`}
+                className={`border-t border-slate-200 dark:border-gray-700/40 transition-colors ${rIdx % 2 === 0 ? "bg-white dark:bg-gray-800/30" : "bg-slate-50 dark:bg-gray-800/10"
+                  } hover:bg-cyan-500/10`}
               >
                 {row.map((cell, cIdx) => (
                   <td
                     key={cIdx}
-                    className={`px-5 py-3 whitespace-nowrap ${
-                      cIdx === 0 ? "font-semibold text-slate-900 dark:text-white" : "text-slate-700 dark:text-gray-300"
-                    }`}
+                    className={`px-5 py-3 whitespace-nowrap ${cIdx === 0 ? "font-semibold text-slate-900 dark:text-white" : "text-slate-700 dark:text-gray-300"
+                      }`}
                   >
                     {cell}
                   </td>
@@ -306,7 +304,7 @@ const SizeGuide = () => {
             <FaRulerHorizontal className="text-cyan-400 text-sm" />
             <span className="text-cyan-300 text-sm font-medium">Find Your Perfect Fit</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-4">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4" style={{ fontFamily: 'Poppins, sans-serif' }}>
             Size Guide
           </h1>
           <p className="text-slate-600 dark:text-gray-400 max-w-2xl mx-auto text-base md:text-lg leading-relaxed">
@@ -325,11 +323,10 @@ const SizeGuide = () => {
               role="tab"
               aria-selected={activeCategory === cat.key}
               onClick={() => setActiveCategory(cat.key)}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 border ${
-                activeCategory === cat.key
-                  ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white border-transparent shadow-lg shadow-cyan-500/20"
-                  : "bg-white/85 dark:bg-gray-800/50 text-slate-600 dark:text-gray-400 border-slate-200 dark:border-gray-700/50 hover:text-slate-900 dark:hover:text-white hover:border-cyan-500/40"
-              }`}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 border ${activeCategory === cat.key
+                  ? "bg-blue-600 text-white border-transparent shadow-lg"
+                  : "bg-gray-800/50 text-gray-400 border-gray-700/50 hover:text-white hover:border-blue-500/40"
+                }`}
             >
               {cat.icon}
               {cat.label}
@@ -348,7 +345,7 @@ const SizeGuide = () => {
         <div className="flex items-start gap-3 bg-cyan-500/10 border border-cyan-500/30 rounded-xl p-5 mb-16">
           <FaInfoCircle className="text-cyan-400 mt-1 flex-shrink-0 text-lg" />
           <p className="text-sm text-slate-700 dark:text-gray-300 leading-relaxed">
-            <span className="font-semibold text-cyan-300">Fit Tip:</span> If you're between two sizes, 
+            <span className="font-semibold text-cyan-300">Fit Tip:</span> If you're between two sizes,
             we recommend sizing up for a more comfortable fit — especially for outerwear and structured items.
           </p>
         </div>

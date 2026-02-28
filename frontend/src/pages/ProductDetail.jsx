@@ -2,13 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { shopDataContext } from '../context/ShopContext';
 import RelatedProduct from '../components/RelatedProduct';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FaShoppingCart, FaHeart, FaShare, FaStar, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-
-gsap.registerPlugin(ScrollTrigger);
+import { FaShoppingCart, FaHeart, FaShare, FaStar, FaChevronLeft, FaChevronRight, FaCheck } from 'react-icons/fa';
 
 function ProductDetail() {
   const { productId } = useParams();
@@ -27,33 +23,6 @@ function ProductDetail() {
       setSelectedImage(found.image1);
     }
   }, [productId, product]);
-
-  useEffect(() => {
-    if (!productData) return;
-    
-    // Enhanced animations
-    gsap.fromTo(".fade-in", 
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: ".fade-in",
-          start: "top 85%",
-          toggleActions: "play none none none"
-        }
-      }
-    );
-
-    // Image gallery animation
-    gsap.fromTo(".gallery-image", 
-      { scale: 0.9, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 0.6, stagger: 0.1 }
-    );
-  }, [productData]);
 
   const handleAddToCart = () => {
     if (!size) {
@@ -118,16 +87,16 @@ function ProductDetail() {
     <div className="min-h-screen bg-gradient-to-br from-slate-100 to-sky-100 dark:from-[#0f172a] dark:to-[#0c4a6e]">
       {/* Main Product Section */}
       <div className="max-w-7xl mx-auto px-4 lg:px-8 py-20 pt-32">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {/* Image Gallery */}
-          <div className="fade-in">
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-              <img 
-                src={selectedImage} 
+          <div>
+            <div className="relative rounded-lg overflow-hidden border border-[#1f2a44]">
+              <img
+                src={selectedImage}
                 alt={productData.name}
-                className="w-full h-96 lg:h-[500px] object-cover gallery-image"
+                className="w-full h-96 lg:h-[500px] object-cover"
               />
-              
+
               {/* Navigation Arrows */}
               {images.length > 1 && (
                 <>
@@ -145,7 +114,7 @@ function ProductDetail() {
                   </button>
                 </>
               )}
-              
+
               {/* Image Counter */}
               {images.length > 1 && (
                 <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/50 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm">
@@ -155,17 +124,16 @@ function ProductDetail() {
             </div>
 
             {/* Thumbnail Gallery */}
-            <div className="flex gap-3 mt-6 overflow-x-auto pb-2">
+            <div className="flex gap-3 mt-4 overflow-x-auto pb-2">
               {images.map((img, i) => (
                 <img
                   key={i}
                   src={img}
                   alt={`Thumbnail ${i + 1}`}
-                  className={`w-16 h-16 object-cover rounded-lg cursor-pointer transition-all duration-300 gallery-image ${
-                    selectedImage === img 
-                      ? 'ring-2 ring-cyan-400 scale-110' 
-                      : 'opacity-70 hover:opacity-100 hover:scale-105'
-                  }`}
+                  className={`w-16 h-16 object-cover rounded-lg cursor-pointer transition-all duration-300 border-2 ${selectedImage === img
+                      ? 'border-blue-500'
+                      : 'border-[#1f2a44] opacity-70 hover:opacity-100'
+                    }`}
                   onClick={() => {
                     setSelectedImage(img);
                     setCurrentImageIndex(i);
@@ -194,11 +162,13 @@ function ProductDetail() {
                 </div>
                 <span className="text-slate-500 dark:text-gray-400">({reviewCount} reviews)</span>
               </div>
+              <span className="text-white font-medium">{rating}</span>
+              <span className="text-gray-500">({reviewCount} reviews)</span>
             </div>
 
             {/* Price */}
             <div className="flex items-center gap-4">
-              <p className="text-3xl font-bold text-cyan-400">{currency}{productData.price.toLocaleString()}</p>
+              <p className="text-3xl font-bold text-white">{currency}{productData.price.toLocaleString()}</p>
               {productData.originalPrice && (
                 <p className="text-xl text-slate-500 dark:text-gray-400 line-through">{currency}{productData.originalPrice.toLocaleString()}</p>
               )}
@@ -214,33 +184,26 @@ function ProductDetail() {
 
             {/* Size Selection */}
             <div className="space-y-3">
-              <label className="block text-lg font-semibold">Select Size:</label>
-              <div className="flex flex-wrap gap-3">
+              <label className="block text-sm font-semibold text-white uppercase tracking-wide">Select Size</label>
+              <div className="flex flex-wrap gap-2">
                 {productData.sizes?.map((s, i) => (
                   <button
                     key={i}
                     onClick={() => setSize(s)}
-                    className={`px-6 py-3 rounded-xl border-2 text-sm font-semibold transition-all duration-200 ${
-                      size === s
+                    className={`px-5 py-2.5 rounded-lg border text-sm font-medium transition-all duration-200 ${size === s
                         ? 'bg-cyan-500 border-cyan-500 text-white shadow-lg scale-105'
                         : 'bg-white dark:bg-gray-800 border-slate-300 dark:border-gray-700 text-slate-700 dark:text-gray-300 hover:border-cyan-400 hover:text-slate-900 dark:hover:text-white'
-                    }`}
+                      }`}
                   >
                     {s}
                   </button>
                 ))}
               </div>
-              {size && (
-                <p className="text-green-400 font-medium flex items-center gap-2">
-                  <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                  Selected: {size}
-                </p>
-              )}
             </div>
 
             {/* Quantity Selector */}
             <div className="space-y-3">
-              <label className="block text-lg font-semibold">Quantity:</label>
+              <label className="block text-sm font-semibold text-white uppercase tracking-wide">Quantity</label>
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-3 bg-slate-200 dark:bg-gray-800 rounded-xl p-1">
                   <button
@@ -249,7 +212,7 @@ function ProductDetail() {
                   >
                     -
                   </button>
-                  <span className="text-lg font-semibold w-8 text-center">{quantity}</span>
+                  <span className="text-lg font-semibold w-10 text-center text-white">{quantity}</span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
                     className="w-10 h-10 flex items-center justify-center rounded-lg bg-slate-300 dark:bg-gray-700 hover:bg-slate-400 dark:hover:bg-gray-600 transition-colors"
@@ -261,16 +224,26 @@ function ProductDetail() {
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+            {/* Primary CTA */}
+            <button
+              onClick={handleAddToCart}
+              className="w-full bg-blue-600 hover:bg-blue-500 text-white py-4 px-8 rounded-lg font-semibold shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all duration-300 flex items-center justify-center gap-3"
+            >
+              <FaShoppingCart />
+              Add to Cart - {currency}{(productData.price * quantity).toLocaleString()}
+            </button>
+
+            {/* Secondary Actions */}
+            <div className="flex gap-3">
               <button
-                onClick={handleAddToCart}
-                className="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white py-4 px-8 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3 group"
+                onClick={handleAddToWishlist}
+                className="flex-1 bg-[#0f172a] hover:bg-[#1a2332] border border-[#1f2a44] text-gray-300 hover:text-white py-3 rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
+                title="Add to Wishlist"
               >
-                <FaShoppingCart className="group-hover:scale-110 transition-transform" />
-                Add to Cart - {currency}{(productData.price * quantity).toLocaleString()}
+                <FaHeart />
+                Wishlist
               </button>
-              
+
               <div className="flex gap-3">
                 <button
                   onClick={handleAddToWishlist}
@@ -279,7 +252,7 @@ function ProductDetail() {
                 >
                   <FaHeart className="text-slate-500 dark:text-gray-400 group-hover:text-rose-400 group-hover:scale-110 transition-all" />
                 </button>
-                
+
                 <button
                   onClick={handleShare}
                   className="w-14 h-14 bg-slate-200 dark:bg-gray-800 hover:bg-slate-300 dark:hover:bg-gray-700 border border-slate-300 dark:border-gray-700 rounded-xl flex items-center justify-center transition-all duration-300 group"
@@ -322,11 +295,10 @@ function ProductDetail() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`px-6 py-3 text-lg font-semibold transition-all duration-300 ${
-                    activeTab === tab.id
+                  className={`px-6 py-3 text-lg font-semibold transition-all duration-300 ${activeTab === tab.id
                       ? "text-cyan-400 border-b-2 border-cyan-400"
                       : "text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white"
-                  }`}
+                    }`}
                 >
                   {tab.label}
                 </button>
@@ -339,20 +311,7 @@ function ProductDetail() {
                   <p className="leading-relaxed">
                     {productData.description || "Discover effortless style with our premium product. Designed with comfort and durability in mind, this piece blends timeless fashion with modern quality."}
                   </p>
-                  <ul className="space-y-2">
-                    <li className="flex items-center gap-3">
-                      <span className="w-2 h-2 bg-cyan-400 rounded-full"></span>
-                      Premium quality materials
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <span className="w-2 h-2 bg-cyan-400 rounded-full"></span>
-                      Comfortable and durable design
-                    </li>
-                    <li className="flex items-center gap-3">
-                      <span className="w-2 h-2 bg-cyan-400 rounded-full"></span>
-                      Perfect for everyday wear
-                    </li>
-                  </ul>
+                  <p className="text-gray-500 text-sm mt-4">- Sarah Johnson</p>
                 </div>
               )}
 
@@ -373,7 +332,12 @@ function ProductDetail() {
                       <p><span className="text-slate-500 dark:text-gray-400">Width:</span> 20 inches</p>
                       <p><span className="text-slate-500 dark:text-gray-400">Height:</span> 2 inches</p>
                     </div>
+                    <span className="text-white font-semibold">Great Fit</span>
                   </div>
+                  <p className="text-gray-300 leading-relaxed">
+                    "Really happy with the material and fit. The quality is much better than I expected for the price. Will be buying again!"
+                  </p>
+                  <p className="text-gray-500 text-sm mt-4">- Mike Thompson</p>
                 </div>
               )}
 
@@ -419,6 +383,7 @@ function ProductDetail() {
       {/* Related Products */}
       <div className="fade-in py-16 bg-gradient-to-br from-sky-100 to-slate-100 dark:from-[#0c4a6e] dark:to-[#0f172a] border-t border-slate-200 dark:border-transparent">
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
+          <h2 className="text-2xl font-semibold text-white mb-6">Similar Items</h2>
           <RelatedProduct
             category={productData.category}
             subCategory={productData.subCategory}

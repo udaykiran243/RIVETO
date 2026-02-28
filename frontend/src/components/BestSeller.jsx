@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState, useRef } from 'react';
 import Title from './Title';
 import Card from './Card';
 import { shopDataContext } from '../context/ShopContext';
-import { FaFire, FaArrowRight } from 'react-icons/fa';
+import { FaFire, FaArrowRight, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -11,14 +11,106 @@ gsap.registerPlugin(ScrollTrigger);
 function BestSeller() {
   const { product, compareList, toggleCompare } = useContext(shopDataContext);
   const [bestseller, setBestseller] = useState([]);
+  const [showLeftArrow, setShowLeftArrow] = useState(false);
+  const [showRightArrow, setShowRightArrow] = useState(false);
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const cardsRef = useRef([]);
+  const scrollContainerRef = useRef(null);
+  const autoScrollRef = useRef(null);
 
   useEffect(() => {
     const filterProduct = product.filter(item => item.bestseller);
     setBestseller(filterProduct.slice(0, 8)); // Show top 8 bestsellers
   }, [product]);
+
+  // Check scroll position to show/hide arrows
+  const checkScrollPosition = () => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const { scrollLeft, scrollWidth, clientWidth } = container;
+    setShowLeftArrow(scrollLeft > 0);
+    setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 10);
+  };
+
+  // Scroll navigation functions
+  const scrollLeft = () => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    container.scrollBy({ left: -300, behavior: 'smooth' });
+  };
+
+  const scrollRight = () => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    container.scrollBy({ left: 300, behavior: 'smooth' });
+  };
+
+  // Update arrow visibility on scroll and resize
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    checkScrollPosition();
+    container.addEventListener('scroll', checkScrollPosition);
+    window.addEventListener('resize', checkScrollPosition);
+
+    return () => {
+      container.removeEventListener('scroll', checkScrollPosition);
+      window.removeEventListener('resize', checkScrollPosition);
+    };
+  }, [bestseller]);
+
+  // Auto-scroll functionality
+  const handleCardHover = (index) => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const card = cardsRef.current[index];
+    if (!card) return;
+
+    const containerRect = container.getBoundingClientRect();
+    const cardRect = card.getBoundingClientRect();
+    const cardRightEdge = cardRect.right;
+    const containerRightEdge = containerRect.right;
+
+    // Check if card is near the right edge (within 300px)
+    const distanceFromRight = containerRightEdge - cardRightEdge;
+    
+    if (distanceFromRight < 300 && distanceFromRight > -100) {
+      startAutoScroll();
+    }
+  };
+
+  const startAutoScroll = () => {
+    stopAutoScroll(); // Clear any existing scroll
+
+    const scroll = () => {
+      const container = scrollContainerRef.current;
+      if (!container) return;
+
+      const maxScroll = container.scrollWidth - container.clientWidth;
+      if (container.scrollLeft < maxScroll) {
+        container.scrollLeft += 2; // Scroll speed: 2px per frame
+        autoScrollRef.current = requestAnimationFrame(scroll);
+      }
+    };
+
+    autoScrollRef.current = requestAnimationFrame(scroll);
+  };
+
+  const stopAutoScroll = () => {
+    if (autoScrollRef.current) {
+      cancelAnimationFrame(autoScrollRef.current);
+      autoScrollRef.current = null;
+    }
+  };
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => stopAutoScroll();
+  }, []);
 
   useEffect(() => {
     // Animation for the section
@@ -57,56 +149,108 @@ function BestSeller() {
   }, [bestseller]);
 
   return (
-    <section ref={sectionRef} className="w-full py-10 sm:py-14 md:py-20 px-3 sm:px-4 md:px-8 relative overflow-hidden">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden z-0">
-        <div className="absolute -top-12 -right-12 sm:-top-24 sm:-right-24 w-48 h-48 sm:w-72 sm:h-72 md:w-96 md:h-96 bg-red-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-12 -left-12 sm:-bottom-24 sm:-left-24 w-40 h-40 sm:w-60 sm:h-60 md:w-80 md:h-80 bg-orange-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/4 w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 bg-amber-500/5 rounded-full blur-3xl"></div>
-      </div>
-
+    <section ref={sectionRef} className="w-full py-10 sm:py-14 md:py-20 px-3 sm:px-4 md:px-8 relative overflow-hidden bg-white dark:bg-[#0B0F1A]">
       {/* Section Container */}
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* Section Header */}
-        <div ref={titleRef} className="text-center mb-8 sm:mb-12 md:mb-16">
-          <div className="inline-flex items-center justify-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gradient-to-r from-red-500 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
-              <FaFire className="text-white text-base sm:text-lg md:text-xl" />
+        {/* Section Header - Left Aligned */}
+        <div ref={titleRef} className="flex items-end justify-between mb-8 sm:mb-10">
+          <div>
+            <div className="inline-flex items-center gap-2 sm:gap-3 mb-2">
+              <div className="w-10 h-10 bg-[#EF4444] rounded-full flex items-center justify-center shadow-lg">
+                <FaFire className="text-white text-lg" />
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                Best Sellers
+              </h2>
             </div>
-            <Title text1="BEST" text2="SELLERS" />
+            <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base max-w-md" style={{ fontFamily: 'Inter, sans-serif' }}>
+              Most loved products — tried, tested, and adored by thousands
+            </p>
           </div>
-
-          <p className="text-gray-600 dark:text-gray-400 mt-3 sm:mt-4 text-sm sm:text-base md:text-lg lg:text-xl max-w-xs sm:max-w-lg md:max-w-2xl mx-auto leading-relaxed px-2 sm:px-0">
-            Discover our most loved products — tried, tested, and adored by thousands of customers worldwide.
-          </p>
-
-          <div className="mt-4 sm:mt-6 flex items-center justify-center gap-2 text-xs sm:text-sm text-amber-400">
-            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-amber-400 rounded-full animate-pulse"></div>
-            <span>Trending now</span>
-          </div>
+          
+          {/* Inline Text CTA */}
+          {bestseller.length > 0 && (
+            <button 
+              onClick={() => window.location.href = '/collection'}
+              className="group flex items-center gap-2 text-[#2563EB] hover:text-[#1d4ed8] font-semibold text-sm md:text-base transition-colors"
+              style={{ fontFamily: 'Inter, sans-serif' }}
+            >
+              Explore All
+              <FaArrowRight className="text-sm group-hover:translate-x-1 transition-transform duration-300" />
+            </button>
+          )}
         </div>
 
-        {/* Best Sellers Grid */}
+        {/* Horizontal Scrollable Carousel */}
         {bestseller.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-8">
-            {bestseller.map((item, index) => (
-              <div
-                key={item._id}
-                ref={el => cardsRef.current[index] = el}
-                className="transform transition-all duration-500 hover:-translate-y-2"
+          <div className="relative">
+            {/* Left Navigation Arrow */}
+            {showLeftArrow && (
+              <button
+                onClick={scrollLeft}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 group"
+                aria-label="Scroll left"
               >
-                <Card
-                  name={item.name}
-                  id={item._id}
-                  price={item.price}
-                  image={item.image1}
-                  badge="BESTSELLER"
-                  badgeColor="from-red-500 to-orange-500"
-                  onCompare={() => toggleCompare(item)}
-                  isCompared={compareList?.some(p => p._id === item._id)}
-                />
+                <FaChevronLeft className="text-gray-700 dark:text-gray-300 group-hover:text-[#2563EB] dark:group-hover:text-[#4F8CFF] transition-colors" />
+              </button>
+            )}
+
+            {/* Right Navigation Arrow */}
+            {showRightArrow && (
+              <button
+                onClick={scrollRight}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-12 md:h-12 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 group"
+                aria-label="Scroll right"
+              >
+                <FaChevronRight className="text-gray-700 dark:text-gray-300 group-hover:text-[#2563EB] dark:group-hover:text-[#4F8CFF] transition-colors" />
+              </button>
+            )}
+
+            <div 
+              ref={scrollContainerRef}
+              className="flex gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 scrollbar-hide"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              {bestseller.map((item, index) => (
+                <div
+                  key={item._id}
+                  ref={el => cardsRef.current[index] = el}
+                  className="flex-shrink-0 w-64 sm:w-72 snap-start"
+                  onMouseEnter={() => handleCardHover(index)}
+                  onMouseLeave={stopAutoScroll}
+                >
+                  <Card
+                    name={item.name}
+                    id={item._id}
+                    price={item.price}
+                    image={item.image1}
+                    badge="BESTSELLER"
+                    badgeColor="from-red-500 to-orange-500"
+                    onCompare={() => toggleCompare(item)}
+                    isCompared={compareList?.some(p => p._id === item._id)}
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Trust Strip */}
+            <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 bg-[#121826] rounded-2xl p-6 border border-gray-700/50">
+              <div className="text-center">
+                <div className="text-2xl md:text-3xl font-bold text-[#4F8CFF] mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>10K+</div>
+                <div className="text-gray-400 text-xs md:text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>Units Sold</div>
               </div>
-            ))}
+              <div className="text-center">
+                <div className="text-2xl md:text-3xl font-bold text-[#4F8CFF] mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>4.9★</div>
+                <div className="text-gray-400 text-xs md:text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>Average Rating</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl md:text-3xl font-bold text-[#4F8CFF] mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>24H</div>
+                <div className="text-gray-400 text-xs md:text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>Fast Shipping</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl md:text-3xl font-bold text-[#4F8CFF] mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>24/7</div>
+                <div className="text-gray-400 text-xs md:text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>Support</div>
+              </div>
+            </div>
           </div>
         ) : (
           <div className="text-center py-10 sm:py-12 md:py-16">

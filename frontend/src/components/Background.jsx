@@ -113,9 +113,9 @@ function Background({ heroCount }) {
         }}
       />
 
-      {/* Dark gradient for contrast */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/40" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
+      {/* Dark gradient for contrast - Reduced opacity for better visibility */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/10 to-black/20" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/15 via-transparent to-black/15" />
 
       {/* Floating Particles */}
       <div ref={particleContainerRef} className="absolute inset-0 pointer-events-none">
@@ -169,8 +169,8 @@ function Background({ heroCount }) {
         }}
       />
 
-      {/* Vignette effect */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]" />
+      {/* Vignette effect - Reduced for better visibility */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.2)_100%)]" />
     </div>
   );
 }
